@@ -45,8 +45,8 @@
                     },
                     keyframes: {
                         float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-15px)' },
+                            '0%, 100%': { transform: 'translate3d(0, 0, 0)' },
+                            '50%': { transform: 'translate3d(0, -15px, 0)' },
                         }
                     }
                 }
@@ -58,7 +58,7 @@
         body {
             background-color: #1A1112;
             color: #FDF6ED;
-            /* Ambient glowing orbs in the background */
+            /* Ambient glowing orbs in the background - pre-rendered layers for high performance */
             background-image: 
                 radial-gradient(circle at 15% 50%, rgba(255, 209, 102, 0.04) 0%, transparent 50%),
                 radial-gradient(circle at 85% 30%, rgba(255, 159, 178, 0.04) 0%, transparent 50%),
@@ -67,14 +67,15 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Apple-style Frosted Glass Panels */
+        /* Apple-style Frosted Glass Panels - Optimized blur performance */
         .glass-panel {
             background: var(--tw-colors-theme-glass);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--tw-colors-theme-glassBorder);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.3s ease;
+            transform: translateZ(0); /* Force GPU composite layer */
         }
 
         /* Custom Scrollbar - Soft and invisible until needed */
@@ -96,7 +97,7 @@
             border: 2px solid rgba(255, 255, 255, 0.1);
             position: relative;
             cursor: pointer;
-            transition: all 0.2s bounce;
+            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
             display: grid;
             place-content: center;
         }
@@ -119,45 +120,18 @@
             transform: scale(1);
         }
 
-        /* iOS style range slider */
-        input[type=range] {
-            -webkit-appearance: none;
-            width: 100%;
-            background: transparent;
-        }
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            height: 24px;
-            width: 24px;
-            border-radius: 50%;
-            background: #fff;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-            cursor: pointer;
-            margin-top: -10px;
-            transition: transform 0.1s;
-        }
-        input[type=range]::-webkit-slider-thumb:active {
-            transform: scale(1.1);
-        }
-        input[type=range]::-webkit-slider-runnable-track {
-            width: 100%;
-            height: 6px;
-            cursor: pointer;
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-        }
-
-        /* Floating sparkles */
+        /* Floating sparkles - Hardware accelerated */
         .sparkle-anim {
             position: fixed;
             pointer-events: none;
             z-index: 9999;
-            animation: rise 3s ease-in forwards;
+            will-change: transform, opacity;
+            animation: rise 2.5s cubic-bezier(0.25, 1, 0.50, 1) forwards;
         }
         @keyframes rise {
-            0% { transform: translateY(0) scale(0.5); opacity: 0; }
-            20% { opacity: 1; transform: translateY(-20px) scale(1.2); }
-            100% { transform: translateY(-150px) scale(0.8) rotate(45deg); opacity: 0; }
+            0% { transform: translate3d(0, 0, 0) scale(0.5); opacity: 0; }
+            20% { opacity: 1; transform: translate3d(0, -20px, 0) scale(1.2); }
+            100% { transform: translate3d(0, -150px, 0) scale(0.8) rotate(45deg); opacity: 0; }
         }
 
         /* Countdown Styles */
@@ -187,7 +161,8 @@
             background: rgba(255, 255, 255, 0.02);
             border-radius: 1rem;
             border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease, background 0.3s ease;
+            transform: translateZ(0);
         }
 
         .activity-item::before {
@@ -214,7 +189,7 @@
         .activity-item.active {
             background: rgba(255, 209, 102, 0.08);
             border-color: rgba(255, 209, 102, 0.3);
-            transform: translateX(8px);
+            transform: translate3d(8px, 0, 0);
         }
     </style>
 </head>
@@ -234,8 +209,8 @@
             
             <nav class="flex items-center space-x-1 sm:space-x-2 text-sm font-bold text-theme-subtext">
                 <a href="#countdown" class="px-3 py-1.5 rounded-full hover:text-theme-text hover:bg-white/5 transition-all flex items-center gap-1.5"><i class="fa-solid fa-hourglass-end text-theme-gold"></i><span class="hidden sm:inline">Countdown</span></a>
-                <a href="#schedule" class="px-3 py-1.5 rounded-full hover:text-theme-text hover:bg-white/5 transition-all flex items-center gap-1.5"><i class="fa-solid fa-calendar text-theme-pink"></i><span class="hidden sm:inline">Schedule</span></a>
-                <a href="#soundscape" class="px-3 py-1.5 rounded-full hover:text-theme-text hover:bg-white/5 transition-all flex items-center gap-1.5"><i class="fa-solid fa-headphones text-indigo-300"></i><span class="hidden sm:inline">Ambience</span></a>
+                <a href="#schedule" class="px-3 py-1.5 rounded-full hover:text-theme-text hover:bg-white/5 transition-all flex items-center gap-1.5"><i class="fa-solid fa-calendar text-theme-mint"></i><span class="hidden sm:inline">Schedule</span></a>
+                <a href="#drinking-deck" class="px-3 py-1.5 rounded-full hover:text-theme-text hover:bg-white/5 transition-all flex items-center gap-1.5"><i class="fa-solid fa-glass-cheers text-theme-pink"></i><span class="hidden sm:inline">Sip Deck</span></a>
             </nav>
         </header>
     </div>
@@ -275,7 +250,7 @@
                         <circle cx="18" cy="-25" r="2" fill="#2D1C19"/>
                     </g>
 
-                    <!-- Center Floating Heart (Cozy & Glowing, No Sniper Sight/Crosshairs) -->
+                    <!-- Center Floating Heart -->
                     <g transform="translate(100, 50)" class="animate-pulse-slow">
                         <!-- Soft Heart Glow -->
                         <path d="M0 -15 C-10 -25, -20 -10, 0 10 C20 -10, 10 -25, 0 -15 Z" fill="#FF9FB2" opacity="0.4" transform="scale(1.3)"/>
@@ -397,11 +372,11 @@
                     </label>
                     <label class="flex items-center gap-3 cursor-pointer p-2 hover:bg-white/5 rounded-xl transition">
                         <input type="checkbox" onchange="updateProgress()" class="cute-checkbox">
-                        <span class="text-sm font-semibold select-none">Amazon Prime cued up 🎬</span>
+                        <span class="text-sm font-semibold select-none">Drink ingredients prep'd 🍹</span>
                     </label>
                     <label class="flex items-center gap-3 cursor-pointer p-2 hover:bg-white/5 rounded-xl transition">
                         <input type="checkbox" onchange="updateProgress()" class="cute-checkbox">
-                        <span class="text-sm font-semibold select-none">Games downloaded 🎮</span>
+                        <span class="text-sm font-semibold select-none">Cozy Sip Deck loaded 🃏</span>
                     </label>
                     <label class="flex items-center gap-3 cursor-pointer p-2 hover:bg-white/5 rounded-xl transition">
                         <input type="checkbox" onchange="updateProgress()" class="cute-checkbox">
@@ -419,7 +394,7 @@
         <!-- RIGHT COLUMN -->
         <div class="lg:col-span-7 flex flex-col gap-6">
             
-            <!-- Timeline Schedule -->
+            <!-- Timeline Schedule (Agenda) -->
             <section id="schedule" class="glass-panel rounded-[2rem] p-6 relative">
                 <div class="flex items-center gap-3 mb-8">
                     <div class="w-10 h-10 rounded-2xl bg-theme-pink/20 flex items-center justify-center text-theme-pink text-xl shadow-inner border border-theme-pink/30">
@@ -432,95 +407,82 @@
                     <!-- Activity 1: Dinner & Show -->
                     <div class="activity-item active" data-time="6:45pm">
                         <h3 class="text-lg font-bold text-theme-text mb-2">🍽️ Dinner & Prime Time</h3>
-                        <p class="text-sm text-theme-subtext mb-3">6:45 PM - 8:00 PM</p>
+                        <p class="text-sm text-theme-subtext mb-3">6:45 PM - 8:15 PM</p>
                         <p class="text-sm text-white leading-relaxed">Order your favorite dinner and settle in for a great show on Amazon Prime. Get cozy together and enjoy some quality time!</p>
                     </div>
 
-                    <!-- Activity 2: Break & Games -->
-                    <div class="activity-item" data-time="8:00pm">
-                        <h3 class="text-lg font-bold text-theme-text mb-2">☕ Break & Snack Time</h3>
-                        <p class="text-sm text-theme-subtext mb-3">8:00 PM - 8:15 PM</p>
-                        <p class="text-sm text-white leading-relaxed">Stretch, grab some snacks, and chat. Then jump into a few rounds of Plato or board games on Crazy Games.</p>
-                    </div>
-
-                    <!-- Activity 3: Minecraft -->
+                    <!-- Activity 2: Minecraft -->
                     <div class="activity-item" data-time="8:15pm">
                         <h3 class="text-lg font-bold text-theme-text mb-2">⛏️ Minecraft Adventure</h3>
-                        <p class="text-sm text-theme-subtext mb-3">8:15 PM - 9:00 PM</p>
-                        <p class="text-sm text-white leading-relaxed">Build together, explore, and create something amazing in the world. No pressure, just fun and creativity!</p>
+                        <p class="text-sm text-theme-subtext mb-3">8:15 PM - 9:45 PM</p>
+                        <p class="text-sm text-white leading-relaxed">Build together, explore, and create something amazing in the world. No pressure, just fun, cozy cabins, and sweet creativity!</p>
                     </div>
 
-                    <!-- Activity 4: Second Break -->
-                    <div class="activity-item" data-time="9:00pm">
-                        <h3 class="text-lg font-bold text-theme-text mb-2">🌙 Wind Down Break</h3>
-                        <p class="text-sm text-theme-subtext mb-3">9:00 PM - 9:15 PM</p>
-                        <p class="text-sm text-white leading-relaxed">Take a breather, grab water, and switch gears for the final activities.</p>
+                    <!-- Activity 3: Cocktail Mixology -->
+                    <div class="activity-item" data-time="9:45pm">
+                        <h3 class="text-lg font-bold text-theme-text mb-2">🍹 Cocktail Mixology & First Sip</h3>
+                        <p class="text-sm text-theme-subtext mb-3">9:45 PM - 10:30 PM</p>
+                        <p class="text-sm text-white leading-relaxed">Grab your favorite spirits, sodas, and garnishes. Mix up something delicious (or grab a cozy tea/hot choc if winding down) and prep your glasses!</p>
                     </div>
 
-                    <!-- Activity 5: Trivia -->
-                    <div class="activity-item" data-time="9:15pm">
-                        <h3 class="text-lg font-bold text-theme-text mb-2">🧠 Trivia Party</h3>
-                        <p class="text-sm text-theme-subtext mb-3">9:15 PM - 9:45 PM</p>
-                        <p class="text-sm text-white leading-relaxed">Test your knowledge and have fun with interactive trivia. Compete, laugh, and celebrate your wins!</p>
+                    <!-- Activity 4: Drinking Games -->
+                    <div class="activity-item" data-time="10:30pm">
+                        <h3 class="text-lg font-bold text-theme-text mb-2">🥂 Interactive Drinking Games</h3>
+                        <p class="text-sm text-theme-subtext mb-3">10:30 PM - 11:45 PM</p>
+                        <p class="text-sm text-white leading-relaxed">Time to break out the Cozy Sip Deck! Draw cards, share laughs, complete challenges, and keep the dynamic rules running.</p>
+                    </div>
+
+                    <!-- Activity 5: Trivia & Sips -->
+                    <div class="activity-item" data-time="11:45pm">
+                        <h3 class="text-lg font-bold text-theme-text mb-2">🧠 Late Night Trivia & Sips</h3>
+                        <p class="text-sm text-theme-subtext mb-3">11:45 PM - 12:45 AM</p>
+                        <p class="text-sm text-white leading-relaxed">Test your knowledge with exciting trivia. Set a rule: wrong answers mean taking a sip! Compete, laugh, and celebrate your wins.</p>
                     </div>
 
                     <!-- Activity 6: FaceTime & Reading -->
-                    <div class="activity-item" data-time="9:45pm">
-                        <h3 class="text-lg font-bold text-theme-text mb-2">📱 FaceTime & Reading</h3>
-                        <p class="text-sm text-theme-subtext mb-3">9:45 PM - 10:30 PM</p>
-                        <p class="text-sm text-white leading-relaxed">Wind down with a cozy FaceTime call. Share some favorite stories, read together, or just enjoy the quiet moments.</p>
+                    <div class="activity-item" data-time="12:45am">
+                        <h3 class="text-lg font-bold text-theme-text mb-2">📱 FaceTime, Cozy Pillow Talk & Reading</h3>
+                        <p class="text-sm text-theme-subtext mb-3">12:45 AM - 1:45 AM</p>
+                        <p class="text-sm text-white leading-relaxed">Wind down with a cozy FaceTime call. Share favorite stories, cozy up under the blankets, and have some sweet, late-night chats till you drift off. 💛</p>
                     </div>
                 </div>
             </section>
 
-            <!-- Ambience Section -->
-            <section id="soundscape" class="glass-panel rounded-[2rem] p-6 relative overflow-hidden">
-                <!-- Inner soft gradient -->
-                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/20 pointer-events-none rounded-[2rem]"></div>
+            <!-- Interactive Sip Deck (Drinking Game) -->
+            <section id="drinking-deck" class="glass-panel rounded-[2rem] p-6 relative overflow-hidden group">
+                <div class="absolute -top-20 -right-20 w-40 h-40 bg-theme-gold blur-[60px] opacity-10 group-hover:opacity-25 transition-opacity"></div>
                 
-                <div class="flex justify-between items-center mb-6 relative z-10">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-2xl bg-indigo-500/20 flex items-center justify-center text-indigo-300 text-xl shadow-inner border border-indigo-500/30">
-                            <i class="fa-solid fa-wave-square"></i>
-                        </div>
-                        <div>
-                            <h2 class="text-2xl font-black text-theme-text tracking-tight">Ambience</h2>
-                            <p class="text-[10px] text-theme-subtext font-bold uppercase tracking-wider">Live Synthesis</p>
-                        </div>
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 rounded-2xl bg-theme-pink/20 flex items-center justify-center text-theme-pink text-xl shadow-inner border border-theme-pink/30">
+                        <i class="fa-solid fa-glass-cheers"></i>
                     </div>
-                    
-                    <!-- Cute Apple Style Toggle -->
-                    <label class="relative inline-flex items-center cursor-pointer">
-                      <input type="checkbox" id="synth-toggle" class="sr-only peer" onchange="toggleSynth()">
-                      <div class="w-14 h-8 bg-black/40 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:bg-white/60 after:border-theme-gold after:border after:rounded-full after:h-7 after:w-7 after:transition-all after:top-0.5 after:left-0.5"></div>
-                    </label>
+                    <div>
+                        <h2 class="text-2xl font-black text-theme-text tracking-tight">Cozy Sip Deck</h2>
+                        <p class="text-[10px] text-theme-subtext font-bold uppercase tracking-wider">Live Party Rules</p>
+                    </div>
                 </div>
 
-                <div id="synth-controls" class="space-y-6 relative z-10 opacity-40 pointer-events-none transition-opacity duration-500">
-                    <!-- Slider 1 -->
-                    <div>
-                        <div class="flex justify-between text-xs font-bold mb-2">
-                            <span class="text-indigo-200"><i class="fa-solid fa-wind mr-1"></i> Night Breeze</span>
-                        </div>
-                        <input type="range" id="vol-wind" min="0" max="1" step="0.01" value="0.5" class="accent-indigo-300" oninput="updateVol('wind', this.value)">
+                <!-- Deck Card display -->
+                <div id="sip-card" class="bg-white/5 border border-white/10 rounded-3xl p-6 min-h-[160px] flex flex-col justify-between transition-all duration-300 hover:scale-[1.02] cursor-pointer" onclick="drawSipCard(event)">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="text-xs font-bold text-theme-pink uppercase tracking-widest" id="sip-card-tag">Ready?</span>
+                        <span class="text-lg">🍻</span>
                     </div>
-                    <!-- Slider 2 -->
-                    <div>
-                        <div class="flex justify-between text-xs font-bold mb-2">
-                            <span class="text-theme-gold"><i class="fa-solid fa-bug mr-1"></i> Warm Hum</span>
-                        </div>
-                        <input type="range" id="vol-hum" min="0" max="1" step="0.01" value="0.3" class="accent-theme-gold" oninput="updateVol('hum', this.value)">
+                    <p id="sip-card-text" class="text-base font-bold text-theme-text leading-relaxed">Tap to draw your first card and let the sweet rules begin! 💛</p>
+                    <div class="text-right text-[10px] text-theme-subtext/50 font-bold mt-4">
+                        Tap Card to Draw ➔
                     </div>
-                    <!-- Slider 3 -->
-                    <div>
-                        <div class="flex justify-between text-xs font-bold mb-2">
-                            <span class="text-theme-mint"><i class="fa-solid fa-leaf mr-1"></i> Chimes</span>
-                        </div>
-                        <input type="range" id="vol-pad" min="0" max="1" step="0.01" value="0.4" class="accent-theme-mint" oninput="updateVol('pad', this.value)">
-                    </div>
+                </div>
+
+                <div class="mt-4 flex gap-2">
+                    <button onclick="drawSipCard(event)" class="flex-1 py-3 bg-gradient-to-r from-theme-gold to-theme-pink text-theme-bg font-black rounded-2xl shadow-md transition-all hover:opacity-90 hover:scale-[1.02] active:scale-95 text-sm">
+                        ✨ Draw Rule
+                    </button>
+                    <button onclick="resetSipDeck()" class="px-4 py-3 bg-white/5 hover:bg-white/10 text-theme-subtext rounded-2xl transition text-sm flex items-center justify-center" title="Reset Deck">
+                        <i class="fa-solid fa-arrow-rotate-right"></i>
+                    </button>
                 </div>
             </section>
-
         </div>
     </main>
 
@@ -550,24 +512,69 @@
             document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        // Generate beautiful floating sparkles
+        // Generate beautiful floating sparkles (optimized with translate3d and hardware compositor layers)
         function spawnLoveSparkles(e) {
             const icons = ['✨', '💛', '🌸', '🐝', '💕', '🌹'];
-            for(let i=0; i<8; i++) {
+            const containerWidth = window.innerWidth;
+            const containerHeight = window.innerHeight;
+            
+            for(let i = 0; i < 8; i++) {
                 let el = document.createElement('div');
                 el.innerText = icons[Math.floor(Math.random() * icons.length)];
                 el.className = 'sparkle-anim absolute text-2xl';
                 
-                let x = e ? e.clientX : window.innerWidth/2;
-                let y = e ? e.clientY : window.innerHeight/2;
+                let x = e ? e.clientX : containerWidth / 2;
+                let y = e ? e.clientY : containerHeight / 2;
                 
                 el.style.left = (x - 20 + (Math.random() * 40)) + 'px';
                 el.style.top = (y - 20 + (Math.random() * 40)) + 'px';
-                el.style.animationDuration = (2 + Math.random() * 2) + 's';
+                el.style.animationDuration = (1.8 + Math.random() * 1.2) + 's';
                 
                 document.body.appendChild(el);
-                setTimeout(() => el.remove(), 4000);
+                setTimeout(() => el.remove(), 3000);
             }
+        }
+
+        // --- DRINKING GAME RULES DECK ---
+        const sipRules = [
+            { tag: "Sip Rule ⛏️", emoji: "🐝", text: "Take a sip if you've ever died in Minecraft because of lava or a sneaky creeper!" },
+            { tag: "Queen Bee 👑", emoji: "👑", text: "You are the Queen Bee! Whenever you touch your nose, your partner must touch theirs. Last one sips!" },
+            { tag: "Soft Whisper 🤫", emoji: "🤫", text: "You must whisper all your sentences. If you speak at normal volume, take a sip!" },
+            { tag: "Compliment Bee 💕", emoji: "💕", text: "Give your partner a genuine sweet compliment, or take 2 big sips!" },
+            { tag: "No Pointing ☝️", emoji: "☝️", text: "No pointing! Anyone caught pointing with their fingers has to take a sip. (Rule stays active for 15 mins!)" },
+            { tag: "Dual Sip 🥂", emoji: "🥂", text: "Waterfall! Both bees start drinking. Your partner can only stop drinking when you do!" },
+            { tag: "Hive Mind 🧠", emoji: "🧠", text: "On the count of three, say a word. If your words don't match, you both take a sip!" },
+            { tag: "Pinky Promise 🌸", emoji: "🌸", text: "You must hold pinkies with your partner next time you talk, or take a sip!" },
+            { tag: "Cheesy Dare 🧀", emoji: "🧀", text: "Do your best, most dramatic reading of your last text message, or take a sip!" },
+            { tag: "Cozy Confession 💛", emoji: "💛", text: "Share a cute memory from when you first realized you liked your partner, or take a sip!" }
+        ];
+        let remainingSipRules = [...sipRules];
+
+        function drawSipCard(e) {
+            if (remainingSipRules.length === 0) {
+                remainingSipRules = [...sipRules];
+            }
+            const randIndex = Math.floor(Math.random() * remainingSipRules.length);
+            const card = remainingSipRules.splice(randIndex, 1)[0];
+
+            document.getElementById('sip-card-tag').innerText = card.tag;
+            document.getElementById('sip-card-text').innerText = card.text;
+            
+            // Trigger quick bouncy scaling animation
+            const cardEl = document.getElementById('sip-card');
+            cardEl.style.transform = 'scale3d(0.95, 0.95, 1)';
+            setTimeout(() => {
+                cardEl.style.transform = '';
+            }, 100);
+
+            spawnLoveSparkles(e);
+        }
+
+        function resetSipDeck() {
+            remainingSipRules = [...sipRules];
+            document.getElementById('sip-card-tag').innerText = "Ready?";
+            document.getElementById('sip-card-text').innerText = "Tap to draw your first card and let the sweet rules begin! 💛";
+            openModal("Deck Shuffled! 🃏", "The Cozy Sip Deck has been shuffled back to 10 full cards! Have fun! ✨", "🥂");
         }
 
         // --- TIMER LOGIC ---
@@ -604,7 +611,7 @@
             document.getElementById('t-secs').innerText = s.toString().padStart(2, '0');
         }
 
-        // Keep active segment highlights correct based on current time or progression
+        // Keep active segment highlights correct
         function updateActivityTimeline() {
             const items = document.querySelectorAll('.activity-item');
             items.forEach((item) => {
@@ -647,7 +654,6 @@
             }, 10);
         }
 
-        // --- MODALS ---
         function closeModal() {
             const modal = document.getElementById('cute-modal');
             const content = document.getElementById('modal-content');
@@ -657,24 +663,6 @@
                 modal.classList.add('hidden');
                 modal.classList.remove('flex');
             }, 300);
-        }
-
-        // --- SYNTH CONTROLS ---
-        function toggleSynth() {
-            const toggle = document.getElementById('synth-toggle').checked;
-            const controls = document.getElementById('synth-controls');
-            if(toggle) {
-                controls.classList.remove('opacity-40', 'pointer-events-none');
-                controls.classList.add('opacity-100', 'pointer-events-auto');
-            } else {
-                controls.classList.add('opacity-40', 'pointer-events-none');
-                controls.classList.remove('opacity-100', 'pointer-events-auto');
-            }
-        }
-
-        function updateVol(type, value) {
-            // Placeholder for audio synthesis
-            console.log(`${type}: ${value}`);
         }
 
         // Initialize on page load
