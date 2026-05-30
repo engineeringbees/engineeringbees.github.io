@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Date Night | Cozy Bee-Gineer Hub</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Nunito (Maximum roundness and friendly Apple-esque feel) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Nunito', 'sans-serif'],
+                        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', "Liberation Mono", "Courier New", 'monospace'],
+                    },
+                    colors: {
+                        theme: {
+                            bg: '#1A1112',        /* Deep warm cocoa */
+                            glass: 'rgba(45, 28, 29, 0.6)',
+                            glassHover: 'rgba(65, 40, 42, 0.7)',
+                            glassBorder: 'rgba(255, 255, 255, 0.08)',
+                            text: '#FDF6ED',      /* Creamy white */
+                            subtext: '#D4C4B7',   /* Soft taupe */
+                            gold: '#FFD166',      /* Pastel honey */
+                            goldGlow: 'rgba(255, 209, 102, 0.4)',
+                            pink: '#FF9FB2',      /* Blossom blush */
+                            pinkGlow: 'rgba(255, 159, 178, 0.4)',
+                            mint: '#A8DADC',      /* Soft sky/mint */
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-delayed': 'float 6s ease-in-out 3s infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'spin-slow': 'spin 12s linear infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-15px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #1A1112;
+            color: #FDF6ED;
+            /* Ambient glowing orbs in the background */
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(255, 209, 102, 0.04) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(255, 159, 178, 0.04) 0%, transparent 50%),
+                radial-gradient(circle at 50% 80%, rgba(168, 218, 220, 0.03) 0%, transparent 50%);
+            background-attachment: fixed;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Apple-style Frosted Glass Panels */
+        .glass-panel {
+            background: var(--tw-colors-theme-glass);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--tw-colors-theme-glassBorder);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* Input styling */
+        .glass-input {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        .glass-input:focus {
+            background: rgba(0, 0, 0, 0.4);
+            border-color: var(--tw-colors-theme-gold);
+            box-shadow: 0 0 0 3px rgba(255, 209, 102, 0.1);
+            outline: none;
+        }
+
+        /* Custom Scrollbar - Soft and invisible until needed */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { 
+            background: rgba(255, 255, 255, 0.1); 
+            border-radius: 10px; 
+        }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255, 209, 102, 0.3); }
+
+        /* Custom Checkbox - iOS Toggle Style adaptation */
+        .cute-checkbox {
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s bounce;
+            display: grid;
+            place-content: center;
+        }
+        .cute-checkbox::before {
+            content: "\f00c";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            color: transparent;
+            font-size: 12px;
+            transition: all 0.2s ease;
+            transform: scale(0);
+        }
+        .cute-checkbox:checked {
+            background: var(--tw-colors-theme-gold);
+            border-color: var(--tw-colors-theme-gold);
+            box-shadow: 0 0 15px rgba(255, 209, 102, 0.4);
+        }
+        .cute-checkbox:checked::before {
+            color: #1A1112;
+            transform: scale(1);
+        }
+
+        /* Apple-style Segmented Control for Tabs */
+        .segmented-control {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 4px;
+            border-radius: 16px;
+        }
+        .segmented-btn {
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .segmented-btn.active {
+            background: var(--tw-colors-theme-glassHover);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            color: #fff;
+        }
+
+        /* iOS style range slider */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            cursor: pointer;
+            margin-top: -10px;
+            transition: transform 0.1s;
+        }
+        input[type=range]::-webkit-slider-thumb:active {
+            transform: scale(1.1);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 6px;
+            cursor: pointer;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        /* Floating sparkles */
+        .sparkle-anim {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            animation: rise 3s ease-in forwards;
+        }
+        @keyframes rise {
+            0% { transform: translateY(0) scale(0.5); opacity: 0; }
+            20% { opacity: 1; transform: translateY(-20px) scale(1.2); }
+            100% { transform: translateY(-150px) scale(0.8) rotate(45deg); opacity: 0; }
+        }
+
+        /* Hide elements beautifully */
+        .fade-hidden {
+            opacity: 0;
+            transform: translateY(10px);
+            pointer-events: none;
+            position: absolute;
+        }
+        .fade-enter {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            position: relative;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-theme-gold selection:text-theme-bg pb-20">
+
+    <!-- Floating Glass Nav -->
+    <div class="fixed top-4 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
+        <header class="glass-panel px-4 py-2.5 rounded-full flex items-center gap-6 pointer-events-auto max-w-full overflow-x-auto no-scrollbar border border-white/10">
+            <!-- Tiny animated logo -->
+            <div class="flex items-center gap-2 shrink-0">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-theme-gold to-theme-pink p-[2px] shadow-lg animate-float">
+                    <div class="w-full h-full bg-theme-bg rounded-full flex items-center justify-center relative">
+                        <i class="fa-solid fa-heart text-theme-pink text-xs"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="flex items-center space-x-1 sm:space-x-2 text-sm font-bold text-theme-subtext">
+                <a href="#blueprint" class="px-3 py-1.5 rounded-full hover:text-theme-text hover:bg-white/5 transition-all flex items-center gap-1.5"><i class="fa-solid fa-pen-nib text-theme-gold"></i> <span class="hidden sm:inline">Plans</span></a>
+                <a href="#itinerary" class="px-3 py-1.5 rounded-full hover:text-theme-text hover:bg-white/5 transition-all flex items-center gap-1.5"><i class="fa-solid fa-map text-theme-pink"></i> <span class="hidden sm:inline">Path</span></a>
+                <a href="#menu" class="px-3 py-1.5 rounded-full hover:text-theme-text hover:bg-white/5 transition-all flex items-center gap-1.5"><i class="fa-solid fa-mug-hot text-theme-gold"></i> <span class="hidden sm:inline">Feast</span></a>
+                <a href="#games" class="px-3 py-1.5 rounded-full hover:text-theme-text hover:bg-white/5 transition-all flex items-center gap-1.5"><i class="fa-solid fa-puzzle-piece text-theme-mint"></i> <span class="hidden sm:inline">Play</span></a>
+                <a href="#soundscape" class="px-3 py-1.5 rounded-full hover:text-theme-text hover:bg-white/5 transition-all flex items-center gap-1.5"><i class="fa-solid fa-headphones text-indigo-300"></i> <span class="hidden sm:inline">Tune</span></a>
+            </nav>
+        </header>
+    </div>
+
+    <!-- Hero Banner -->
+    <section class="relative pt-32 pb-16 px-4 overflow-hidden">
+        <div class="relative max-w-4xl mx-auto text-center z-10 flex flex-col items-center">
+            
+            <!-- Ultra-Cute Minimalist Apple-Style Chibi Bees -->
+            <div class="mb-8 relative w-64 h-32 animate-float">
+                <svg viewBox="0 0 200 100" class="w-full h-full drop-shadow-2xl" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Glow behind -->
+                    <circle cx="100" cy="50" r="40" fill="#FFD166" opacity="0.15" filter="blur(15px)" />
+                    
+                    <!-- Left Bee (Plush, soft geometry) -->
+                    <g transform="translate(40, 50)">
+                        <!-- Soft translucent wings -->
+                        <ellipse cx="-10" cy="-25" rx="15" ry="20" fill="#A8DADC" opacity="0.7" transform="rotate(-20)" class="animate-pulse-slow"/>
+                        <ellipse cx="5" cy="-20" rx="12" ry="18" fill="#FDF6ED" opacity="0.8" transform="rotate(10)"/>
+                        
+                        <!-- Pill Body -->
+                        <rect x="-25" y="-18" width="50" height="36" rx="18" fill="#FFD166" />
+                        
+                        <!-- Simple stripes (curved for 3D feel) -->
+                        <path d="M-10 -17 Q-5 0 -10 17" stroke="#2D1C19" stroke-width="6" stroke-linecap="round" fill="none"/>
+                        <path d="M5 -17 Q10 0 5 17" stroke="#2D1C19" stroke-width="6" stroke-linecap="round" fill="none"/>
+                        
+                        <!-- Cute minimalist face -->
+                        <circle cx="15" cy="-5" r="3" fill="#2D1C19"/>
+                        <circle cx="25" cy="-5" r="3" fill="#2D1C19"/>
+                        <path d="M18 2 Q20 5 22 2" stroke="#2D1C19" stroke-width="2" stroke-linecap="round" fill="none"/>
+                        <circle cx="12" cy="2" r="4" fill="#FF9FB2" opacity="0.8"/>
+                        <circle cx="28" cy="2" r="4" fill="#FF9FB2" opacity="0.8"/>
+                        
+                        <!-- Antennae -->
+                        <path d="M10 -16 Q12 -25 18 -25" stroke="#2D1C19" stroke-width="2" stroke-linecap="round" fill="none"/>
+                        <circle cx="18" cy="-25" r="2" fill="#2D1C19"/>
+                    </g>
+
+                    <!-- Center Floating Heart Gear -->
+                    <g transform="translate(100, 50)" class="animate-spin-slow">
+                        <path d="M0 -15 C-10 -25, -20 -10, 0 10 C20 -10, 10 -25, 0 -15 Z" fill="#FF9FB2" opacity="0.9"/>
+                        <circle cx="0" cy="-2" r="4" fill="#1A1112" opacity="0.3"/>
+                        <path d="M-12 -2 L12 -2 M0 -14 L0 10" stroke="#1A1112" stroke-width="2" stroke-opacity="0.3" stroke-dasharray="2 2"/>
+                    </g>
+
+                    <!-- Right Bee (Winking) -->
+                    <g transform="translate(160, 50)">
+                        <!-- Wings -->
+                        <ellipse cx="-5" cy="-20" rx="12" ry="18" fill="#FDF6ED" opacity="0.8" transform="rotate(-10)"/>
+                        <ellipse cx="10" cy="-25" rx="15" ry="20" fill="#A8DADC" opacity="0.7" transform="rotate(20)" class="animate-pulse-slow"/>
+                        
+                        <!-- Pill Body -->
+                        <rect x="-25" y="-18" width="50" height="36" rx="18" fill="#FFD166" />
+                        
+                        <!-- Stripes -->
+                        <path d="M-5 -17 Q0 0 -5 17" stroke="#2D1C19" stroke-width="6" stroke-linecap="round" fill="none"/>
+                        <path d="M10 -17 Q15 0 10 17" stroke="#2D1C19" stroke-width="6" stroke-linecap="round" fill="none"/>
+                        
+                        <!-- Winking Face -->
+                        <path d="M-25 -5 Q-23 -8 -21 -5" stroke="#2D1C19" stroke-width="2" stroke-linecap="round" fill="none"/>
+                        <circle cx="-15" cy="-5" r="3" fill="#2D1C19"/>
+                        <path d="M-22 2 Q-20 4 -18 2" stroke="#2D1C19" stroke-width="2" stroke-linecap="round" fill="none"/>
+                        <circle cx="-28" cy="2" r="4" fill="#FF9FB2" opacity="0.8"/>
+                        <circle cx="-12" cy="2" r="4" fill="#FF9FB2" opacity="0.8"/>
+                        
+                        <!-- Antennae -->
+                        <path d="M-10 -16 Q-12 -25 -18 -25" stroke="#2D1C19" stroke-width="2" stroke-linecap="round" fill="none"/>
+                        <circle cx="-18" cy="-25" r="2" fill="#2D1C19"/>
+                    </g>
+                </svg>
+            </div>
+
+            <!-- Soft Typography Tag -->
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel text-xs font-bold text-theme-gold mb-6 animate-float-delayed">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-theme-gold opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-theme-gold"></span>
+                </span>
+                Syncing Heart Frequencies
+            </div>
+
+            <h1 class="text-5xl md:text-7xl font-black mb-6 tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white to-theme-subtext drop-shadow-lg">
+                Date <span class="text-transparent bg-clip-text bg-gradient-to-r from-theme-gold to-theme-pink">Night</span>
+            </h1>
+            
+            <p class="text-theme-subtext max-w-xl mx-auto text-base md:text-lg mb-10 leading-relaxed font-medium">
+                Welcome to the cozy meadow room. A sweet workspace designed to align your schedules, bake golden treats, and share warm moments across the grid.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row justify-center gap-4 w-full px-4">
+                <button onclick="scrollToId('blueprint')" class="group relative px-8 py-4 bg-theme-text text-theme-bg rounded-full font-black text-lg overflow-hidden transition-transform hover:scale-105 active:scale-95 shadow-[0_0_40px_rgba(255,209,102,0.3)]">
+                    <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-theme-gold via-white to-theme-gold opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <span class="relative flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-pen-nib"></i> Draft Plan
+                    </span>
+                </button>
+                <button onclick="spawnLoveSparkles(event)" class="px-8 py-4 glass-panel rounded-full font-bold text-theme-gold hover:bg-white/10 transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles text-theme-pink"></i> Send Sparkles
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Container -->
+    <main class="max-w-6xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-12 gap-6 relative z-10">
+        
+        <!-- LEFT COLUMN -->
+        <div class="lg:col-span-5 flex flex-col gap-6">
+            
+            <!-- Setup Card -->
+            <section id="blueprint" class="glass-panel rounded-[2rem] p-6 relative overflow-hidden group">
+                <div class="absolute -top-20 -right-20 w-40 h-40 bg-theme-gold blur-[60px] opacity-20 group-hover:opacity-30 transition-opacity"></div>
+                
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 rounded-2xl bg-white/5 flex items-center justify-center text-theme-gold text-xl shadow-inner border border-white/5">
+                        <i class="fa-solid fa-sliders"></i>
+                    </div>
+                    <h2 class="text-2xl font-black text-theme-text tracking-tight">Parameters</h2>
+                </div>
+                
+                <form id="blueprint-form" oninput="updateBlueprint()" class="space-y-4">
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-bold text-theme-subtext uppercase tracking-wider ml-1">You</label>
+                        <input type="text" id="bee-one" value="Buzzy" class="w-full glass-input rounded-2xl py-3 px-4 text-theme-text placeholder-white/30 font-semibold">
+                    </div>
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-bold text-theme-subtext uppercase tracking-wider ml-1">Her</label>
+                        <input type="text" id="bee-two" value="Barnaby" class="w-full glass-input rounded-2xl py-3 px-4 text-theme-text placeholder-white/30 font-semibold focus:border-theme-pink focus:shadow-[0_0_0_3px_rgba(255,159,178,0.1)]">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-bold text-theme-subtext uppercase tracking-wider ml-1">Date</label>
+                            <input type="date" id="launch-date" class="w-full glass-input rounded-2xl py-3 px-4 text-theme-text font-semibold appearance-none">
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-bold text-theme-subtext uppercase tracking-wider ml-1">Time</label>
+                            <input type="time" id="launch-time" value="19:00" class="w-full glass-input rounded-2xl py-3 px-4 text-theme-text font-semibold appearance-none">
+                        </div>
+                    </div>
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-bold text-theme-subtext uppercase tracking-wider ml-1">Portal Link</label>
+                        <input type="url" id="launch-link" placeholder="FaceTime / Zoom URL" class="w-full glass-input rounded-2xl py-3 px-4 text-theme-text placeholder-white/30 font-semibold text-sm">
+                    </div>
+                </form>
+            </section>
+
+            <!-- Adorable Ticket / Pass Output -->
+            <section class="bg-gradient-to-b from-[#FFF5E1] to-[#FFE8B5] rounded-[2rem] p-1 relative overflow-hidden shadow-[0_10px_40px_rgba(255,209,102,0.15)] transform transition-transform hover:scale-[1.02]">
+                <div class="bg-white/40 backdrop-blur-md rounded-[1.8rem] border border-white/60 p-6 text-center text-[#5A3A31] relative h-full flex flex-col">
+                    
+                    <!-- Cute perforated edges effect -->
+                    <div class="absolute top-0 bottom-0 -left-2 w-4 flex flex-col justify-around">
+                        <div class="w-4 h-4 bg-theme-bg rounded-full"></div><div class="w-4 h-4 bg-theme-bg rounded-full"></div><div class="w-4 h-4 bg-theme-bg rounded-full"></div>
+                    </div>
+                    <div class="absolute top-0 bottom-0 -right-2 w-4 flex flex-col justify-around">
+                        <div class="w-4 h-4 bg-theme-bg rounded-full"></div><div class="w-4 h-4 bg-theme-bg rounded-full"></div><div class="w-4 h-4 bg-theme-bg rounded-full"></div>
+                    </div>
+
+                    <div class="mb-4">
+                        <i class="fa-solid fa-ticket text-3xl text-[#E8A844] mb-2 drop-shadow-sm"></i>
+                        <h3 class="font-black text-xl tracking-tight uppercase">Meadow Pass</h3>
+                        <p class="text-xs font-bold opacity-60 tracking-widest uppercase">Admit Two Bears</p>
+                    </div>
+
+                    <div id="blueprint-content" class="bg-white/50 rounded-2xl p-4 flex-grow flex flex-col justify-center space-y-3 font-semibold text-sm border border-white/50 shadow-inner">
+                        <!-- Populated by JS -->
+                    </div>
+
+                    <div class="flex gap-2 mt-4 relative z-10">
+                        <button onclick="copyPass()" class="flex-1 bg-white/80 hover:bg-white text-[#5A3A31] py-3 rounded-xl font-bold transition flex justify-center items-center gap-2 shadow-sm">
+                            <i id="copy-icon" class="fa-regular fa-copy"></i> Copy
+                        </button>
+                        <button onclick="openLink()" class="flex-1 bg-[#E8A844] hover:bg-[#D69632] text-white py-3 rounded-xl font-bold transition flex justify-center items-center gap-2 shadow-sm">
+                            <i class="fa-solid fa-video"></i> Join
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Modern Soft Countdown -->
+            <section class="glass-panel rounded-[2rem] p-6 text-center relative overflow-hidden group">
+                <div class="absolute -bottom-20 -left-20 w-40 h-40 bg-theme-pink blur-[60px] opacity-20 group-hover:opacity-30 transition-opacity"></div>
+                
+                <h4 class="text-sm font-bold text-theme-pink uppercase tracking-widest mb-6 flex items-center justify-center gap-2">
+                    <i class="fa-regular fa-clock animate-pulse"></i> Time Until Sync
+                </h4>
+                
+                <div class="grid grid-cols-4 gap-3">
+                    <div class="bg-white/5 border border-white/10 rounded-2xl p-3 backdrop-blur-sm">
+                        <span id="t-days" class="block text-3xl font-black text-theme-text font-mono tracking-tighter">00</span>
+                        <span class="text-[10px] text-theme-subtext font-bold uppercase mt-1 block">Days</span>
+                    </div>
+                    <div class="bg-white/5 border border-white/10 rounded-2xl p-3 backdrop-blur-sm">
+                        <span id="t-hours" class="block text-3xl font-black text-theme-text font-mono tracking-tighter">00</span>
+                        <span class="text-[10px] text-theme-subtext font-bold uppercase mt-1 block">Hrs</span>
+                    </div>
+                    <div class="bg-white/5 border border-white/10 rounded-2xl p-3 backdrop-blur-sm">
+                        <span id="t-mins" class="block text-3xl font-black text-theme-text font-mono tracking-tighter">00</span>
+                        <span class="text-[10px] text-theme-subtext font-bold uppercase mt-1 block">Min</span>
+                    </div>
+                    <div class="bg-white/5 border border-white/10 rounded-2xl p-3 backdrop-blur-sm relative overflow-hidden">
+                        <div class="absolute inset-0 bg-theme-pink opacity-10"></div>
+                        <span id="t-secs" class="block text-3xl font-black text-theme-pink font-mono tracking-tighter relative z-10">00</span>
+                        <span class="text-[10px] text-theme-subtext font-bold uppercase mt-1 block relative z-10">Sec</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="lg:col-span-7 flex flex-col gap-6">
+            
+            <!-- Soft Timeline Itinerary -->
+            <section id="itinerary" class="glass-panel rounded-[2rem] p-6 relative">
+                <div class="flex justify-between items-center mb-8">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-2xl bg-theme-pink/20 flex items-center justify-center text-theme-pink text-xl shadow-inner border border-theme-pink/30">
+                            <i class="fa-solid fa-map-location-dot"></i>
+                        </div>
+                        <h2 class="text-2xl font-black text-theme-text tracking-tight">The Path</h2>
+                    </div>
+                    <div class="bg-white/5 px-4 py-2 rounded-full border border-white/10">
+                        <span class="text-xs font-bold text-theme-gold" id="progress-text">0% Ready</span>
+                    </div>
+                </div>
+
+                <div class="relative ml-4 border-l-2 border-white/10 space-y-8 pb-4">
+                    
+                    <!-- Node 1 -->
+                    <div class="relative pl-6">
+                        <div class="absolute -left-[11px] top-1 w-5 h-5 rounded-full bg-theme-bg border-[4px] border-theme-gold transition-transform hover:scale-125 z-10 shadow-[0_0_10px_rgba(255,209,102,0.4)]"></div>
+                        <h3 class="text-lg font-bold text-theme-text mb-1">1. Liquid Fuel</h3>
+                        <p class="text-sm text-theme-subtext mb-4 leading-relaxed">Settle in, boot up the cameras, and prepare a cozy drink. Clink mugs through the screen!</p>
+                        <div class="bg-white/5 rounded-2xl p-3 space-y-2 border border-white/5">
+                            <label class="flex items-center gap-3 cursor-pointer p-2 hover:bg-white/5 rounded-xl transition">
+                                <input type="checkbox" onchange="updateProgress()" class="cute-checkbox">
+                                <span class="text-sm font-semibold select-none">Camera coordinates aligned</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-2 hover:bg-white/5 rounded-xl transition">
+                                <input type="checkbox" onchange="updateProgress()" class="cute-checkbox">
+                                <span class="text-sm font-semibold select-none">Virtual cheers complete ☕️</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Node 2 -->
+                    <div class="relative pl-6">
+                        <div class="absolute -left-[11px] top-1 w-5 h-5 rounded-full bg-theme-bg border-[4px] border-theme-pink transition-transform hover:scale-125 z-10 shadow-[0_0_10px_rgba(255,159,178,0.4)]"></div>
+                        <h3 class="text-lg font-bold text-theme-text mb-1">2. Sweet Assembly</h3>
+                        <p class="text-sm text-theme-subtext mb-4 leading-relaxed">Cook side-by-side using the scalable meadow recipes below.</p>
+                        <div class="bg-white/5 rounded-2xl p-3 space-y-2 border border-white/5">
+                            <label class="flex items-center gap-3 cursor-pointer p-2 hover:bg-white/5 rounded-xl transition">
+                                <input type="checkbox" onchange="updateProgress()" class="cute-checkbox">
+                                <span class="text-sm font-semibold select-none">Ingredients prepped together</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-2 hover:bg-white/5 rounded-xl transition">
+                                <input type="checkbox" onchange="updateProgress()" class="cute-checkbox">
+                                <span class="text-sm font-semibold select-none">First bite synchronized 🍯</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Node 3 -->
+                    <div class="relative pl-6">
+                        <div class="absolute -left-[11px] top-1 w-5 h-5 rounded-full bg-theme-bg border-[4px] border-theme-mint transition-transform hover:scale-125 z-10 shadow-[0_0_10px_rgba(168,218,220,0.4)]"></div>
+                        <h3 class="text-lg font-bold text-theme-text mb-1">3. Cozy Logic</h3>
+                        <p class="text-sm text-theme-subtext mb-4 leading-relaxed">Solve the cute riddles and enjoy the ambient soundscape.</p>
+                        <div class="bg-white/5 rounded-2xl p-3 space-y-2 border border-white/5">
+                            <label class="flex items-center gap-3 cursor-pointer p-2 hover:bg-white/5 rounded-xl transition">
+                                <input type="checkbox" onchange="updateProgress()" class="cute-checkbox">
+                                <span class="text-sm font-semibold select-none">Passed the riddle audit 🧠</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bento Menu & Recipe Scaler -->
+            <section id="menu" class="glass-panel rounded-[2rem] p-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-2xl bg-theme-gold/20 flex items-center justify-center text-theme-gold text-xl shadow-inner border border-theme-gold/30">
+                            <i class="fa-solid fa-jar-wheat"></i>
+                        </div>
+                        <h2 class="text-2xl font-black text-theme-text tracking-tight">The Pantry</h2>
+                    </div>
+                    
+                    <!-- Minimalist Slider -->
+                    <div class="bg-white/5 p-2 rounded-2xl border border-white/10 flex items-center gap-4 w-full sm:w-auto">
+                        <i class="fa-solid fa-user text-theme-subtext text-xs ml-2"></i>
+                        <input type="range" id="portions" min="1" max="4" value="2" oninput="scaleRecipe()" class="w-24 accent-theme-gold">
+                        <div class="bg-black/30 px-3 py-1 rounded-xl text-xs font-bold text-theme-gold w-16 text-center">
+                            <span id="portion-val">2</span> p
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Apple-style Segmented Control -->
+                <div class="segmented-control flex gap-1 mb-6">
+                    <button onclick="showRecipe('pizza')" id="btn-pizza" class="segmented-btn active flex-1 py-2 text-sm font-bold text-theme-subtext">Flatbread</button>
+                    <button onclick="showRecipe('soup')" id="btn-soup" class="segmented-btn flex-1 py-2 text-sm font-bold text-theme-subtext">Soup</button>
+                    <button onclick="showRecipe('cookies')" id="btn-cookies" class="segmented-btn flex-1 py-2 text-sm font-bold text-theme-subtext">Cookies</button>
+                </div>
+
+                <!-- Recipe Display Box -->
+                <div class="bg-black/20 rounded-[1.5rem] p-5 border border-white/5 min-h-[220px] relative overflow-hidden">
+                    
+                    <!-- Recipe 1 -->
+                    <div id="rec-pizza" class="fade-enter h-full flex flex-col">
+                        <h3 class="text-lg font-bold text-white mb-1">Honeycomb Flatbread</h3>
+                        <p class="text-xs text-theme-subtext mb-4">Goat cheese, fig, and a heavy drizzle of golden honey on a crispy base.</p>
+                        <ul class="space-y-3 flex-grow text-sm font-medium">
+                            <li class="flex justify-between items-center border-b border-white/5 pb-2">
+                                <span class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-theme-gold"></div>Flatbread bases</span>
+                                <span class="font-bold text-theme-gold bg-theme-gold/10 px-2 py-0.5 rounded-md" data-amt="1" data-unit="pcs">2 pcs</span>
+                            </li>
+                            <li class="flex justify-between items-center border-b border-white/5 pb-2">
+                                <span class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-theme-gold"></div>Goat Cheese</span>
+                                <span class="font-bold text-theme-gold bg-theme-gold/10 px-2 py-0.5 rounded-md" data-amt="0.5" data-unit="cup">1 cup</span>
+                            </li>
+                            <li class="flex justify-between items-center border-b border-white/5 pb-2">
+                                <span class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-theme-gold"></div>Raw Honey</span>
+                                <span class="font-bold text-theme-gold bg-theme-gold/10 px-2 py-0.5 rounded-md" data-amt="2" data-unit="tbsp">4 tbsp</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Recipe 2 -->
+                    <div id="rec-soup" class="fade-hidden h-full flex flex-col absolute inset-0 p-5">
+                        <h3 class="text-lg font-bold text-white mb-1">Amber Butternut Soup</h3>
+                        <p class="text-xs text-theme-subtext mb-4">Warm, comforting, blended with coconut milk and roasted seeds.</p>
+                        <ul class="space-y-3 flex-grow text-sm font-medium">
+                            <li class="flex justify-between items-center border-b border-white/5 pb-2">
+                                <span class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-theme-gold"></div>Squash chunks</span>
+                                <span class="font-bold text-theme-gold bg-theme-gold/10 px-2 py-0.5 rounded-md" data-amt="1.5" data-unit="cups">3 cups</span>
+                            </li>
+                            <li class="flex justify-between items-center border-b border-white/5 pb-2">
+                                <span class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-theme-gold"></div>Coconut Milk</span>
+                                <span class="font-bold text-theme-gold bg-theme-gold/10 px-2 py-0.5 rounded-md" data-amt="0.5" data-unit="can">1 can</span>
+                            </li>
+                            <li class="flex justify-between items-center border-b border-white/5 pb-2">
+                                <span class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-theme-gold"></div>Nutmeg</span>
+                                <span class="font-bold text-theme-gold bg-theme-gold/10 px-2 py-0.5 rounded-md" data-amt="1" data-unit="tsp">2 tsp</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Recipe 3 -->
+                    <div id="rec-cookies" class="fade-hidden h-full flex flex-col absolute inset-0 p-5">
+                        <h3 class="text-lg font-bold text-white mb-1">Gear Shortbread</h3>
+                        <p class="text-xs text-theme-subtext mb-4">Buttery maple cookies stamped into interlocking gear shapes.</p>
+                        <ul class="space-y-3 flex-grow text-sm font-medium">
+                            <li class="flex justify-between items-center border-b border-white/5 pb-2">
+                                <span class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-theme-gold"></div>Butter</span>
+                                <span class="font-bold text-theme-gold bg-theme-gold/10 px-2 py-0.5 rounded-md" data-amt="0.5" data-unit="cup">1 cup</span>
+                            </li>
+                            <li class="flex justify-between items-center border-b border-white/5 pb-2">
+                                <span class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-theme-gold"></div>Pastry Flour</span>
+                                <span class="font-bold text-theme-gold bg-theme-gold/10 px-2 py-0.5 rounded-md" data-amt="1" data-unit="cup">2 cup</span>
+                            </li>
+                            <li class="flex justify-between items-center border-b border-white/5 pb-2">
+                                <span class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-theme-gold"></div>Sugar Sand</span>
+                                <span class="font-bold text-theme-gold bg-theme-gold/10 px-2 py-0.5 rounded-md" data-amt="1" data-unit="tbsp">2 tbsp</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Flashcard Riddles -->
+            <section id="games" class="glass-panel rounded-[2rem] p-6 group">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 rounded-2xl bg-theme-mint/20 flex items-center justify-center text-theme-mint text-xl shadow-inner border border-theme-mint/30">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <h2 class="text-2xl font-black text-theme-text tracking-tight">Audit Cards</h2>
+                </div>
+
+                <div class="perspective-1000">
+                    <div id="flashcard" class="bg-gradient-to-br from-white/10 to-white/5 border border-white/10 rounded-[1.5rem] p-8 text-center min-h-[160px] flex flex-col justify-center items-center cursor-pointer transition-all duration-500 hover:bg-white/15 hover:shadow-lg relative overflow-hidden" onclick="flipCard()">
+                        
+                        <!-- Front of card -->
+                        <div id="card-front" class="absolute inset-0 p-8 flex flex-col justify-center items-center transition-opacity duration-300">
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-theme-mint bg-theme-mint/10 px-3 py-1 rounded-full mb-4">Tap to Flip</span>
+                            <p id="riddle-q" class="text-lg font-bold leading-snug italic text-white">"What do you call a cute bee who is good at math?"</p>
+                        </div>
+                        
+                        <!-- Back of card -->
+                        <div id="card-back" class="absolute inset-0 p-8 flex flex-col justify-center items-center opacity-0 transition-opacity duration-300 bg-theme-gold/10">
+                            <i class="fa-solid fa-check-circle text-theme-gold text-2xl mb-3"></i>
+                            <p id="riddle-a" class="text-xl font-black text-theme-gold">A design-bee-ner! 🐝</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-between items-center mt-4 px-2">
+                    <p class="text-xs font-bold text-theme-subtext">Card <span id="card-num">1</span> of 3</p>
+                    <button onclick="nextCard(event)" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Gorgeous Synth Deck -->
+            <section id="soundscape" class="glass-panel rounded-[2rem] p-6 relative overflow-hidden">
+                <!-- Inner soft gradient -->
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/20 pointer-events-none rounded-[2rem]"></div>
+                
+                <div class="flex justify-between items-center mb-6 relative z-10">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-2xl bg-indigo-500/20 flex items-center justify-center text-indigo-300 text-xl shadow-inner border border-indigo-500/30">
+                            <i class="fa-solid fa-wave-square"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-black text-theme-text tracking-tight">Ambience</h2>
+                            <p class="text-[10px] text-theme-subtext font-bold uppercase tracking-wider">Live Synthesis</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Cute Apple Style Toggle -->
+                    <label class="relative inline-flex items-center cursor-pointer">
+                      <input type="checkbox" id="synth-toggle" class="sr-only peer" onchange="toggleSynth()">
+                      <div class="w-14 h-8 bg-black/40 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-indigo-400 border border-white/10 shadow-inner"></div>
+                    </label>
+                </div>
+
+                <div id="synth-controls" class="space-y-6 relative z-10 opacity-40 pointer-events-none transition-opacity duration-500">
+                    <!-- Slider 1 -->
+                    <div>
+                        <div class="flex justify-between text-xs font-bold mb-2">
+                            <span class="text-indigo-200"><i class="fa-solid fa-wind mr-1"></i> Night Breeze</span>
+                        </div>
+                        <input type="range" id="vol-wind" min="0" max="1" step="0.01" value="0.5" class="accent-indigo-300" oninput="updateVol('wind', this.value)">
+                    </div>
+                    <!-- Slider 2 -->
+                    <div>
+                        <div class="flex justify-between text-xs font-bold mb-2">
+                            <span class="text-theme-gold"><i class="fa-solid fa-bug mr-1"></i> Warm Hum</span>
+                        </div>
+                        <input type="range" id="vol-hum" min="0" max="1" step="0.01" value="0.3" class="accent-theme-gold" oninput="updateVol('hum', this.value)">
+                    </div>
+                    <!-- Slider 3 -->
+                    <div>
+                        <div class="flex justify-between text-xs font-bold mb-2">
+                            <span class="text-theme-mint"><i class="fa-solid fa-leaf mr-1"></i> Chimes</span>
+                        </div>
+                        <input type="range" id="vol-pad" min="0" max="1" step="0.01" value="0.4" class="accent-theme-mint" oninput="updateVol('pad', this.value)">
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Sweet Bouncy Modal -->
+    <div id="cute-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="bg-theme-bg glass-panel border border-white/10 rounded-[2.5rem] p-8 max-w-sm w-full relative z-10 shadow-2xl transform scale-95 opacity-0 transition-all duration-300" id="modal-content">
+            <div class="w-16 h-16 mx-auto bg-gradient-to-tr from-theme-gold to-theme-pink rounded-full flex items-center justify-center text-white text-2xl shadow-lg mb-4 animate-bounce">
+                <i id="modal-icon" class="fa-solid fa-heart"></i>
+            </div>
+            <h3 id="modal-title" class="text-2xl font-black text-center mb-2">Yay!</h3>
+            <p id="modal-body" class="text-theme-subtext text-center text-sm mb-8 font-medium">Action completed successfully.</p>
+            <button onclick="closeModal()" class="w-full bg-white text-theme-bg py-4 rounded-2xl font-black text-lg hover:bg-theme-gold transition-colors shadow-md">
+                Got it!
+            </button>
+        </div>
+    </div>
+
+    <!-- Soft Footer -->
+    <footer class="mt-24 text-center pb-8 relative z-10">
+        <p class="text-xs font-bold text-theme-subtext/50 uppercase tracking-widest">Designed with ♥ for cozy dates</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling helper
+        function scrollToId(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Generate beautiful floating sparkles
+        function spawnLoveSparkles(e) {
+            const icons = ['✨', '💛', '🌸', '🐝'];
+            for(let i=0; i<8; i++) {
+                let el = document.createElement('div');
+                el.innerText = icons[Math.floor(Math.random() * icons.length)];
+                el.className = 'sparkle-anim absolute text-2xl';
+                
+                // Position near button or center screen
+                let x = e ? e.clientX : window.innerWidth/2;
+                let y = e ? e.clientY : window.innerHeight/2;
+                
+                el.style.left = (x - 20 + (Math.random() * 40)) + 'px';
+                el.style.top = (y - 20 + (Math.random() * 40)) + 'px';
+                el.style.animationDuration = (2 + Math.random() * 2) + 's';
+                
+                document.body.appendChild(el);
+                setTimeout(() => el.remove(), 4000);
+            }
+        }
+
+        // --- BLUEPRINT & TIMER LOGIC ---
+        let targetDate = new Date();
+
+        function initDates() {
+            let tmr = new Date();
+            tmr.setDate(tmr.getDate() + 3);
+            document.getElementById('launch-date').valueAsDate = tmr;
+            updateBlueprint();
+            setInterval(updateTimer, 1000);
+        }
+
+        function updateBlueprint() {
+            const b1 = document.getElementById('bee-one').value || 'Bear 1';
+            const b2 = document.getElementById('bee-two').value || 'Bear 2';
+            const d = document.getElementById('launch-date').value;
+            const t = document.getElementById('launch-time').value;
+            
+            if(d && t) targetDate = new Date(`${d}T${t}`);
+
+            const niceDate = new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+            document.getElementById('blueprint-content').innerHTML = `
+                <div class="flex justify-between border-b border-black/10 pb-2">
+                    <span class="opacity-60 uppercase text-[10px] tracking-widest">Guest 1</span>
+                    <span class="text-[#D69632]">${b1}</span>
+                </div>
+                <div class="flex justify-between border-b border-black/10 pb-2">
+                    <span class="opacity-60 uppercase text-[10px] tracking-widest">Guest 2</span>
+                    <span class="text-[#D69632]">${b2}</span>
+                </div>
+                <div class="flex justify-between pt-1">
+                    <span class="opacity-60 uppercase text-[10px] tracking-widest">When</span>
+                    <span>${niceDate} @ ${t}</span>
+                </div>
+            `;
+        }
+
+        function updateTimer() {
+            const now = new Date();
+            const diff = targetDate - now;
+
+            if (diff <= 0) {
+                document.getElementById('t-days').innerText = "00";
+                document.getElementById('t-hours').innerText = "00";
+                document.getElementById('t-mins').innerText = "00";
+                document.getElementById('t-secs').innerText = "00";
+                return;
+            }
+
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const m = Math.floor((diff / 1000 / 60) % 60);
+            const s = Math.floor((diff / 1000) % 60);
+
+            document.getElementById('t-days').innerText = d.toString().padStart(2, '0');
+            document.getElementById('t-hours').innerText = h.toString().padStart(2, '0');
+            document.getElementById('t-mins').innerText = m.toString().padStart(2, '0');
+            document.getElementById('t-secs').innerText = s.toString().padStart(2, '0');
+        }
+
+        function copyPass() {
+            const d = document.getElementById('blueprint-content').innerText;
+            const link = document.getElementById('launch-link').value || 'Link to follow.';
+            const txt = `🎟 Meadow Pass 🎟\n\n${d}\n\nJoin here: ${link}`;
+            
+            const area = document.createElement('textarea');
+            area.value = txt;
+            document.body.appendChild(area);
+            area.select();
+            document.execCommand('copy');
+            area.remove();
+
+            document.getElementById('copy-icon').className = "fa-solid fa-check text-green-600";
+            openModal("Pass Copied!", "Send this cute ticket to her messages!", "fa-ticket");
+            setTimeout(() => document.getElementById('copy-icon').className = "fa-regular fa-copy", 2000);
+        }
+
+        function openLink() {
+            const l = document.getElementById('launch-link').value;
+            if(l) window.open(l, '_blank');
+            else openModal("Oops!", "Please enter a meeting link in the parameters first.", "fa-link");
+        }
+
+        // --- UI STATE LOGIC ---
+        function updateProgress() {
+            const boxes = document.querySelectorAll('.cute-checkbox');
+            let checked = 0;
+            boxes.forEach(b => { if(b.checked) checked++; });
+            const pct = Math.round((checked / boxes.length) * 100);
+            
+            const txt = document.getElementById('progress-text');
+            txt.innerText = `${pct}% Ready`;
+            
+            if(pct === 100) {
+                txt.className = "text-xs font-black text-theme-pink animate-pulse";
+                spawnLoveSparkles();
+                setTimeout(() => openModal("Perfect!", "All steps complete. Enjoy your date night! 💛", "fa-star"), 500);
+            } else {
+                txt.className = "text-xs font-bold text-theme-gold";
+            }
+        }
+
+        // Segemented Control logic
+        function showRecipe(id) {
+            // Update buttons
+            ['pizza', 'soup', 'cookies'].forEach(i => {
+                document.getElementById(`btn-${i}`).classList.remove('active');
+                let rec = document.getElementById(`rec-${i}`);
+                rec.classList.remove('fade-enter');
+                rec.classList.add('fade-hidden');
+            });
+            
+            document.getElementById(`btn-${id}`).classList.add('active');
+            let target = document.getElementById(`rec-${id}`);
+            target.classList.remove('fade-hidden');
+            
+            // Tiny delay to allow display:block to apply before opacity transition
+            setTimeout(() => target.classList.add('fade-enter'), 10);
+        }
+
+        function scaleRecipe() {
+            const scale = document.getElementById('portions').value;
+            document.getElementById('portion-val').innerText = scale;
+            
+            // Math magic
+            const mult = scale / 2; // base is 2
+            
+            document.querySelectorAll('[data-amt]').forEach(el => {
+                const base = parseFloat(el.getAttribute('data-amt'));
+                const unit = el.getAttribute('data-unit');
+                let final = base * mult;
+                // Format nice numbers (e.g. no 1.50000001)
+                final = Number.isInteger(final) ? final : final.toFixed(1).replace('.0','');
+                el.innerText = `${final} ${unit}`;
+            });
+        }
+
+        // --- FLASHCARD LOGIC ---
+        const riddles = [
+            { q: "What do you call a cute bee who is good at math?", a: "A design-bee-ner! 🐝" },
+            { q: "I have interlocking teeth but cannot chew, I spin round to make systems work for you. What am I?", a: "A mechanical gear! ⚙️" },
+            { q: "Why did Buzzy and Barnaby make the perfect team?", a: "Flawless honeycomb-atibility! 💛" }
+        ];
+        let cIdx = 0;
+        let isFlipped = false;
+
+        function flipCard() {
+            isFlipped = !isFlipped;
+            const front = document.getElementById('card-front');
+            const back = document.getElementById('card-back');
+            const card = document.getElementById('flashcard');
+            
+            if(isFlipped) {
+                front.style.opacity = '0';
+                setTimeout(() => { back.style.opacity = '1'; }, 150);
+                card.style.transform = 'scale(0.95)';
+                setTimeout(() => card.style.transform = 'scale(1)', 150);
+            } else {
+                back.style.opacity = '0';
+                setTimeout(() => { front.style.opacity = '1'; }, 150);
+            }
+        }
+
+        function nextCard(e) {
+            e.stopPropagation(); // prevent flipping
+            cIdx = (cIdx + 1) % riddles.length;
+            
+            // Force face up
+            isFlipped = false;
+            document.getElementById('card-back').style.opacity = '0';
+            document.getElementById('card-front').style.opacity = '0'; // hide briefly
+            
+            setTimeout(() => {
+                document.getElementById('riddle-q').innerText = `"${riddles[cIdx].q}"`;
+                document.getElementById('riddle-a').innerText = riddles[cIdx].a;
+                document.getElementById('card-num').innerText = cIdx + 1;
+                document.getElementById('card-front').style.opacity = '1';
+            }, 200);
+        }
+
+        // --- MODAL LOGIC ---
+        function openModal(title, text, icon) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-body').innerText = text;
+            document.getElementById('modal-icon').className = `fa-solid ${icon}`;
+            
+            const m = document.getElementById('cute-modal');
+            const c = document.getElementById('modal-content');
+            
+            m.classList.remove('hidden');
+            m.classList.add('flex');
+            
+            // Animate in
+            setTimeout(() => {
+                c.classList.remove('scale-95', 'opacity-0');
+                c.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            const m = document.getElementById('cute-modal');
+            const c = document.getElementById('modal-content');
+            
+            c.classList.remove('scale-100', 'opacity-100');
+            c.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                m.classList.add('hidden');
+                m.classList.remove('flex');
+            }, 300);
+        }
+
+        // --- WEB AUDIO SYNTHESIS ---
+        let actx, gainNodes = {}, oscs = {};
+        let synthOn = false;
+
+        function toggleSynth() {
+            synthOn = document.getElementById('synth-toggle').checked;
+            const ctrl = document.getElementById('synth-controls');
+            
+            if(synthOn) {
+                ctrl.classList.remove('opacity-40', 'pointer-events-none');
+                startAudio();
+            } else {
+                ctrl.classList.add('opacity-40', 'pointer-events-none');
+                stopAudio();
+            }
+        }
+
+        function startAudio() {
+            if(!actx) actx = new (window.AudioContext || window.webkitAudioContext)();
+            if(actx.state === 'suspended') actx.resume();
+
+            // Setup Nodes
+            ['wind', 'hum', 'pad'].forEach(k => {
+                gainNodes[k] = actx.createGain();
+                gainNodes[k].gain.value = document.getElementById(`vol-${k}`).value;
+                gainNodes[k].connect(actx.destination);
+            });
+
+            // Wind (Filtered White Noise)
+            const bufSize = actx.sampleRate * 2;
+            const buf = actx.createBuffer(1, bufSize, actx.sampleRate);
+            const data = buf.getChannelData(0);
+            for(let i=0; i<bufSize; i++) data[i] = Math.random() * 2 - 1;
+            oscs.wind = actx.createBufferSource();
+            oscs.wind.buffer = buf;
+            oscs.wind.loop = true;
+            const lowpass = actx.createBiquadFilter();
+            lowpass.type = 'lowpass';
+            lowpass.frequency.value = 400; // soft
+            oscs.wind.connect(lowpass).connect(gainNodes.wind);
+            oscs.wind.start();
+
+            // Hum (Warm saw wave lowpass)
+            oscs.hum = actx.createOscillator();
+            oscs.hum.type = 'triangle';
+            oscs.hum.frequency.value = 150;
+            const humLP = actx.createBiquadFilter();
+            humLP.type = 'lowpass';
+            humLP.frequency.value = 200;
+            oscs.hum.connect(humLP).connect(gainNodes.hum);
+            oscs.hum.start();
+
+            // Pad (Major chord)
+            oscs.pad = [];
+            [261.63, 329.63, 392.00].forEach(f => { // C4, E4, G4
+                let o = actx.createOscillator();
+                o.type = 'sine';
+                o.frequency.value = f;
+                o.connect(gainNodes.pad);
+                o.start();
+                oscs.pad.push(o);
+            });
+        }
+
+        function stopAudio() {
+            if(oscs.wind) oscs.wind.stop();
+            if(oscs.hum) oscs.hum.stop();
+            if(oscs.pad) oscs.pad.forEach(o => o.stop());
+        }
+
+        function updateVol(track, val) {
+            if(gainNodes[track]) {
+                // Smoothing to prevent clicking
+                gainNodes[track].gain.setTargetAtTime(val, actx.currentTime, 0.1);
+            }
+        }
+
+        // Boot
+        window.onload = initDates;
+
+    </script>
+</body>
+</html>
