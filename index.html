@@ -202,6 +202,134 @@
             transition: opacity 0.4s ease, transform 0.4s ease;
             position: relative;
         }
+
+        /* Timeline Activity Styles */
+        .activity-card {
+            border-left: 4px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .activity-card.active {
+            border-left-color: var(--tw-colors-theme-gold);
+            background: rgba(255, 209, 102, 0.05);
+        }
+
+        /* Mini Game Container */
+        .game-container {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* TicTacToe Styles */
+        .tictactoe-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+        .tictactoe-cell {
+            aspect-ratio: 1;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 2rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .tictactoe-cell:hover {
+            background: rgba(255, 209, 102, 0.1);
+            border-color: rgba(255, 209, 102, 0.3);
+        }
+
+        /* Memory Game Styles */
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        .memory-card {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, rgba(255, 209, 102, 0.2), rgba(255, 159, 178, 0.2));
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transform-style: preserve-3d;
+        }
+        .memory-card.flipped {
+            background: rgba(255, 209, 102, 0.15);
+        }
+        .memory-card.matched {
+            opacity: 0.5;
+            cursor: default;
+        }
+
+        /* Countdown Styles */
+        .countdown-display {
+            font-variant-numeric: tabular-nums;
+        }
+
+        .activity-timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .activity-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, rgba(255, 209, 102, 0.5), rgba(255, 159, 178, 0.5));
+        }
+
+        .activity-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .activity-item::before {
+            content: '';
+            position: absolute;
+            left: -44px;
+            top: 1.5rem;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: rgba(255, 209, 102, 0.3);
+            border: 3px solid var(--tw-colors-theme-bg);
+            transition: all 0.3s ease;
+        }
+
+        .activity-item.active::before {
+            left: -47px;
+            width: 20px;
+            height: 20px;
+            background: var(--tw-colors-theme-gold);
+            box-shadow: 0 0 20px rgba(255, 209, 102, 0.6);
+        }
+
+        .activity-item.active {
+            background: rgba(255, 209, 102, 0.08);
+            border-color: rgba(255, 209, 102, 0.3);
+            transform: translateX(8px);
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-theme-gold selection:text-theme-bg pb-20">
@@ -219,11 +347,10 @@
             </div>
             
             <nav class="flex items-center space-x-1 sm:space-x-2 text-sm font-bold text-theme-subtext">
-                <a href="#blueprint" class="px-3 py-1.5 rounded-full hover:text-theme-text hover:bg-white/5 transition-all flex items-center gap-1.5"><i class="fa-solid fa-pen-nib text-theme-gold"></i> <span class="hidden sm:inline">Plans</span></a>
-                <a href="#itinerary" class="px-3 py-1.5 rounded-full hover:text-theme-text hover:bg-white/5 transition-all flex items-center gap-1.5"><i class="fa-solid fa-map text-theme-pink"></i> <span class="hidden sm:inline">Path</span></a>
-                <a href="#menu" class="px-3 py-1.5 rounded-full hover:text-theme-text hover:bg-white/5 transition-all flex items-center gap-1.5"><i class="fa-solid fa-mug-hot text-theme-gold"></i> <span class="hidden sm:inline">Feast</span></a>
-                <a href="#games" class="px-3 py-1.5 rounded-full hover:text-theme-text hover:bg-white/5 transition-all flex items-center gap-1.5"><i class="fa-solid fa-puzzle-piece text-theme-mint"></i> <span class="hidden sm:inline">Play</span></a>
-                <a href="#soundscape" class="px-3 py-1.5 rounded-full hover:text-theme-text hover:bg-white/5 transition-all flex items-center gap-1.5"><i class="fa-solid fa-headphones text-indigo-300"></i> <span class="hidden sm:inline">Tune</span></a>
+                <a href="#countdown" class="px-3 py-1.5 rounded-full hover:text-theme-text hover:bg-white/5 transition-all flex items-center gap-1.5"><i class="fa-solid fa-hourglass-end text-theme-gold"></i> <span class="hidden sm:inline">Timer</span></a>
+                <a href="#schedule" class="px-3 py-1.5 rounded-full hover:text-theme-text hover:bg-white/5 transition-all flex items-center gap-1.5"><i class="fa-solid fa-calendar text-theme-pink"></i> <span class="hidden sm:inline">Schedule</span></a>
+                <a href="#games" class="px-3 py-1.5 rounded-full hover:text-theme-text hover:bg-white/5 transition-all flex items-center gap-1.5"><i class="fa-solid fa-puzzle-piece text-theme-mint"></i> <span class="hidden sm:inline">Games</span></a>
+                <a href="#soundscape" class="px-3 py-1.5 rounded-full hover:text-theme-text hover:bg-white/5 transition-all flex items-center gap-1.5"><i class="fa-solid fa-headphones text-indigo-300"></i> <span class="hidden sm:inline">Mood</span></a>
             </nav>
         </header>
     </div>
@@ -303,7 +430,7 @@
                   <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-theme-gold opacity-75"></span>
                   <span class="relative inline-flex rounded-full h-2 w-2 bg-theme-gold"></span>
                 </span>
-                Syncing Heart Frequencies
+                Syncing Heart Frequencies ✨
             </div>
 
             <h1 class="text-5xl md:text-7xl font-black mb-6 tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white to-theme-subtext drop-shadow-lg">
@@ -311,18 +438,18 @@
             </h1>
             
             <p class="text-theme-subtext max-w-xl mx-auto text-base md:text-lg mb-10 leading-relaxed font-medium">
-                Welcome to the cozy meadow room. A sweet workspace designed to align your schedules, bake golden treats, and share warm moments across the grid.
+                An evening of connection, games, and cozy moments. Dinner, games, Minecraft, and sweet conversations. Let's make tonight unforgettable. 💛
             </p>
             
             <div class="flex flex-col sm:flex-row justify-center gap-4 w-full px-4">
-                <button onclick="scrollToId('blueprint')" class="group relative px-8 py-4 bg-theme-text text-theme-bg rounded-full font-black text-lg overflow-hidden transition-transform hover:scale-105 active:scale-95 shadow-[0_0_40px_rgba(255,209,102,0.3)]">
+                <button onclick="scrollToId('countdown')" class="group relative px-8 py-4 bg-theme-text text-theme-bg rounded-full font-black text-lg overflow-hidden transition-transform hover:scale-105 active:scale-95 shadow-[0_0_40px_rgba(255,209,102,0.3)]">
                     <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-theme-gold via-white to-theme-gold opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     <span class="relative flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-pen-nib"></i> Draft Plan
+                        <i class="fa-solid fa-hourglass-end"></i> Start Countdown
                     </span>
                 </button>
                 <button onclick="spawnLoveSparkles(event)" class="px-8 py-4 glass-panel rounded-full font-bold text-theme-gold hover:bg-white/10 transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-wand-magic-sparkles text-theme-pink"></i> Send Sparkles
+                    <i class="fa-solid fa-wand-magic-sparkles text-theme-pink"></i> Send Love
                 </button>
             </div>
         </div>
@@ -335,23 +462,23 @@
         <div class="lg:col-span-5 flex flex-col gap-6">
             
             <!-- Setup Card -->
-            <section id="blueprint" class="glass-panel rounded-[2rem] p-6 relative overflow-hidden group">
+            <section id="countdown" class="glass-panel rounded-[2rem] p-6 relative overflow-hidden group">
                 <div class="absolute -top-20 -right-20 w-40 h-40 bg-theme-gold blur-[60px] opacity-20 group-hover:opacity-30 transition-opacity"></div>
                 
                 <div class="flex items-center gap-3 mb-6">
                     <div class="w-10 h-10 rounded-2xl bg-white/5 flex items-center justify-center text-theme-gold text-xl shadow-inner border border-white/5">
                         <i class="fa-solid fa-sliders"></i>
                     </div>
-                    <h2 class="text-2xl font-black text-theme-text tracking-tight">Parameters</h2>
+                    <h2 class="text-2xl font-black text-theme-text tracking-tight">Setup</h2>
                 </div>
                 
                 <form id="blueprint-form" oninput="updateBlueprint()" class="space-y-4">
                     <div class="space-y-1.5">
-                        <label class="text-xs font-bold text-theme-subtext uppercase tracking-wider ml-1">You</label>
+                        <label class="text-xs font-bold text-theme-subtext uppercase tracking-wider ml-1">Your Name</label>
                         <input type="text" id="bee-one" value="Buzzy" class="w-full glass-input rounded-2xl py-3 px-4 text-theme-text placeholder-white/30 font-semibold">
                     </div>
                     <div class="space-y-1.5">
-                        <label class="text-xs font-bold text-theme-subtext uppercase tracking-wider ml-1">Her</label>
+                        <label class="text-xs font-bold text-theme-subtext uppercase tracking-wider ml-1">Partner Name</label>
                         <input type="text" id="bee-two" value="Barnaby" class="w-full glass-input rounded-2xl py-3 px-4 text-theme-text placeholder-white/30 font-semibold focus:border-theme-pink focus:shadow-[0_0_0_3px_rgba(255,159,178,0.1)]">
                     </div>
                     <div class="grid grid-cols-2 gap-4">
@@ -360,48 +487,11 @@
                             <input type="date" id="launch-date" class="w-full glass-input rounded-2xl py-3 px-4 text-theme-text font-semibold appearance-none">
                         </div>
                         <div class="space-y-1.5">
-                            <label class="text-xs font-bold text-theme-subtext uppercase tracking-wider ml-1">Time</label>
-                            <input type="time" id="launch-time" value="19:00" class="w-full glass-input rounded-2xl py-3 px-4 text-theme-text font-semibold appearance-none">
+                            <label class="text-xs font-bold text-theme-subtext uppercase tracking-wider ml-1">Start Time</label>
+                            <input type="time" id="launch-time" value="18:45" class="w-full glass-input rounded-2xl py-3 px-4 text-theme-text font-semibold appearance-none">
                         </div>
                     </div>
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-bold text-theme-subtext uppercase tracking-wider ml-1">Portal Link</label>
-                        <input type="url" id="launch-link" placeholder="FaceTime / Zoom URL" class="w-full glass-input rounded-2xl py-3 px-4 text-theme-text placeholder-white/30 font-semibold text-sm">
-                    </div>
                 </form>
-            </section>
-
-            <!-- Adorable Ticket / Pass Output -->
-            <section class="bg-gradient-to-b from-[#FFF5E1] to-[#FFE8B5] rounded-[2rem] p-1 relative overflow-hidden shadow-[0_10px_40px_rgba(255,209,102,0.15)] transform transition-transform hover:scale-[1.02]">
-                <div class="bg-white/40 backdrop-blur-md rounded-[1.8rem] border border-white/60 p-6 text-center text-[#5A3A31] relative h-full flex flex-col">
-                    
-                    <!-- Cute perforated edges effect -->
-                    <div class="absolute top-0 bottom-0 -left-2 w-4 flex flex-col justify-around">
-                        <div class="w-4 h-4 bg-theme-bg rounded-full"></div><div class="w-4 h-4 bg-theme-bg rounded-full"></div><div class="w-4 h-4 bg-theme-bg rounded-full"></div>
-                    </div>
-                    <div class="absolute top-0 bottom-0 -right-2 w-4 flex flex-col justify-around">
-                        <div class="w-4 h-4 bg-theme-bg rounded-full"></div><div class="w-4 h-4 bg-theme-bg rounded-full"></div><div class="w-4 h-4 bg-theme-bg rounded-full"></div>
-                    </div>
-
-                    <div class="mb-4">
-                        <i class="fa-solid fa-ticket text-3xl text-[#E8A844] mb-2 drop-shadow-sm"></i>
-                        <h3 class="font-black text-xl tracking-tight uppercase">Meadow Pass</h3>
-                        <p class="text-xs font-bold opacity-60 tracking-widest uppercase">Admit Two Bears</p>
-                    </div>
-
-                    <div id="blueprint-content" class="bg-white/50 rounded-2xl p-4 flex-grow flex flex-col justify-center space-y-3 font-semibold text-sm border border-white/50 shadow-inner">
-                        <!-- Populated by JS -->
-                    </div>
-
-                    <div class="flex gap-2 mt-4 relative z-10">
-                        <button onclick="copyPass()" class="flex-1 bg-white/80 hover:bg-white text-[#5A3A31] py-3 rounded-xl font-bold transition flex justify-center items-center gap-2 shadow-sm">
-                            <i id="copy-icon" class="fa-regular fa-copy"></i> Copy
-                        </button>
-                        <button onclick="openLink()" class="flex-1 bg-[#E8A844] hover:bg-[#D69632] text-white py-3 rounded-xl font-bold transition flex justify-center items-center gap-2 shadow-sm">
-                            <i class="fa-solid fa-video"></i> Join
-                        </button>
-                    </div>
-                </div>
             </section>
 
             <!-- Modern Soft Countdown -->
@@ -409,226 +499,205 @@
                 <div class="absolute -bottom-20 -left-20 w-40 h-40 bg-theme-pink blur-[60px] opacity-20 group-hover:opacity-30 transition-opacity"></div>
                 
                 <h4 class="text-sm font-bold text-theme-pink uppercase tracking-widest mb-6 flex items-center justify-center gap-2">
-                    <i class="fa-regular fa-clock animate-pulse"></i> Time Until Sync
+                    <i class="fa-regular fa-clock animate-pulse"></i> Time Until Start
                 </h4>
                 
                 <div class="grid grid-cols-4 gap-3">
                     <div class="bg-white/5 border border-white/10 rounded-2xl p-3 backdrop-blur-sm">
-                        <span id="t-days" class="block text-3xl font-black text-theme-text font-mono tracking-tighter">00</span>
+                        <span id="t-days" class="block text-3xl font-black text-theme-text font-mono tracking-tighter countdown-display">00</span>
                         <span class="text-[10px] text-theme-subtext font-bold uppercase mt-1 block">Days</span>
                     </div>
                     <div class="bg-white/5 border border-white/10 rounded-2xl p-3 backdrop-blur-sm">
-                        <span id="t-hours" class="block text-3xl font-black text-theme-text font-mono tracking-tighter">00</span>
+                        <span id="t-hours" class="block text-3xl font-black text-theme-text font-mono tracking-tighter countdown-display">00</span>
                         <span class="text-[10px] text-theme-subtext font-bold uppercase mt-1 block">Hrs</span>
                     </div>
                     <div class="bg-white/5 border border-white/10 rounded-2xl p-3 backdrop-blur-sm">
-                        <span id="t-mins" class="block text-3xl font-black text-theme-text font-mono tracking-tighter">00</span>
+                        <span id="t-mins" class="block text-3xl font-black text-theme-text font-mono tracking-tighter countdown-display">00</span>
                         <span class="text-[10px] text-theme-subtext font-bold uppercase mt-1 block">Min</span>
                     </div>
                     <div class="bg-white/5 border border-white/10 rounded-2xl p-3 backdrop-blur-sm relative overflow-hidden">
                         <div class="absolute inset-0 bg-theme-pink opacity-10"></div>
-                        <span id="t-secs" class="block text-3xl font-black text-theme-pink font-mono tracking-tighter relative z-10">00</span>
+                        <span id="t-secs" class="block text-3xl font-black text-theme-pink font-mono tracking-tighter countdown-display relative z-10">00</span>
                         <span class="text-[10px] text-theme-subtext font-bold uppercase mt-1 block relative z-10">Sec</span>
                     </div>
                 </div>
+            </section>
+
+            <!-- Activity Progress -->
+            <section class="glass-panel rounded-[2rem] p-6 relative overflow-hidden group">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 rounded-2xl bg-theme-mint/20 flex items-center justify-center text-theme-mint text-xl shadow-inner border border-theme-mint/30">
+                        <i class="fa-solid fa-check-circle"></i>
+                    </div>
+                    <h2 class="text-2xl font-black text-theme-text tracking-tight">Progress</h2>
+                </div>
+                
+                <div class="bg-white/5 rounded-2xl p-3 space-y-2 border border-white/5">
+                    <label class="flex items-center gap-3 cursor-pointer p-2 hover:bg-white/5 rounded-xl transition">
+                        <input type="checkbox" onchange="updateProgress()" class="cute-checkbox">
+                        <span class="text-sm font-semibold select-none">Dinner ordered & ready 🍽️</span>
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer p-2 hover:bg-white/5 rounded-xl transition">
+                        <input type="checkbox" onchange="updateProgress()" class="cute-checkbox">
+                        <span class="text-sm font-semibold select-none">Amazon Prime cued up 🎬</span>
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer p-2 hover:bg-white/5 rounded-xl transition">
+                        <input type="checkbox" onchange="updateProgress()" class="cute-checkbox">
+                        <span class="text-sm font-semibold select-none">Games downloaded 🎮</span>
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer p-2 hover:bg-white/5 rounded-xl transition">
+                        <input type="checkbox" onchange="updateProgress()" class="cute-checkbox">
+                        <span class="text-sm font-semibold select-none">Camera/Minecraft ready 📹</span>
+                    </label>
+                </div>
+                
+                <div class="mt-4 w-full bg-white/5 rounded-full h-2 overflow-hidden border border-white/10">
+                    <div id="progress-bar" class="h-full bg-gradient-to-r from-theme-gold to-theme-pink w-0 transition-all duration-500"></div>
+                </div>
+                <p class="text-xs font-bold text-theme-gold mt-2" id="progress-text">0% Ready</p>
             </section>
         </div>
 
         <!-- RIGHT COLUMN -->
         <div class="lg:col-span-7 flex flex-col gap-6">
             
-            <!-- Soft Timeline Itinerary -->
-            <section id="itinerary" class="glass-panel rounded-[2rem] p-6 relative">
-                <div class="flex justify-between items-center mb-8">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-2xl bg-theme-pink/20 flex items-center justify-center text-theme-pink text-xl shadow-inner border border-theme-pink/30">
-                            <i class="fa-solid fa-map-location-dot"></i>
-                        </div>
-                        <h2 class="text-2xl font-black text-theme-text tracking-tight">The Path</h2>
+            <!-- Timeline Schedule -->
+            <section id="schedule" class="glass-panel rounded-[2rem] p-6 relative">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="w-10 h-10 rounded-2xl bg-theme-pink/20 flex items-center justify-center text-theme-pink text-xl shadow-inner border border-theme-pink/30">
+                        <i class="fa-solid fa-map-location-dot"></i>
                     </div>
-                    <div class="bg-white/5 px-4 py-2 rounded-full border border-white/10">
-                        <span class="text-xs font-bold text-theme-gold" id="progress-text">0% Ready</span>
-                    </div>
+                    <h2 class="text-2xl font-black text-theme-text tracking-tight">Tonight's Journey</h2>
                 </div>
 
-                <div class="relative ml-4 border-l-2 border-white/10 space-y-8 pb-4">
-                    
-                    <!-- Node 1 -->
-                    <div class="relative pl-6">
-                        <div class="absolute -left-[11px] top-1 w-5 h-5 rounded-full bg-theme-bg border-[4px] border-theme-gold transition-transform hover:scale-125 z-10 shadow-[0_0_10px_rgba(255,209,102,0.4)]"></div>
-                        <h3 class="text-lg font-bold text-theme-text mb-1">1. Liquid Fuel</h3>
-                        <p class="text-sm text-theme-subtext mb-4 leading-relaxed">Settle in, boot up the cameras, and prepare a cozy drink. Clink mugs through the screen!</p>
-                        <div class="bg-white/5 rounded-2xl p-3 space-y-2 border border-white/5">
-                            <label class="flex items-center gap-3 cursor-pointer p-2 hover:bg-white/5 rounded-xl transition">
-                                <input type="checkbox" onchange="updateProgress()" class="cute-checkbox">
-                                <span class="text-sm font-semibold select-none">Camera coordinates aligned</span>
-                            </label>
-                            <label class="flex items-center gap-3 cursor-pointer p-2 hover:bg-white/5 rounded-xl transition">
-                                <input type="checkbox" onchange="updateProgress()" class="cute-checkbox">
-                                <span class="text-sm font-semibold select-none">Virtual cheers complete ☕️</span>
-                            </label>
-                        </div>
+                <div class="activity-timeline space-y-1">
+                    <!-- Activity 1: Dinner & Show -->
+                    <div class="activity-item active" data-time="6:45pm">
+                        <h3 class="text-lg font-bold text-theme-text mb-2">🍽️ Dinner & Prime Time</h3>
+                        <p class="text-sm text-theme-subtext mb-3">6:45 PM - 8:00 PM</p>
+                        <p class="text-sm text-white leading-relaxed">Order your favorite dinner and settle in for a great show on Amazon Prime. Get cozy together and enjoy some quality time!</p>
                     </div>
 
-                    <!-- Node 2 -->
-                    <div class="relative pl-6">
-                        <div class="absolute -left-[11px] top-1 w-5 h-5 rounded-full bg-theme-bg border-[4px] border-theme-pink transition-transform hover:scale-125 z-10 shadow-[0_0_10px_rgba(255,159,178,0.4)]"></div>
-                        <h3 class="text-lg font-bold text-theme-text mb-1">2. Sweet Assembly</h3>
-                        <p class="text-sm text-theme-subtext mb-4 leading-relaxed">Cook side-by-side using the scalable meadow recipes below.</p>
-                        <div class="bg-white/5 rounded-2xl p-3 space-y-2 border border-white/5">
-                            <label class="flex items-center gap-3 cursor-pointer p-2 hover:bg-white/5 rounded-xl transition">
-                                <input type="checkbox" onchange="updateProgress()" class="cute-checkbox">
-                                <span class="text-sm font-semibold select-none">Ingredients prepped together</span>
-                            </label>
-                            <label class="flex items-center gap-3 cursor-pointer p-2 hover:bg-white/5 rounded-xl transition">
-                                <input type="checkbox" onchange="updateProgress()" class="cute-checkbox">
-                                <span class="text-sm font-semibold select-none">First bite synchronized 🍯</span>
-                            </label>
-                        </div>
+                    <!-- Activity 2: Break & Games -->
+                    <div class="activity-item" data-time="8:00pm">
+                        <h3 class="text-lg font-bold text-theme-text mb-2">☕ Break & Snack Time</h3>
+                        <p class="text-sm text-theme-subtext mb-3">8:00 PM - 8:15 PM</p>
+                        <p class="text-sm text-white leading-relaxed">Stretch, grab some snacks, and chat. Then jump into a few rounds of Plato or board games on Crazy Games.</p>
                     </div>
 
-                    <!-- Node 3 -->
-                    <div class="relative pl-6">
-                        <div class="absolute -left-[11px] top-1 w-5 h-5 rounded-full bg-theme-bg border-[4px] border-theme-mint transition-transform hover:scale-125 z-10 shadow-[0_0_10px_rgba(168,218,220,0.4)]"></div>
-                        <h3 class="text-lg font-bold text-theme-text mb-1">3. Cozy Logic</h3>
-                        <p class="text-sm text-theme-subtext mb-4 leading-relaxed">Solve the cute riddles and enjoy the ambient soundscape.</p>
-                        <div class="bg-white/5 rounded-2xl p-3 space-y-2 border border-white/5">
-                            <label class="flex items-center gap-3 cursor-pointer p-2 hover:bg-white/5 rounded-xl transition">
-                                <input type="checkbox" onchange="updateProgress()" class="cute-checkbox">
-                                <span class="text-sm font-semibold select-none">Passed the riddle audit 🧠</span>
-                            </label>
-                        </div>
+                    <!-- Activity 3: Minecraft -->
+                    <div class="activity-item" data-time="8:15pm">
+                        <h3 class="text-lg font-bold text-theme-text mb-2">⛏️ Minecraft Adventure</h3>
+                        <p class="text-sm text-theme-subtext mb-3">8:15 PM - 9:00 PM</p>
+                        <p class="text-sm text-white leading-relaxed">Build together, explore, and create something amazing in the world. No pressure, just fun and creativity!</p>
+                    </div>
+
+                    <!-- Activity 4: Second Break -->
+                    <div class="activity-item" data-time="9:00pm">
+                        <h3 class="text-lg font-bold text-theme-text mb-2">🌙 Wind Down Break</h3>
+                        <p class="text-sm text-theme-subtext mb-3">9:00 PM - 9:15 PM</p>
+                        <p class="text-sm text-white leading-relaxed">Take a breather, grab water, and switch gears for the final activities.</p>
+                    </div>
+
+                    <!-- Activity 5: Trivia -->
+                    <div class="activity-item" data-time="9:15pm">
+                        <h3 class="text-lg font-bold text-theme-text mb-2">🧠 Trivia Party</h3>
+                        <p class="text-sm text-theme-subtext mb-3">9:15 PM - 9:45 PM</p>
+                        <p class="text-sm text-white leading-relaxed">Test your knowledge and have fun with interactive trivia. Compete, laugh, and celebrate your wins!</p>
+                    </div>
+
+                    <!-- Activity 6: FaceTime & Reading -->
+                    <div class="activity-item" data-time="9:45pm">
+                        <h3 class="text-lg font-bold text-theme-text mb-2">📱 FaceTime & Reading</h3>
+                        <p class="text-sm text-theme-subtext mb-3">9:45 PM - 10:30 PM</p>
+                        <p class="text-sm text-white leading-relaxed">Wind down with a cozy FaceTime call. Share some favorite stories, read together, or just enjoy the quiet moments.</p>
                     </div>
                 </div>
             </section>
 
-            <!-- Bento Menu & Recipe Scaler -->
-            <section id="menu" class="glass-panel rounded-[2rem] p-6">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-2xl bg-theme-gold/20 flex items-center justify-center text-theme-gold text-xl shadow-inner border border-theme-gold/30">
-                            <i class="fa-solid fa-jar-wheat"></i>
-                        </div>
-                        <h2 class="text-2xl font-black text-theme-text tracking-tight">The Pantry</h2>
-                    </div>
-                    
-                    <!-- Minimalist Slider -->
-                    <div class="bg-white/5 p-2 rounded-2xl border border-white/10 flex items-center gap-4 w-full sm:w-auto">
-                        <i class="fa-solid fa-user text-theme-subtext text-xs ml-2"></i>
-                        <input type="range" id="portions" min="1" max="4" value="2" oninput="scaleRecipe()" class="w-24 accent-theme-gold">
-                        <div class="bg-black/30 px-3 py-1 rounded-xl text-xs font-bold text-theme-gold w-16 text-center">
-                            <span id="portion-val">2</span> p
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Apple-style Segmented Control -->
-                <div class="segmented-control flex gap-1 mb-6">
-                    <button onclick="showRecipe('pizza')" id="btn-pizza" class="segmented-btn active flex-1 py-2 text-sm font-bold text-theme-subtext">Flatbread</button>
-                    <button onclick="showRecipe('soup')" id="btn-soup" class="segmented-btn flex-1 py-2 text-sm font-bold text-theme-subtext">Soup</button>
-                    <button onclick="showRecipe('cookies')" id="btn-cookies" class="segmented-btn flex-1 py-2 text-sm font-bold text-theme-subtext">Cookies</button>
-                </div>
-
-                <!-- Recipe Display Box -->
-                <div class="bg-black/20 rounded-[1.5rem] p-5 border border-white/5 min-h-[220px] relative overflow-hidden">
-                    
-                    <!-- Recipe 1 -->
-                    <div id="rec-pizza" class="fade-enter h-full flex flex-col">
-                        <h3 class="text-lg font-bold text-white mb-1">Honeycomb Flatbread</h3>
-                        <p class="text-xs text-theme-subtext mb-4">Goat cheese, fig, and a heavy drizzle of golden honey on a crispy base.</p>
-                        <ul class="space-y-3 flex-grow text-sm font-medium">
-                            <li class="flex justify-between items-center border-b border-white/5 pb-2">
-                                <span class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-theme-gold"></div>Flatbread bases</span>
-                                <span class="font-bold text-theme-gold bg-theme-gold/10 px-2 py-0.5 rounded-md" data-amt="1" data-unit="pcs">2 pcs</span>
-                            </li>
-                            <li class="flex justify-between items-center border-b border-white/5 pb-2">
-                                <span class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-theme-gold"></div>Goat Cheese</span>
-                                <span class="font-bold text-theme-gold bg-theme-gold/10 px-2 py-0.5 rounded-md" data-amt="0.5" data-unit="cup">1 cup</span>
-                            </li>
-                            <li class="flex justify-between items-center border-b border-white/5 pb-2">
-                                <span class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-theme-gold"></div>Raw Honey</span>
-                                <span class="font-bold text-theme-gold bg-theme-gold/10 px-2 py-0.5 rounded-md" data-amt="2" data-unit="tbsp">4 tbsp</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Recipe 2 -->
-                    <div id="rec-soup" class="fade-hidden h-full flex flex-col absolute inset-0 p-5">
-                        <h3 class="text-lg font-bold text-white mb-1">Amber Butternut Soup</h3>
-                        <p class="text-xs text-theme-subtext mb-4">Warm, comforting, blended with coconut milk and roasted seeds.</p>
-                        <ul class="space-y-3 flex-grow text-sm font-medium">
-                            <li class="flex justify-between items-center border-b border-white/5 pb-2">
-                                <span class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-theme-gold"></div>Squash chunks</span>
-                                <span class="font-bold text-theme-gold bg-theme-gold/10 px-2 py-0.5 rounded-md" data-amt="1.5" data-unit="cups">3 cups</span>
-                            </li>
-                            <li class="flex justify-between items-center border-b border-white/5 pb-2">
-                                <span class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-theme-gold"></div>Coconut Milk</span>
-                                <span class="font-bold text-theme-gold bg-theme-gold/10 px-2 py-0.5 rounded-md" data-amt="0.5" data-unit="can">1 can</span>
-                            </li>
-                            <li class="flex justify-between items-center border-b border-white/5 pb-2">
-                                <span class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-theme-gold"></div>Nutmeg</span>
-                                <span class="font-bold text-theme-gold bg-theme-gold/10 px-2 py-0.5 rounded-md" data-amt="1" data-unit="tsp">2 tsp</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Recipe 3 -->
-                    <div id="rec-cookies" class="fade-hidden h-full flex flex-col absolute inset-0 p-5">
-                        <h3 class="text-lg font-bold text-white mb-1">Gear Shortbread</h3>
-                        <p class="text-xs text-theme-subtext mb-4">Buttery maple cookies stamped into interlocking gear shapes.</p>
-                        <ul class="space-y-3 flex-grow text-sm font-medium">
-                            <li class="flex justify-between items-center border-b border-white/5 pb-2">
-                                <span class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-theme-gold"></div>Butter</span>
-                                <span class="font-bold text-theme-gold bg-theme-gold/10 px-2 py-0.5 rounded-md" data-amt="0.5" data-unit="cup">1 cup</span>
-                            </li>
-                            <li class="flex justify-between items-center border-b border-white/5 pb-2">
-                                <span class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-theme-gold"></div>Pastry Flour</span>
-                                <span class="font-bold text-theme-gold bg-theme-gold/10 px-2 py-0.5 rounded-md" data-amt="1" data-unit="cup">2 cup</span>
-                            </li>
-                            <li class="flex justify-between items-center border-b border-white/5 pb-2">
-                                <span class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-theme-gold"></div>Sugar Sand</span>
-                                <span class="font-bold text-theme-gold bg-theme-gold/10 px-2 py-0.5 rounded-md" data-amt="1" data-unit="tbsp">2 tbsp</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Flashcard Riddles -->
+            <!-- Mini Games Section -->
             <section id="games" class="glass-panel rounded-[2rem] p-6 group">
                 <div class="flex items-center gap-3 mb-6">
                     <div class="w-10 h-10 rounded-2xl bg-theme-mint/20 flex items-center justify-center text-theme-mint text-xl shadow-inner border border-theme-mint/30">
-                        <i class="fa-solid fa-brain"></i>
+                        <i class="fa-solid fa-gamepad"></i>
                     </div>
-                    <h2 class="text-2xl font-black text-theme-text tracking-tight">Audit Cards</h2>
+                    <h2 class="text-2xl font-black text-theme-text tracking-tight">Cozy Games</h2>
                 </div>
 
-                <div class="perspective-1000">
-                    <div id="flashcard" class="bg-gradient-to-br from-white/10 to-white/5 border border-white/10 rounded-[1.5rem] p-8 text-center min-h-[160px] flex flex-col justify-center items-center cursor-pointer transition-all duration-500 hover:bg-white/15 hover:shadow-lg relative overflow-hidden" onclick="flipCard()">
-                        
-                        <!-- Front of card -->
-                        <div id="card-front" class="absolute inset-0 p-8 flex flex-col justify-center items-center transition-opacity duration-300">
-                            <span class="text-[10px] font-bold uppercase tracking-widest text-theme-mint bg-theme-mint/10 px-3 py-1 rounded-full mb-4">Tap to Flip</span>
-                            <p id="riddle-q" class="text-lg font-bold leading-snug italic text-white">"What do you call a cute bee who is good at math?"</p>
-                        </div>
-                        
-                        <!-- Back of card -->
-                        <div id="card-back" class="absolute inset-0 p-8 flex flex-col justify-center items-center opacity-0 transition-opacity duration-300 bg-theme-gold/10">
-                            <i class="fa-solid fa-check-circle text-theme-gold text-2xl mb-3"></i>
-                            <p id="riddle-a" class="text-xl font-black text-theme-gold">A design-bee-ner! 🐝</p>
+                <!-- Game Selector -->
+                <div class="segmented-control flex gap-1 mb-6">
+                    <button onclick="showGame('tictactoe')" id="btn-tictactoe" class="segmented-btn active flex-1 py-2 text-sm font-bold text-theme-subtext">Tic Tac Toe</button>
+                    <button onclick="showGame('memory')" id="btn-memory" class="segmented-btn flex-1 py-2 text-sm font-bold text-theme-subtext">Memory</button>
+                    <button onclick="showGame('resources')" id="btn-resources" class="segmented-btn flex-1 py-2 text-sm font-bold text-theme-subtext">Links</button>
+                </div>
+
+                <!-- Tic Tac Toe Game -->
+                <div id="game-tictactoe" class="fade-enter">
+                    <div class="game-container">
+                        <div>
+                            <div class="tictactoe-board mb-4" id="tictactoe-board"></div>
+                            <p class="text-center text-sm text-theme-subtext mb-4">Turn: <span id="ttt-turn" class="text-theme-gold font-bold">X (You)</span></p>
+                            <button onclick="resetTicTacToe()" class="w-full py-3 bg-white/10 hover:bg-white/20 rounded-xl font-bold text-theme-gold transition">Reset Game</button>
                         </div>
                     </div>
                 </div>
-                
-                <div class="flex justify-between items-center mt-4 px-2">
-                    <p class="text-xs font-bold text-theme-subtext">Card <span id="card-num">1</span> of 3</p>
-                    <button onclick="nextCard(event)" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors">
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </button>
+
+                <!-- Memory Game -->
+                <div id="game-memory" class="fade-hidden absolute inset-0 p-6">
+                    <div class="game-container">
+                        <div>
+                            <div class="memory-grid" id="memory-grid"></div>
+                            <p class="text-center text-sm text-theme-subtext mt-4 mb-4">Matches: <span id="memory-matches" class="text-theme-gold font-bold">0</span>/8</p>
+                            <button onclick="resetMemory()" class="w-full py-3 bg-white/10 hover:bg-white/20 rounded-xl font-bold text-theme-gold transition">Reset Game</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resource Links -->
+                <div id="game-resources" class="fade-hidden absolute inset-0 p-6">
+                    <div class="space-y-3">
+                        <p class="text-sm text-theme-subtext mb-4">Check out these awesome games & resources:</p>
+                        <a href="https://www.crazygames.com/c/board" target="_blank" class="block p-4 bg-white/10 hover:bg-white/20 rounded-xl transition border border-white/10">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h4 class="font-bold text-theme-gold">🎲 Crazy Games - Board</h4>
+                                    <p class="text-xs text-theme-subtext">Plato, Chess, Checkers & More</p>
+                                </div>
+                                <i class="fa-solid fa-arrow-up-right text-theme-gold"></i>
+                            </div>
+                        </a>
+                        <a href="https://www.minecraft.net/" target="_blank" class="block p-4 bg-white/10 hover:bg-white/20 rounded-xl transition border border-white/10">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h4 class="font-bold text-theme-gold">⛏️ Minecraft</h4>
+                                    <p class="text-xs text-theme-subtext">Build & explore together</p>
+                                </div>
+                                <i class="fa-solid fa-arrow-up-right text-theme-gold"></i>
+                            </div>
+                        </a>
+                        <a href="https://www.sporcle.com/" target="_blank" class="block p-4 bg-white/10 hover:bg-white/20 rounded-xl transition border border-white/10">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h4 class="font-bold text-theme-gold">🧠 Sporcle - Trivia</h4>
+                                    <p class="text-xs text-theme-subtext">Hundreds of trivia quizzes</p>
+                                </div>
+                                <i class="fa-solid fa-arrow-up-right text-theme-gold"></i>
+                            </div>
+                        </a>
+                        <a href="https://www.primevideo.com/" target="_blank" class="block p-4 bg-white/10 hover:bg-white/20 rounded-xl transition border border-white/10">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h4 class="font-bold text-theme-gold">🎬 Amazon Prime Video</h4>
+                                    <p class="text-xs text-theme-subtext">Find something great to watch</p>
+                                </div>
+                                <i class="fa-solid fa-arrow-up-right text-theme-gold"></i>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </section>
 
-            <!-- Gorgeous Synth Deck -->
+            <!-- Ambience Section -->
             <section id="soundscape" class="glass-panel rounded-[2rem] p-6 relative overflow-hidden">
                 <!-- Inner soft gradient -->
                 <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/20 pointer-events-none rounded-[2rem]"></div>
@@ -696,7 +765,7 @@
 
     <!-- Soft Footer -->
     <footer class="mt-24 text-center pb-8 relative z-10">
-        <p class="text-xs font-bold text-theme-subtext/50 uppercase tracking-widest">Designed with ♥ for cozy dates</p>
+        <p class="text-xs font-bold text-theme-subtext/50 uppercase tracking-widest">Made with ♥ for a special night</p>
     </footer>
 
     <script>
@@ -707,13 +776,12 @@
 
         // Generate beautiful floating sparkles
         function spawnLoveSparkles(e) {
-            const icons = ['✨', '💛', '🌸', '🐝'];
+            const icons = ['✨', '💛', '🌸', '🐝', '💕', '🌹'];
             for(let i=0; i<8; i++) {
                 let el = document.createElement('div');
                 el.innerText = icons[Math.floor(Math.random() * icons.length)];
                 el.className = 'sparkle-anim absolute text-2xl';
                 
-                // Position near button or center screen
                 let x = e ? e.clientX : window.innerWidth/2;
                 let y = e ? e.clientY : window.innerHeight/2;
                 
@@ -726,7 +794,7 @@
             }
         }
 
-        // --- BLUEPRINT & TIMER LOGIC ---
+        // --- TIMER LOGIC ---
         let targetDate = new Date();
 
         function initDates() {
@@ -735,6 +803,9 @@
             document.getElementById('launch-date').valueAsDate = tmr;
             updateBlueprint();
             setInterval(updateTimer, 1000);
+            initTicTacToe();
+            initMemory();
+            updateActivityTimeline();
         }
 
         function updateBlueprint() {
@@ -744,23 +815,6 @@
             const t = document.getElementById('launch-time').value;
             
             if(d && t) targetDate = new Date(`${d}T${t}`);
-
-            const niceDate = new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-
-            document.getElementById('blueprint-content').innerHTML = `
-                <div class="flex justify-between border-b border-black/10 pb-2">
-                    <span class="opacity-60 uppercase text-[10px] tracking-widest">Guest 1</span>
-                    <span class="text-[#D69632]">${b1}</span>
-                </div>
-                <div class="flex justify-between border-b border-black/10 pb-2">
-                    <span class="opacity-60 uppercase text-[10px] tracking-widest">Guest 2</span>
-                    <span class="text-[#D69632]">${b2}</span>
-                </div>
-                <div class="flex justify-between pt-1">
-                    <span class="opacity-60 uppercase text-[10px] tracking-widest">When</span>
-                    <span>${niceDate} @ ${t}</span>
-                </div>
-            `;
         }
 
         function updateTimer() {
@@ -772,6 +826,7 @@
                 document.getElementById('t-hours').innerText = "00";
                 document.getElementById('t-mins').innerText = "00";
                 document.getElementById('t-secs').innerText = "00";
+                openModal("It's Time! 🎉", "The date night has begun! Have an amazing time together! 💛", "fa-heart");
                 return;
             }
 
@@ -786,124 +841,168 @@
             document.getElementById('t-secs').innerText = s.toString().padStart(2, '0');
         }
 
-        function copyPass() {
-            const d = document.getElementById('blueprint-content').innerText;
-            const link = document.getElementById('launch-link').value || 'Link to follow.';
-            const txt = `🎟 Meadow Pass 🎟\n\n${d}\n\nJoin here: ${link}`;
+        function updateActivityTimeline() {
+            const now = new Date();
+            const items = document.querySelectorAll('.activity-item');
             
-            const area = document.createElement('textarea');
-            area.value = txt;
-            document.body.appendChild(area);
-            area.select();
-            document.execCommand('copy');
-            area.remove();
-
-            document.getElementById('copy-icon').className = "fa-solid fa-check text-green-600";
-            openModal("Pass Copied!", "Send this cute ticket to her messages!", "fa-ticket");
-            setTimeout(() => document.getElementById('copy-icon').className = "fa-regular fa-copy", 2000);
+            items.forEach((item, idx) => {
+                item.classList.remove('active');
+            });
+            
+            items[0].classList.add('active');
         }
 
-        function openLink() {
-            const l = document.getElementById('launch-link').value;
-            if(l) window.open(l, '_blank');
-            else openModal("Oops!", "Please enter a meeting link in the parameters first.", "fa-link");
-        }
-
-        // --- UI STATE LOGIC ---
         function updateProgress() {
-            const boxes = document.querySelectorAll('.cute-checkbox');
+            const allBoxes = document.querySelectorAll('.cute-checkbox');
             let checked = 0;
-            boxes.forEach(b => { if(b.checked) checked++; });
-            const pct = Math.round((checked / boxes.length) * 100);
+            allBoxes.forEach(b => { if(b.checked) checked++; });
+            const pct = Math.round((checked / allBoxes.length) * 100);
             
             const txt = document.getElementById('progress-text');
+            const bar = document.getElementById('progress-bar');
             txt.innerText = `${pct}% Ready`;
+            bar.style.width = `${pct}%`;
             
             if(pct === 100) {
                 txt.className = "text-xs font-black text-theme-pink animate-pulse";
                 spawnLoveSparkles();
-                setTimeout(() => openModal("Perfect!", "All steps complete. Enjoy your date night! 💛", "fa-star"), 500);
+                setTimeout(() => openModal("Perfect! 🎉", "Everything is ready! Get excited for tonight! 💛", "fa-star"), 500);
             } else {
                 txt.className = "text-xs font-bold text-theme-gold";
             }
         }
 
-        // Segemented Control logic
-        function showRecipe(id) {
-            // Update buttons
-            ['pizza', 'soup', 'cookies'].forEach(i => {
-                document.getElementById(`btn-${i}`).classList.remove('active');
-                let rec = document.getElementById(`rec-${i}`);
-                rec.classList.remove('fade-enter');
-                rec.classList.add('fade-hidden');
+        // --- GAME: TIC TAC TOE ---
+        let tttBoard = ['', '', '', '', '', '', '', '', ''];
+        let tttIsXNext = true;
+
+        function initTicTacToe() {
+            const board = document.getElementById('tictactoe-board');
+            board.innerHTML = '';
+            tttBoard.forEach((cell, idx) => {
+                const div = document.createElement('div');
+                div.className = 'tictactoe-cell';
+                div.innerText = cell;
+                div.onclick = () => playTicTacToe(idx);
+                board.appendChild(div);
             });
-            
-            document.getElementById(`btn-${id}`).classList.add('active');
-            let target = document.getElementById(`rec-${id}`);
-            target.classList.remove('fade-hidden');
-            
-            // Tiny delay to allow display:block to apply before opacity transition
-            setTimeout(() => target.classList.add('fade-enter'), 10);
+            updateTTTStatus();
         }
 
-        function scaleRecipe() {
-            const scale = document.getElementById('portions').value;
-            document.getElementById('portion-val').innerText = scale;
-            
-            // Math magic
-            const mult = scale / 2; // base is 2
-            
-            document.querySelectorAll('[data-amt]').forEach(el => {
-                const base = parseFloat(el.getAttribute('data-amt'));
-                const unit = el.getAttribute('data-unit');
-                let final = base * mult;
-                // Format nice numbers (e.g. no 1.50000001)
-                final = Number.isInteger(final) ? final : final.toFixed(1).replace('.0','');
-                el.innerText = `${final} ${unit}`;
-            });
+        function playTicTacToe(idx) {
+            if(tttBoard[idx] || checkTTTWinner()) return;
+            tttBoard[idx] = tttIsXNext ? 'X' : 'O';
+            tttIsXNext = !tttIsXNext;
+            initTicTacToe();
         }
 
-        // --- FLASHCARD LOGIC ---
-        const riddles = [
-            { q: "What do you call a cute bee who is good at math?", a: "A design-bee-ner! 🐝" },
-            { q: "I have interlocking teeth but cannot chew, I spin round to make systems work for you. What am I?", a: "A mechanical gear! ⚙️" },
-            { q: "Why did Buzzy and Barnaby make the perfect team?", a: "Flawless honeycomb-atibility! 💛" }
-        ];
-        let cIdx = 0;
-        let isFlipped = false;
+        function checkTTTWinner() {
+            const lines = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8],
+                [0, 3, 6], [1, 4, 7], [2, 5, 8],
+                [0, 4, 8], [2, 4, 6]
+            ];
+            for(let line of lines) {
+                if(tttBoard[line[0]] && tttBoard[line[0]] === tttBoard[line[1]] && tttBoard[line[1]] === tttBoard[line[2]]) {
+                    return tttBoard[line[0]];
+                }
+            }
+            return null;
+        }
 
-        function flipCard() {
-            isFlipped = !isFlipped;
-            const front = document.getElementById('card-front');
-            const back = document.getElementById('card-back');
-            const card = document.getElementById('flashcard');
-            
-            if(isFlipped) {
-                front.style.opacity = '0';
-                setTimeout(() => { back.style.opacity = '1'; }, 150);
-                card.style.transform = 'scale(0.95)';
-                setTimeout(() => card.style.transform = 'scale(1)', 150);
+        function updateTTTStatus() {
+            const winner = checkTTTWinner();
+            const turn = document.getElementById('ttt-turn');
+            if(winner) {
+                turn.innerText = `🎉 ${winner} Wins!`;
+                turn.className = "text-theme-pink font-bold";
             } else {
-                back.style.opacity = '0';
-                setTimeout(() => { front.style.opacity = '1'; }, 150);
+                turn.innerText = tttIsXNext ? "X (You)" : "O (Them)";
+                turn.className = "text-theme-gold font-bold";
             }
         }
 
-        function nextCard(e) {
-            e.stopPropagation(); // prevent flipping
-            cIdx = (cIdx + 1) % riddles.length;
+        function resetTicTacToe() {
+            tttBoard = ['', '', '', '', '', '', '', '', ''];
+            tttIsXNext = true;
+            initTicTacToe();
+        }
+
+        // --- GAME: MEMORY ---
+        const memoryEmojis = ['🍰', '🐝', '💛', '🌹', '🍰', '🐝', '💛', '🌹'];
+        let memoryCards = [];
+        let memoryFlipped = [];
+        let memoryMatched = 0;
+        let memoryLocked = false;
+
+        function initMemory() {
+            memoryCards = [...memoryEmojis].sort(() => Math.random() - 0.5);
+            memoryFlipped = new Array(8).fill(false);
+            memoryMatched = 0;
+            memoryLocked = false;
+            renderMemory();
+        }
+
+        function renderMemory() {
+            const grid = document.getElementById('memory-grid');
+            grid.innerHTML = '';
+            memoryCards.forEach((emoji, idx) => {
+                const card = document.createElement('div');
+                card.className = 'memory-card' + (memoryFlipped[idx] ? ' flipped' : '') + (memoryCards.filter((e, i) => (memoryFlipped[i] && e === emoji)).length === 2 ? ' matched' : '');
+                card.innerText = memoryFlipped[idx] ? emoji : '?';
+                card.onclick = () => flipMemoryCard(idx);
+                grid.appendChild(card);
+            });
+            document.getElementById('memory-matches').innerText = memoryMatched;
+        }
+
+        function flipMemoryCard(idx) {
+            if(memoryLocked || memoryFlipped[idx] || memoryCards.filter((e, i) => (memoryFlipped[i] && e === memoryCards[idx])).length === 2) return;
             
-            // Force face up
-            isFlipped = false;
-            document.getElementById('card-back').style.opacity = '0';
-            document.getElementById('card-front').style.opacity = '0'; // hide briefly
+            memoryFlipped[idx] = true;
+            renderMemory();
             
-            setTimeout(() => {
-                document.getElementById('riddle-q').innerText = `"${riddles[cIdx].q}"`;
-                document.getElementById('riddle-a').innerText = riddles[cIdx].a;
-                document.getElementById('card-num').innerText = cIdx + 1;
-                document.getElementById('card-front').style.opacity = '1';
-            }, 200);
+            const flippedCount = memoryFlipped.filter(f => f).length;
+            if(flippedCount === 2) {
+                memoryLocked = true;
+                const indices = memoryFlipped.map((f, i) => f ? i : -1).filter(i => i !== -1);
+                if(memoryCards[indices[0]] === memoryCards[indices[1]]) {
+                    memoryMatched++;
+                    memoryLocked = false;
+                    renderMemory();
+                    if(memoryMatched === 4) {
+                        setTimeout(() => openModal("You Won! 🎉", "Great memory! You matched all pairs!", "fa-star"), 300);
+                    }
+                } else {
+                    setTimeout(() => {
+                        memoryFlipped[indices[0]] = false;
+                        memoryFlipped[indices[1]] = false;
+                        memoryLocked = false;
+                        renderMemory();
+                    }, 1000);
+                }
+            }
+        }
+
+        function resetMemory() {
+            initMemory();
+        }
+
+        // --- GAME TABS ---
+        function showGame(id) {
+            ['tictactoe', 'memory', 'resources'].forEach(i => {
+                document.getElementById(`btn-${i}`).classList.remove('active');
+                let game = document.getElementById(`game-${i}`);
+                game.classList.remove('fade-enter');
+                game.classList.add('fade-hidden');
+            });
+            
+            document.getElementById(`btn-${id}`).classList.add('active');
+            let target = document.getElementById(`game-${id}`);
+            target.classList.remove('fade-hidden');
+            target.classList.remove('absolute');
+            
+            setTimeout(() => target.classList.add('fade-enter'), 10);
         }
 
         // --- MODAL LOGIC ---
@@ -918,7 +1017,6 @@
             m.classList.remove('hidden');
             m.classList.add('flex');
             
-            // Animate in
             setTimeout(() => {
                 c.classList.remove('scale-95', 'opacity-0');
                 c.classList.add('scale-100', 'opacity-100');
@@ -959,7 +1057,6 @@
             if(!actx) actx = new (window.AudioContext || window.webkitAudioContext)();
             if(actx.state === 'suspended') actx.resume();
 
-            // Setup Nodes
             ['wind', 'hum', 'pad'].forEach(k => {
                 gainNodes[k] = actx.createGain();
                 gainNodes[k].gain.value = document.getElementById(`vol-${k}`).value;
@@ -976,11 +1073,11 @@
             oscs.wind.loop = true;
             const lowpass = actx.createBiquadFilter();
             lowpass.type = 'lowpass';
-            lowpass.frequency.value = 400; // soft
+            lowpass.frequency.value = 400;
             oscs.wind.connect(lowpass).connect(gainNodes.wind);
             oscs.wind.start();
 
-            // Hum (Warm saw wave lowpass)
+            // Hum (Warm triangle wave)
             oscs.hum = actx.createOscillator();
             oscs.hum.type = 'triangle';
             oscs.hum.frequency.value = 150;
@@ -992,7 +1089,7 @@
 
             // Pad (Major chord)
             oscs.pad = [];
-            [261.63, 329.63, 392.00].forEach(f => { // C4, E4, G4
+            [261.63, 329.63, 392.00].forEach(f => {
                 let o = actx.createOscillator();
                 o.type = 'sine';
                 o.frequency.value = f;
@@ -1006,18 +1103,17 @@
             if(oscs.wind) oscs.wind.stop();
             if(oscs.hum) oscs.hum.stop();
             if(oscs.pad) oscs.pad.forEach(o => o.stop());
+            oscs = {};
         }
 
         function updateVol(track, val) {
             if(gainNodes[track]) {
-                // Smoothing to prevent clicking
                 gainNodes[track].gain.setTargetAtTime(val, actx.currentTime, 0.1);
             }
         }
 
         // Boot
         window.onload = initDates;
-
     </script>
 </body>
 </html>
