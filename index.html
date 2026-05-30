@@ -77,19 +77,6 @@
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        /* Input styling */
-        .glass-input {
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s ease;
-        }
-        .glass-input:focus {
-            background: rgba(0, 0, 0, 0.4);
-            border-color: var(--tw-colors-theme-gold);
-            box-shadow: 0 0 0 3px rgba(255, 209, 102, 0.1);
-            outline: none;
-        }
-
         /* Custom Scrollbar - Soft and invisible until needed */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
@@ -132,22 +119,6 @@
             transform: scale(1);
         }
 
-        /* Apple-style Segmented Control for Tabs */
-        .segmented-control {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 4px;
-            border-radius: 16px;
-        }
-        .segmented-btn {
-            border-radius: 12px;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-        .segmented-btn.active {
-            background: var(--tw-colors-theme-glassHover);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            color: #fff;
-        }
-
         /* iOS style range slider */
         input[type=range] {
             -webkit-appearance: none;
@@ -187,91 +158,6 @@
             0% { transform: translateY(0) scale(0.5); opacity: 0; }
             20% { opacity: 1; transform: translateY(-20px) scale(1.2); }
             100% { transform: translateY(-150px) scale(0.8) rotate(45deg); opacity: 0; }
-        }
-
-        /* Hide elements beautifully */
-        .fade-hidden {
-            opacity: 0;
-            transform: translateY(10px);
-            pointer-events: none;
-            position: absolute;
-        }
-        .fade-enter {
-            opacity: 1;
-            transform: translateY(0);
-            transition: opacity 0.4s ease, transform 0.4s ease;
-            position: relative;
-        }
-
-        /* Timeline Activity Styles */
-        .activity-card {
-            border-left: 4px solid transparent;
-            transition: all 0.3s ease;
-        }
-        .activity-card.active {
-            border-left-color: var(--tw-colors-theme-gold);
-            background: rgba(255, 209, 102, 0.05);
-        }
-
-        /* Mini Game Container */
-        .game-container {
-            aspect-ratio: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* TicTacToe Styles */
-        .tictactoe-board {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-        }
-        .tictactoe-cell {
-            aspect-ratio: 1;
-            background: rgba(0, 0, 0, 0.3);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 2rem;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-        .tictactoe-cell:hover {
-            background: rgba(255, 209, 102, 0.1);
-            border-color: rgba(255, 209, 102, 0.3);
-        }
-
-        /* Memory Game Styles */
-        .memory-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-            max-width: 300px;
-            margin: 0 auto;
-        }
-        .memory-card {
-            aspect-ratio: 1;
-            background: linear-gradient(135deg, rgba(255, 209, 102, 0.2), rgba(255, 159, 178, 0.2));
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            transform-style: preserve-3d;
-        }
-        .memory-card.flipped {
-            background: rgba(255, 209, 102, 0.15);
-        }
-        .memory-card.matched {
-            opacity: 0.5;
-            cursor: default;
         }
 
         /* Countdown Styles */
@@ -349,7 +235,6 @@
             <nav class="flex items-center space-x-1 sm:space-x-2 text-sm font-bold text-theme-subtext">
                 <a href="#countdown" class="px-3 py-1.5 rounded-full hover:text-theme-text hover:bg-white/5 transition-all flex items-center gap-1.5"><i class="fa-solid fa-hourglass-end text-theme-gold"></i><span class="hidden sm:inline">Countdown</span></a>
                 <a href="#schedule" class="px-3 py-1.5 rounded-full hover:text-theme-text hover:bg-white/5 transition-all flex items-center gap-1.5"><i class="fa-solid fa-calendar text-theme-pink"></i><span class="hidden sm:inline">Schedule</span></a>
-                <a href="#games" class="px-3 py-1.5 rounded-full hover:text-theme-text hover:bg-white/5 transition-all flex items-center gap-1.5"><i class="fa-solid fa-puzzle-piece text-theme-mint"></i><span class="hidden sm:inline">Games</span></a>
                 <a href="#soundscape" class="px-3 py-1.5 rounded-full hover:text-theme-text hover:bg-white/5 transition-all flex items-center gap-1.5"><i class="fa-solid fa-headphones text-indigo-300"></i><span class="hidden sm:inline">Ambience</span></a>
             </nav>
         </header>
@@ -390,11 +275,17 @@
                         <circle cx="18" cy="-25" r="2" fill="#2D1C19"/>
                     </g>
 
-                    <!-- Center Floating Heart Gear -->
-                    <g transform="translate(100, 50)" class="animate-spin-slow">
-                        <path d="M0 -15 C-10 -25, -20 -10, 0 10 C20 -10, 10 -25, 0 -15 Z" fill="#FF9FB2" opacity="0.9"/>
-                        <circle cx="0" cy="-2" r="4" fill="#1A1112" opacity="0.3"/>
-                        <path d="M-12 -2 L12 -2 M0 -14 L0 10" stroke="#1A1112" stroke-width="2" stroke-opacity="0.3" stroke-dasharray="2 2"/>
+                    <!-- Center Floating Heart (Cozy & Glowing, No Sniper Sight/Crosshairs) -->
+                    <g transform="translate(100, 50)" class="animate-pulse-slow">
+                        <!-- Soft Heart Glow -->
+                        <path d="M0 -15 C-10 -25, -20 -10, 0 10 C20 -10, 10 -25, 0 -15 Z" fill="#FF9FB2" opacity="0.4" transform="scale(1.3)"/>
+                        <!-- Main Plush Heart -->
+                        <path d="M0 -15 C-10 -25, -20 -10, 0 10 C20 -10, 10 -25, 0 -15 Z" fill="#FF9FB2"/>
+                        <!-- Cute glossy white highlight curve -->
+                        <path d="M-4 -12 C-8 -15, -11 -7, -6 -2" stroke="#FDF6ED" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.8"/>
+                        <!-- Tiny magical decorative sparkles -->
+                        <circle cx="-16" cy="-12" r="1.5" fill="#FFD166"/>
+                        <circle cx="18" cy="6" r="1.5" fill="#A8DADC"/>
                     </g>
 
                     <!-- Right Bee (Winking) -->
@@ -445,7 +336,7 @@
                 <button onclick="scrollToId('countdown')" class="group relative px-8 py-4 bg-theme-text text-theme-bg rounded-full font-black text-lg overflow-hidden transition-transform hover:scale-105 active:scale-95">
                     <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-theme-gold via-white to-theme-gold opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     <span class="relative flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-hourglass-end"></i> Start Countdown
+                        <i class="fa-solid fa-hourglass-end"></i> View Countdown
                     </span>
                 </button>
                 <button onclick="spawnLoveSparkles(event)" class="px-8 py-4 glass-panel rounded-full font-bold text-theme-gold hover:bg-white/10 transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
@@ -461,41 +352,8 @@
         <!-- LEFT COLUMN -->
         <div class="lg:col-span-5 flex flex-col gap-6">
             
-            <!-- Setup Card -->
-            <section id="countdown" class="glass-panel rounded-[2rem] p-6 relative overflow-hidden group">
-                <div class="absolute -top-20 -right-20 w-40 h-40 bg-theme-gold blur-[60px] opacity-20 group-hover:opacity-30 transition-opacity"></div>
-                
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="w-10 h-10 rounded-2xl bg-white/5 flex items-center justify-center text-theme-gold text-xl shadow-inner border border-white/5">
-                        <i class="fa-solid fa-sliders"></i>
-                    </div>
-                    <h2 class="text-2xl font-black text-theme-text tracking-tight">Setup</h2>
-                </div>
-                
-                <form id="blueprint-form" oninput="updateBlueprint()" class="space-y-4">
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-bold text-theme-subtext uppercase tracking-wider ml-1">Your Name</label>
-                        <input type="text" id="bee-one" value="Buzzy" class="w-full glass-input rounded-2xl py-3 px-4 text-theme-text placeholder-white/30 font-semibold">
-                    </div>
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-bold text-theme-subtext uppercase tracking-wider ml-1">Partner Name</label>
-                        <input type="text" id="bee-two" value="Barnaby" class="w-full glass-input rounded-2xl py-3 px-4 text-theme-text placeholder-white/30 font-semibold focus:border-theme-pink focus:border-theme-pink">
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="space-y-1.5">
-                            <label class="text-xs font-bold text-theme-subtext uppercase tracking-wider ml-1">Date</label>
-                            <input type="date" id="launch-date" class="w-full glass-input rounded-2xl py-3 px-4 text-theme-text font-semibold appearance-none">
-                        </div>
-                        <div class="space-y-1.5">
-                            <label class="text-xs font-bold text-theme-subtext uppercase tracking-wider ml-1">Start Time</label>
-                            <input type="time" id="launch-time" value="18:45" class="w-full glass-input rounded-2xl py-3 px-4 text-theme-text font-semibold appearance-none">
-                        </div>
-                    </div>
-                </form>
-            </section>
-
             <!-- Modern Soft Countdown -->
-            <section class="glass-panel rounded-[2rem] p-6 text-center relative overflow-hidden group">
+            <section id="countdown" class="glass-panel rounded-[2rem] p-6 text-center relative overflow-hidden group">
                 <div class="absolute -bottom-20 -left-20 w-40 h-40 bg-theme-pink blur-[60px] opacity-20 group-hover:opacity-30 transition-opacity"></div>
                 
                 <h4 class="text-sm font-bold text-theme-pink uppercase tracking-widest mb-6 flex items-center justify-center gap-2">
@@ -615,88 +473,6 @@
                 </div>
             </section>
 
-            <!-- Mini Games Section -->
-            <section id="games" class="glass-panel rounded-[2rem] p-6 group">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="w-10 h-10 rounded-2xl bg-theme-mint/20 flex items-center justify-center text-theme-mint text-xl shadow-inner border border-theme-mint/30">
-                        <i class="fa-solid fa-gamepad"></i>
-                    </div>
-                    <h2 class="text-2xl font-black text-theme-text tracking-tight">Cozy Games</h2>
-                </div>
-
-                <!-- Game Selector -->
-                <div class="segmented-control flex gap-1 mb-6">
-                    <button onclick="showGame('tictactoe')" id="btn-tictactoe" class="segmented-btn active flex-1 py-2 text-sm font-bold text-theme-subtext">Tic Tac Toe</button>
-                    <button onclick="showGame('memory')" id="btn-memory" class="segmented-btn flex-1 py-2 text-sm font-bold text-theme-subtext">Memory</button>
-                    <button onclick="showGame('resources')" id="btn-resources" class="segmented-btn flex-1 py-2 text-sm font-bold text-theme-subtext">Links</button>
-                </div>
-
-                <!-- Tic Tac Toe Game -->
-                <div id="game-tictactoe" class="fade-enter">
-                    <div class="game-container">
-                        <div>
-                            <div class="tictactoe-board mb-4" id="tictactoe-board"></div>
-                            <p class="text-center text-sm text-theme-subtext mb-4">Turn: <span id="ttt-turn" class="text-theme-gold font-bold">X (You)</span></p>
-                            <button onclick="resetTicTacToe()" class="w-full py-3 bg-white/10 hover:bg-white/20 rounded-xl font-bold text-theme-gold transition">Reset Game</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Memory Game -->
-                <div id="game-memory" class="fade-hidden absolute inset-0 p-6">
-                    <div class="game-container">
-                        <div>
-                            <div class="memory-grid" id="memory-grid"></div>
-                            <p class="text-center text-sm text-theme-subtext mt-4 mb-4">Matches: <span id="memory-matches" class="text-theme-gold font-bold">0</span>/8</p>
-                            <button onclick="resetMemory()" class="w-full py-3 bg-white/10 hover:bg-white/20 rounded-xl font-bold text-theme-gold transition">Reset Game</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Resource Links -->
-                <div id="game-resources" class="fade-hidden absolute inset-0 p-6">
-                    <div class="space-y-3">
-                        <p class="text-sm text-theme-subtext mb-4">Check out these awesome games & resources:</p>
-                        <a href="https://www.crazygames.com/c/board" target="_blank" class="block p-4 bg-white/10 hover:bg-white/20 rounded-xl transition border border-white/10">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <h4 class="font-bold text-theme-gold">🎲 Crazy Games - Board</h4>
-                                    <p class="text-xs text-theme-subtext">Plato, Chess, Checkers & More</p>
-                                </div>
-                                <i class="fa-solid fa-arrow-up-right text-theme-gold"></i>
-                            </div>
-                        </a>
-                        <a href="https://www.minecraft.net/" target="_blank" class="block p-4 bg-white/10 hover:bg-white/20 rounded-xl transition border border-white/10">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <h4 class="font-bold text-theme-gold">⛏️ Minecraft</h4>
-                                    <p class="text-xs text-theme-subtext">Build & explore together</p>
-                                </div>
-                                <i class="fa-solid fa-arrow-up-right text-theme-gold"></i>
-                            </div>
-                        </a>
-                        <a href="https://www.sporcle.com/" target="_blank" class="block p-4 bg-white/10 hover:bg-white/20 rounded-xl transition border border-white/10">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <h4 class="font-bold text-theme-gold">🧠 Sporcle - Trivia</h4>
-                                    <p class="text-xs text-theme-subtext">Hundreds of trivia quizzes</p>
-                                </div>
-                                <i class="fa-solid fa-arrow-up-right text-theme-gold"></i>
-                            </div>
-                        </a>
-                        <a href="https://www.primevideo.com/" target="_blank" class="block p-4 bg-white/10 hover:bg-white/20 rounded-xl transition border border-white/10">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <h4 class="font-bold text-theme-gold">🎬 Amazon Prime Video</h4>
-                                    <p class="text-xs text-theme-subtext">Find something great to watch</p>
-                                </div>
-                                <i class="fa-solid fa-arrow-up-right text-theme-gold"></i>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </section>
-
             <!-- Ambience Section -->
             <section id="soundscape" class="glass-panel rounded-[2rem] p-6 relative overflow-hidden">
                 <!-- Inner soft gradient -->
@@ -795,27 +571,13 @@
         }
 
         // --- TIMER LOGIC ---
-        let targetDate = new Date();
+        // Target date: May 30, 2026 at 18:45 (6:45 PM)
+        const targetDate = new Date(2026, 4, 30, 18, 45, 0);
 
         function initDates() {
-            // Set date to today (May 30, 2026) at 18:45 (6:45 PM)
-            let today = new Date(2026, 4, 30, 18, 45, 0); // Month is 0-indexed, so 4 = May
-            document.getElementById('launch-date').valueAsDate = today;
-            document.getElementById('launch-time').value = "18:45";
-            updateBlueprint();
             setInterval(updateTimer, 1000);
-            initTicTacToe();
-            initMemory();
+            updateTimer();
             updateActivityTimeline();
-        }
-
-        function updateBlueprint() {
-            const b1 = document.getElementById('bee-one').value || 'Bear 1';
-            const b2 = document.getElementById('bee-two').value || 'Bear 2';
-            const d = document.getElementById('launch-date').value;
-            const t = document.getElementById('launch-time').value;
-            
-            if(d && t) targetDate = new Date(`${d}T${t}`);
         }
 
         function updateTimer() {
@@ -842,14 +604,12 @@
             document.getElementById('t-secs').innerText = s.toString().padStart(2, '0');
         }
 
+        // Keep active segment highlights correct based on current time or progression
         function updateActivityTimeline() {
-            const now = new Date();
             const items = document.querySelectorAll('.activity-item');
-            
-            items.forEach((item, idx) => {
+            items.forEach((item) => {
                 item.classList.remove('active');
             });
-            
             items[0].classList.add('active');
         }
 
@@ -873,137 +633,6 @@
             }
         }
 
-        // --- GAME: TIC TAC TOE ---
-        let tttBoard = ['', '', '', '', '', '', '', '', ''];
-        let tttIsXNext = true;
-
-        function initTicTacToe() {
-            const board = document.getElementById('tictactoe-board');
-            board.innerHTML = '';
-            tttBoard.forEach((cell, idx) => {
-                const div = document.createElement('div');
-                div.className = 'tictactoe-cell';
-                div.innerText = cell;
-                div.onclick = () => playTicTacToe(idx);
-                board.appendChild(div);
-            });
-            updateTTTStatus();
-        }
-
-        function playTicTacToe(idx) {
-            if(tttBoard[idx] || checkTTTWinner()) return;
-            tttBoard[idx] = tttIsXNext ? 'X' : 'O';
-            tttIsXNext = !tttIsXNext;
-            initTicTacToe();
-        }
-
-        function checkTTTWinner() {
-            const lines = [
-                [0, 1, 2], [3, 4, 5], [6, 7, 8],
-                [0, 3, 6], [1, 4, 7], [2, 5, 8],
-                [0, 4, 8], [2, 4, 6]
-            ];
-            for(let line of lines) {
-                if(tttBoard[line[0]] && tttBoard[line[0]] === tttBoard[line[1]] && tttBoard[line[1]] === tttBoard[line[2]]) {
-                    return tttBoard[line[0]];
-                }
-            }
-            return null;
-        }
-
-        function updateTTTStatus() {
-            const winner = checkTTTWinner();
-            const turn = document.getElementById('ttt-turn');
-            if(winner) {
-                turn.innerText = `🎉 ${winner} Wins!`;
-                turn.className = "text-theme-pink font-bold";
-            } else {
-                turn.innerText = tttIsXNext ? "X (You)" : "O (Them)";
-                turn.className = "text-theme-gold font-bold";
-            }
-        }
-
-        function resetTicTacToe() {
-            tttBoard = ['', '', '', '', '', '', '', '', ''];
-            tttIsXNext = true;
-            initTicTacToe();
-        }
-
-        // --- GAME: MEMORY ---
-        const memoryEmojis = ['🍰', '🐝', '💛', '🌹', '🍰', '🐝', '💛', '🌹'];
-        let memoryCards = [];
-        let memoryFlipped = [];
-        let memoryMatched = 0;
-        let memoryLocked = false;
-
-        function initMemory() {
-            memoryCards = [...memoryEmojis].sort(() => Math.random() - 0.5);
-            memoryFlipped = new Array(8).fill(false);
-            memoryMatched = 0;
-            memoryLocked = false;
-            renderMemory();
-        }
-
-        function renderMemory() {
-            const grid = document.getElementById('memory-grid');
-            grid.innerHTML = '';
-            memoryCards.forEach((emoji, idx) => {
-                const card = document.createElement('div');
-                card.className = 'memory-card' + (memoryFlipped[idx] ? ' flipped' : '') + (memoryCards.filter((e, i) => (memoryFlipped[i] && e === emoji)).length === 2 ? ' matched' : '');
-                card.innerText = memoryFlipped[idx] ? emoji : '?';
-                card.onclick = () => flipMemoryCard(idx);
-                grid.appendChild(card);
-            });
-            document.getElementById('memory-matches').innerText = memoryMatched;
-        }
-
-        function flipMemoryCard(idx) {
-            if(memoryLocked || memoryFlipped[idx] || memoryCards.filter((e, i) => (memoryFlipped[i] && e === memoryCards[idx])).length === 2) return;
-            
-            memoryFlipped[idx] = true;
-            renderMemory();
-            
-            const flippedCount = memoryFlipped.filter(f => f).length;
-            if(flippedCount === 2) {
-                memoryLocked = true;
-                const indices = memoryFlipped.map((f, i) => f ? i : -1).filter(i => i !== -1);
-                if(memoryCards[indices[0]] === memoryCards[indices[1]]) {
-                    memoryMatched++;
-                    memoryLocked = false;
-                    renderMemory();
-                    if(memoryMatched === 4) {
-                        setTimeout(() => openModal("You Won! 🎉", "Great memory! You matched all pairs!", "⭐"), 300);
-                    }
-                } else {
-                    setTimeout(() => {
-                        memoryFlipped[indices[0]] = false;
-                        memoryFlipped[indices[1]] = false;
-                        memoryLocked = false;
-                        renderMemory();
-                    }, 1000);
-                }
-            }
-        }
-
-        function resetMemory() {
-            initMemory();
-        }
-
-        // --- GAME TABS ---
-        function showGame(id) {
-            ['tictactoe', 'memory', 'resources'].forEach(i => {
-                document.getElementById(`btn-${i}`).classList.remove('active');
-                let game = document.getElementById(`game-${i}`);
-                game.classList.remove('fade-enter');
-                game.classList.add('fade-hidden');
-            });
-            
-            document.getElementById(`btn-${id}`).classList.add('active');
-            let game = document.getElementById(`game-${id}`);
-            game.classList.remove('fade-hidden');
-            game.classList.add('fade-enter');
-        }
-
         // --- MODALS ---
         function openModal(title, body, icon) {
             const modal = document.getElementById('cute-modal');
@@ -1018,6 +647,7 @@
             }, 10);
         }
 
+        // --- MODALS ---
         function closeModal() {
             const modal = document.getElementById('cute-modal');
             const content = document.getElementById('modal-content');
