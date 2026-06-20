@@ -80,17 +80,13 @@
             z-index: 50;
         }
 
+        /* Gentle floating particle animation */
         .party-particle {
             position: fixed;
             pointer-events: none;
             z-index: 9999;
-            font-size: 1.5rem;
-            animation: explode 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
-
-        @keyframes explode {
-            0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
-            100% { transform: translate(var(--tx), var(--ty)) rotate(var(--rot)); opacity: 0; }
+            font-size: 1.3rem;
+            will-change: transform, opacity;
         }
 
         @keyframes pulse-soft {
@@ -135,6 +131,7 @@
         .card-trivia:hover { border-color: #7C3AED; box-shadow: 8px 8px 0px #7C3AED; }
         .card-plato:hover { border-color: #059669; box-shadow: 8px 8px 0px #059669; }
         .card-drink:hover { border-color: #D97706; box-shadow: 8px 8px 0px #D97706; }
+        .card-love:hover { border-color: #EC4899; box-shadow: 8px 8px 0px #EC4899; }
 
         /* Trivia styles */
         .trivia-option {
@@ -222,6 +219,32 @@
         }
         .wiggle {
             animation: wiggle 2s ease-in-out infinite;
+        }
+
+        /* Love note card flip */
+        .love-card {
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        .love-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .love-card.flipped .love-card-inner {
+            transform: rotateY(180deg);
+        }
+        .love-card-front, .love-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 24px;
+        }
+        .love-card-back {
+            transform: rotateY(180deg);
         }
     </style>
 </head>
@@ -413,31 +436,11 @@
             </div>
         </div>
 
-        <!-- 🍹 DRINK BREAK #1 -->
-        <div class="drink-divider w-full mt-10">
-            <div class="drink-divider-inner">
-                <span class="text-2xl wiggle">🍹</span>
-                <span>Drink Break #1 — 11:00 PM</span>
-                <span class="text-2xl wiggle" style="animation-delay:0.5s">🥤</span>
-            </div>
-        </div>
-        <div class="w-full activity-card card-drink bg-gradient-to-br from-amber-50 to-yellow-100 rounded-3xl p-6 md:p-8 flex flex-col items-center text-center relative overflow-hidden group">
-            <div class="absolute top-0 left-0 w-32 h-32 bg-amber-300 rounded-br-full opacity-10 group-hover:scale-110 transition-transform"></div>
-            <div class="text-5xl mb-3">🍸</div>
-            <h3 class="font-display text-2xl text-amber-800 mb-2">Welcome Cocktails!</h3>
-            <p class="text-amber-700 font-semibold mb-3">Let's toast to us! 🥂</p>
-            <div class="bg-white/70 p-4 rounded-xl text-sm text-gray-800 w-full border border-amber-200 space-y-2">
-                <p><strong>🕷️ "The Web-Slinger"</strong> — Cranberry vodka with a lime twist (red & green like Spidey!)</p>
-                <p><strong>🌙 "Midnight Noir"</strong> — Blackberry gin fizz with a splash of soda</p>
-                <p class="text-xs text-amber-600 italic pt-1">Non-alcoholic option: Sparkling cranberry limeade 🍹</p>
-            </div>
-        </div>
-
         <!-- 🧠 TRIVIA SECTION -->
         <div class="drink-divider w-full mt-10">
             <div class="drink-divider-inner" style="background:#F5F3FF; border-color:#7C3AED; box-shadow:4px 4px 0px #7C3AED; color:#5B21B6;">
                 <span class="text-2xl wiggle">🧠</span>
-                <span>Trivia Time! — 11:30 PM</span>
+                <span>Trivia Time! — 11:00 PM</span>
                 <span class="text-2xl wiggle" style="animation-delay:0.5s">💡</span>
             </div>
         </div>
@@ -477,7 +480,7 @@
         <div class="drink-divider w-full mt-10">
             <div class="drink-divider-inner">
                 <span class="text-2xl wiggle">🧃</span>
-                <span>Drink Break #2 — 12:15 AM</span>
+                <span>Drink Break #2 — 11:30 PM</span>
                 <span class="text-2xl wiggle" style="animation-delay:0.5s">🍵</span>
             </div>
         </div>
@@ -497,7 +500,7 @@
         <div class="drink-divider w-full mt-10">
             <div class="drink-divider-inner" style="background:#ECFDF5; border-color:#059669; box-shadow:4px 4px 0px #059669; color:#065F46;">
                 <span class="text-2xl wiggle">🎮</span>
-                <span>Plato Board Games — 1:00 AM</span>
+                <span>Plato Board Games — 12:00 AM</span>
                 <span class="text-2xl wiggle" style="animation-delay:0.5s">🏆</span>
             </div>
         </div>
@@ -551,104 +554,147 @@
             </div>
         </div>
 
-        <!-- 🍹 DRINK BREAK #3 -->
+        <!-- 💕 SPIDER-MAN LOVE NOTES SECTION -->
         <div class="drink-divider w-full mt-10">
-            <div class="drink-divider-inner">
-                <span class="text-2xl wiggle">🍷</span>
-                <span>Drink Break #3 — 2:00 AM</span>
-                <span class="text-2xl wiggle" style="animation-delay:0.5s">🥃</span>
+            <div class="drink-divider-inner" style="background:#FDF2F8; border-color:#EC4899; box-shadow:4px 4px 0px #EC4899; color:#9D174D;">
+                <span class="text-2xl wiggle">💕</span>
+                <span>Spider-Love Notes — 12:30 AM</span>
+                <span class="text-2xl wiggle" style="animation-delay:0.5s">🕸️</span>
             </div>
         </div>
-        <div class="w-full activity-card card-drink bg-gradient-to-br from-rose-50 to-pink-100 rounded-3xl p-6 md:p-8 flex flex-col items-center text-center relative overflow-hidden group">
-            <div class="absolute bottom-0 left-0 w-32 h-32 bg-rose-300 rounded-tr-full opacity-10 group-hover:scale-110 transition-transform"></div>
-            <div class="text-5xl mb-3">🍷</div>
-            <h3 class="font-display text-2xl text-rose-800 mb-2">Midnight Toast!</h3>
-            <p class="text-rose-700 font-semibold mb-3">Halfway through the night — let's celebrate! 🌙</p>
-            <div class="bg-white/70 p-4 rounded-xl text-sm text-gray-800 w-full border border-rose-200 space-y-2">
-                <p><strong>🌹 "MJ's Favourite"</strong> — Rosé wine with fresh strawberries</p>
-                <p><strong>🕸️ "Web of Love"</strong> — Raspberry mojito with mint leaves</p>
-                <p><strong>💤 "Sleepy Spider"</strong> — Warm milk with honey & cinnamon (for later!)</p>
-            </div>
-        </div>
-
-        <!-- 🍹 DRINK BREAK #4 -->
-        <div class="drink-divider w-full mt-10">
-            <div class="drink-divider-inner" style="background:#EFF6FF; border-color:#3B82F6; box-shadow:4px 4px 0px #3B82F6; color:#1E40AF;">
-                <span class="text-2xl wiggle">🧊</span>
-                <span>Drink Break #4 — 3:00 AM</span>
-                <span class="text-2xl wiggle" style="animation-delay:0.5s">💧</span>
-            </div>
-        </div>
-        <div class="w-full activity-card card-drink bg-gradient-to-br from-blue-50 to-cyan-100 rounded-3xl p-6 md:p-8 flex flex-col items-center text-center relative overflow-hidden group">
-            <div class="absolute top-0 right-0 w-32 h-32 bg-blue-300 rounded-bl-full opacity-10 group-hover:scale-110 transition-transform"></div>
-            <div class="text-5xl mb-3">💧</div>
-            <h3 class="font-display text-2xl text-blue-800 mb-2">Hydration Station!</h3>
-            <p class="text-blue-700 font-semibold mb-3">Water break, bestie! Stay hydrated 💦</p>
-            <div class="bg-white/70 p-4 rounded-xl text-sm text-gray-800 w-full border border-blue-200 space-y-2">
-                <p><strong>💧 Water!</strong> — Because even Spider-Man drinks water 😂</p>
-                <p><strong>🍋 Lemon & Mint Infusion</strong> — Refreshing and pretty</p>
-                <p><strong>🥥 Coconut Water</strong> — Recharge those puzzle-solving brains!</p>
-            </div>
-        </div>
-
-        <!-- Ask Noir Section (AI Powered) -->
-        <div class="mt-12 w-full bg-gray-900 border-4 border-gray-700 rounded-3xl p-6 md:p-8 shadow-[0_15px_30px_-10px_rgba(0,0,0,0.5)] relative overflow-hidden">
-            <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-gray-800 rounded-full opacity-50 blur-2xl pointer-events-none"></div>
-            <div class="absolute top-5 right-5 text-gray-700 opacity-30">
-                <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-            </div>
+        <div class="w-full activity-card card-love bg-gradient-to-br from-pink-50 to-rose-100 rounded-3xl p-6 md:p-8 flex flex-col items-center text-center relative overflow-hidden group">
+            <div class="absolute top-0 right-0 w-40 h-40 bg-pink-300 rounded-bl-full opacity-10 group-hover:scale-110 transition-transform"></div>
             
-            <h3 class="font-display text-2xl text-gray-100 mb-2 flex items-center gap-3">
-                <span class="text-3xl drop-shadow-md">🕵️‍♂️</span> Ask Spider-Noir
-            </h3>
-            <p class="text-gray-400 font-serif italic mb-6 max-w-lg relative z-10">
-                "Got a question about love, life, or puzzles? Ask the detective. He's connected to the multiverse's intelligence network."
-            </p>
+            <div class="text-5xl mb-3">💌</div>
+            <h3 class="font-display text-2xl text-pink-800 mb-2">Reasons You're My Favorite Person</h3>
+            <p class="text-pink-700 font-semibold mb-6">Tap each card to reveal a sweet message! 🥰</p>
             
-            <div class="flex flex-col sm:flex-row gap-3 relative z-10">
-                <input type="text" id="noir-input" placeholder="E.g., What's the secret to a good date?" class="flex-1 bg-gray-800 text-gray-200 border-2 border-gray-600 rounded-xl px-5 py-3 focus:outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-500 font-serif placeholder-gray-500 transition-all">
-                <button onclick="askNoir()" id="noir-btn" class="bg-gray-700 hover:bg-gray-600 text-white px-8 py-3 rounded-xl font-bold transition-colors border border-gray-500 shadow-md whitespace-nowrap active:scale-95 flex items-center justify-center gap-2">
-                    <span>Investigate</span>
-                </button>
-            </div>
-            
-            <div id="noir-output-container" class="hidden mt-6 bg-gray-200 p-5 rounded-xl border-l-4 border-gray-800 shadow-inner relative z-10">
-                <div class="absolute top-2 right-3 text-gray-400 opacity-50"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M14 17H4v2h10v-2zm6-8H4v2h16V9zM4 15h16v-2H4v2zM4 5v2h16V5H4z"/></svg></div>
-                <p id="noir-output" class="font-mono text-gray-800 leading-relaxed text-sm md:text-base pr-6"></p>
-            </div>
-        </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+                <!-- Love Card 1 -->
+                <div class="love-card h-32" onclick="this.classList.toggle('flipped')">
+                    <div class="love-card-inner">
+                        <div class="love-card-front bg-white border-3 border-pink-300 p-4 flex items-center justify-center shadow-md">
+                            <div class="text-center">
+                                <div class="text-3xl mb-1">🕷️</div>
+                                <p class="font-display text-sm text-pink-600">Tap to reveal!</p>
+                            </div>
+                        </div>
+                        <div class="love-card-back bg-gradient-to-br from-pink-200 to-rose-200 border-3 border-pink-400 p-4 flex items-center justify-center shadow-md">
+                            <p class="text-sm font-bold text-pink-900 italic">"You've webbed your way into my heart and I never want you to leave!" 🕸️❤️</p>
+                        </div>
+                    </div>
+                </div>
 
-        
-        <!-- Spider-Sense Predictor (AI Powered) -->
-        <div class="mt-8 w-full bg-red-50 border-4 border-spidey-red rounded-3xl p-6 md:p-8 shadow-sm relative overflow-hidden flex flex-col items-center text-center">
-            <h3 class="font-display text-2xl text-spidey-red mb-2 flex items-center gap-3">
-                <span class="text-3xl pulse-soft">✨</span> My Spider-Sense is Tingling!
-            </h3>
-            <p class="text-gray-700 font-semibold mb-6 max-w-xl">
-                What does the multiverse hold for our date night? Tap into the Spider-Sense to get a fun prediction for the evening!
-            </p>
-            <button onclick="tingleSpiderSense()" id="spider-sense-btn" class="bg-spidey-red hover:bg-red-600 text-white px-8 py-3 rounded-xl font-bold transition-all shadow-[0_4px_0_#991B1B] active:shadow-[0_0px_0_#991B1B] active:translate-y-[4px] flex items-center gap-2">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                <span>Predict The Future</span>
-            </button>
-            <div id="spider-sense-output-container" class="hidden mt-6 bg-white p-4 rounded-xl border-2 border-red-200 w-full max-w-lg shadow-inner">
-                <p id="spider-sense-output" class="font-serif text-lg text-red-800 italic"></p>
-            </div>
-        </div>
+                <!-- Love Card 2 -->
+                <div class="love-card h-32" onclick="this.classList.toggle('flipped')">
+                    <div class="love-card-inner">
+                        <div class="love-card-front bg-white border-3 border-pink-300 p-4 flex items-center justify-center shadow-md">
+                            <div class="text-center">
+                                <div class="text-3xl mb-1">✨</div>
+                                <p class="font-display text-sm text-pink-600">Tap to reveal!</p>
+                            </div>
+                        </div>
+                        <div class="love-card-back bg-gradient-to-br from-pink-200 to-rose-200 border-3 border-pink-400 p-4 flex items-center justify-center shadow-md">
+                            <p class="text-sm font-bold text-pink-900 italic">"My spider-sense tingles every time you walk into the room!" ✨🕷️</p>
+                        </div>
+                    </div>
+                </div>
 
-        <!-- Aunt May's Snack Generator (AI Powered) -->
-        <div class="mt-8 w-full bg-amber-50 border-4 border-amber-300 rounded-3xl p-6 md:p-8 shadow-sm relative overflow-hidden">
-            <h3 class="font-display text-2xl text-amber-700 mb-2 flex items-center gap-3">
-                <span class="text-3xl">🍪</span> Aunt May's Date Night Snacks
-            </h3>
-            <p class="text-amber-800 font-medium mb-4">
-                Not sure what to munch on while solving puzzles or watching Noir? Ask Aunt May for a quick Spider-themed snack idea!
-            </p>
-            <button onclick="generateSnack()" id="snack-btn" class="bg-amber-500 hover:bg-amber-600 text-white px-6 py-2 rounded-full font-bold transition-colors shadow-sm flex items-center gap-2">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                <span>Generate Snack Idea</span>
-            </button>
-            <div id="snack-output" class="hidden mt-4 bg-white p-4 rounded-xl border-2 border-amber-200 text-amber-900 font-medium shadow-inner"></div>
+                <!-- Love Card 3 -->
+                <div class="love-card h-32" onclick="this.classList.toggle('flipped')">
+                    <div class="love-card-inner">
+                        <div class="love-card-front bg-white border-3 border-pink-300 p-4 flex items-center justify-center shadow-md">
+                            <div class="text-center">
+                                <div class="text-3xl mb-1">🌙</div>
+                                <p class="font-display text-sm text-pink-600">Tap to reveal!</p>
+                            </div>
+                        </div>
+                        <div class="love-card-back bg-gradient-to-br from-pink-200 to-rose-200 border-3 border-pink-400 p-4 flex items-center justify-center shadow-md">
+                            <p class="text-sm font-bold text-pink-900 italic">"You're more amazing than all the multiverses combined!" 🌙💫</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Love Card 4 -->
+                <div class="love-card h-32" onclick="this.classList.toggle('flipped')">
+                    <div class="love-card-inner">
+                        <div class="love-card-front bg-white border-3 border-pink-300 p-4 flex items-center justify-center shadow-md">
+                            <div class="text-center">
+                                <div class="text-3xl mb-1">🧩</div>
+                                <p class="font-display text-sm text-pink-600">Tap to reveal!</p>
+                            </div>
+                        </div>
+                        <div class="love-card-back bg-gradient-to-br from-pink-200 to-rose-200 border-3 border-pink-400 p-4 flex items-center justify-center shadow-md">
+                            <p class="text-sm font-bold text-pink-900 italic">"You're the missing piece to my puzzle — life with you is complete!" 🧩❤️</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Love Card 5 -->
+                <div class="love-card h-32" onclick="this.classList.toggle('flipped')">
+                    <div class="love-card-inner">
+                        <div class="love-card-front bg-white border-3 border-pink-300 p-4 flex items-center justify-center shadow-md">
+                            <div class="text-center">
+                                <div class="text-3xl mb-1">💪</div>
+                                <p class="font-display text-sm text-pink-600">Tap to reveal!</p>
+                            </div>
+                        </div>
+                        <div class="love-card-back bg-gradient-to-br from-pink-200 to-rose-200 border-3 border-pink-400 p-4 flex items-center justify-center shadow-md">
+                            <p class="text-sm font-bold text-pink-900 italic">"With great love comes great happiness — and you give me both!" 💪🕷️</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Love Card 6 -->
+                <div class="love-card h-32" onclick="this.classList.toggle('flipped')">
+                    <div class="love-card-inner">
+                        <div class="love-card-front bg-white border-3 border-pink-300 p-4 flex items-center justify-center shadow-md">
+                            <div class="text-center">
+                                <div class="text-3xl mb-1">🎯</div>
+                                <p class="font-display text-sm text-pink-600">Tap to reveal!</p>
+                            </div>
+                        </div>
+                        <div class="love-card-back bg-gradient-to-br from-pink-200 to-rose-200 border-3 border-pink-400 p-4 flex items-center justify-center shadow-md">
+                            <p class="text-sm font-bold text-pink-900 italic">"I'd swing through every city just to spend one more minute with you!" 🎯💕</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Love Card 7 -->
+                <div class="love-card h-32" onclick="this.classList.toggle('flipped')">
+                    <div class="love-card-inner">
+                        <div class="love-card-front bg-white border-3 border-pink-300 p-4 flex items-center justify-center shadow-md">
+                            <div class="text-center">
+                                <div class="text-3xl mb-1">🌟</div>
+                                <p class="font-display text-sm text-pink-600">Tap to reveal!</p>
+                            </div>
+                        </div>
+                        <div class="love-card-back bg-gradient-to-br from-pink-200 to-rose-200 border-3 border-pink-400 p-4 flex items-center justify-center shadow-md">
+                            <p class="text-sm font-bold text-pink-900 italic">"You're my favorite superhero — no cape needed!" 🌟🦸‍♀️</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Love Card 8 -->
+                <div class="love-card h-32" onclick="this.classList.toggle('flipped')">
+                    <div class="love-card-inner">
+                        <div class="love-card-front bg-white border-3 border-pink-300 p-4 flex items-center justify-center shadow-md">
+                            <div class="text-center">
+                                <div class="text-3xl mb-1">🕸️</div>
+                                <p class="font-display text-sm text-pink-600">Tap to reveal!</p>
+                            </div>
+                        </div>
+                        <div class="love-card-back bg-gradient-to-br from-pink-200 to-rose-200 border-3 border-pink-400 p-4 flex items-center justify-center shadow-md">
+                            <p class="text-sm font-bold text-pink-900 italic">"You've caught me in your web and I never want to escape!" 🕸️😍</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 bg-white/70 p-4 rounded-xl border-2 border-pink-300 w-full">
+                <p class="font-display text-lg text-pink-800 mb-2">P.S. — You're absolutely beautiful, inside and out 💖</p>
+                <p class="text-sm text-gray-700 italic">Thank you for being you. Tonight is all about us, and I wouldn't want to spend it with anyone else.</p>
+            </div>
         </div>
 
         <!-- Interactive Love Note -->
@@ -659,17 +705,6 @@
             <p class="font-display text-xl text-gray-800 mb-6">
                 I love you more than Peter Parker loves MJ!
             </p>
-
-            <!-- AI Love Note Generator -->
-            <div class="mb-8 bg-pink-50/50 rounded-2xl p-4 border border-pink-100">
-                <button onclick="generateLoveNote()" id="love-note-btn" class="text-sm font-bold text-pink-600 bg-white px-5 py-2.5 rounded-full border border-pink-200 hover:bg-pink-100 hover:scale-105 transition-all mb-3 flex items-center justify-center gap-2 mx-auto shadow-sm">
-                    <svg class="w-4 h-4 text-pink-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                    <span>Ask Peter for a web-tastic compliment</span>
-                </button>
-                <div class="min-h-[3rem] flex items-center justify-center">
-                    <p id="generated-note" class="text-lg font-serif text-pink-700 italic px-2"></p>
-                </div>
-            </div>
 
             <button onclick="acceptDate(this)" class="font-display text-xl bg-spidey-red text-white px-8 py-4 rounded-full shadow-[0_6px_0_#991B1B] active:shadow-[0_0px_0_#991B1B] active:translate-y-[6px] hover:bg-red-500 transition-all flex items-center gap-2 mx-auto">
                 <span>I'm Ready For The Date!</span>
@@ -683,133 +718,6 @@
     </main>
 
     <script>
-        // --- AI/LLM Integration (Gemini API) ---
-        const apiKey = "";
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
-
-        async function callGemini(prompt, systemInstruction) {
-            const payload = {
-                contents: [{ parts: [{ text: prompt }] }],
-                systemInstruction: { parts: [{ text: systemInstruction }] }
-            };
-
-            try {
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                
-                const data = await response.json();
-                if (data.candidates && data.candidates.length > 0) {
-                    return data.candidates[0].content.parts[0].text;
-                } else {
-                    console.error("Unexpected API response:", data);
-                    return "Sorry, my spider-sense is tingling... something went wrong with the connection.";
-                }
-            } catch (error) {
-                console.error("Gemini API Error:", error);
-                return "The multiverse connection is unstable! Try again later.";
-            }
-        }
-
-        async function askNoir() {
-            const inputEl = document.getElementById('noir-input');
-            const question = inputEl.value.trim();
-            if (!question) return;
-
-            const btnEl = document.getElementById('noir-btn');
-            const outputContainer = document.getElementById('noir-output-container');
-            const outputEl = document.getElementById('noir-output');
-
-            btnEl.disabled = true;
-            btnEl.innerHTML = `
-                <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Pondering...
-            `;
-            outputContainer.classList.remove('hidden');
-            outputEl.innerText = "Lighting a match in the dark... investigating...";
-            outputEl.classList.add('animate-pulse', 'text-gray-500');
-            outputEl.classList.remove('text-gray-800');
-
-            const systemInstruction = "Act as Spider-Man Noir from the 1930s. Respond to the user's question with a short, hardboiled detective monologue (maximum 3 sentences). Use classic noir metaphors, rain references, or black-and-white imagery. Since this is for a cute date night, ensure there is an underlying tone of gruff romance or endearing protectiveness.";
-
-            const response = await callGemini(question, systemInstruction);
-
-            outputEl.classList.remove('animate-pulse', 'text-gray-500');
-            outputEl.classList.add('text-gray-800');
-            outputEl.innerText = `"${response}"`;
-            
-            btnEl.disabled = false;
-            btnEl.innerHTML = `<span>Investigate</span>`;
-            inputEl.value = "";
-        }
-
-        async function generateLoveNote() {
-            const btnEl = document.getElementById('love-note-btn');
-            const outputEl = document.getElementById('generated-note');
-            
-            btnEl.disabled = true;
-            btnEl.classList.add('opacity-50');
-            outputEl.innerText = "Webbing together some feelings...";
-            outputEl.classList.add('animate-pulse', 'text-pink-400');
-            outputEl.classList.remove('text-pink-700');
-
-            const systemInstruction = "You are Peter Parker. Write a very short, cute, one-sentence romantic compliment or love note for your date. Use mild spider/web puns if possible, but keep it genuinely sweet.";
-
-            const response = await callGemini("Generate a cute love note", systemInstruction);
-
-            outputEl.classList.remove('animate-pulse', 'text-pink-400');
-            outputEl.classList.add('text-pink-700');
-            outputEl.innerText = response;
-            
-            btnEl.disabled = false;
-            btnEl.classList.remove('opacity-50');
-        }
-
-        async function tingleSpiderSense() {
-            const btnEl = document.getElementById('spider-sense-btn');
-            const outputContainer = document.getElementById('spider-sense-output-container');
-            const outputEl = document.getElementById('spider-sense-output');
-
-            btnEl.disabled = true;
-            btnEl.classList.add('opacity-50');
-            outputContainer.classList.remove('hidden');
-            outputEl.innerText = "Sensing the multiverse vibrations...";
-            outputEl.classList.add('animate-pulse', 'text-red-400');
-            outputEl.classList.remove('text-red-800');
-
-            const systemInstruction = "You are a cute romantic fortune teller with a Spider-Sense. Give a one-sentence prediction about how fun, cozy, or romantic the user's date night will be tonight. Mention jigsaw puzzles, Spider-Man Noir, or snacks. Keep it wholesome and use a web or spider pun.";
-            
-            const response = await callGemini("Predict our date night!", systemInstruction);
-
-            outputEl.classList.remove('animate-pulse', 'text-red-400');
-            outputEl.classList.add('text-red-800');
-            outputEl.innerText = `"${response}"`;
-            
-            btnEl.disabled = false;
-            btnEl.classList.remove('opacity-50');
-        }
-
-        async function generateSnack() {
-            const btnEl = document.getElementById('snack-btn');
-            const outputEl = document.getElementById('snack-output');
-            
-            btnEl.disabled = true;
-            outputEl.classList.remove('hidden');
-            outputEl.innerHTML = '<span class="animate-pulse opacity-70">Checking the pantry...</span>';
-
-            const systemInstruction = "Act as Aunt May. Suggest one simple, cute, Spider-Man themed snack or drink for a couple's movie and puzzle date night. Keep it to two sentences. Format it with a fun emoji.";
-            
-            const response = await callGemini("Give me a snack idea!", systemInstruction);
-
-            outputEl.innerHTML = response;
-            btnEl.disabled = false;
-        }
-
         // --- Countdown Logic ---
         function updateCountdown() {
             const now = new Date();
@@ -877,33 +785,80 @@
             createParticles(e);
         });
 
+        // --- Gentle floating particle system (slow & dreamy) ---
         function createParticles(e) {
-            const emojis = ['❤️', '🖤', '🐝', '🎉', '✨', '💖', '🕸️', '💫', '🌟', '💎', '💫'];
-            const count = 30; 
+            const emojis = ['❤️', '🖤', '🐝', '🎉', '✨', '💖', '🕸️', '💫', '🌟', '💎'];
+            const count = 12; // fewer particles for a gentler effect
 
-            for(let i=0; i < count; i++) {
+            for (let i = 0; i < count; i++) {
                 const particle = document.createElement('div');
                 particle.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
                 particle.className = 'party-particle';
-                
-                const angle = Math.random() * Math.PI * 2;
-                const distance = 40 + Math.random() * 60; 
-                const tx = Math.cos(angle) * distance;
-                const ty = Math.sin(angle) * distance;
-                const rot = (Math.random() - 0.5) * 360; 
-                
-                particle.style.left = e.clientX + 'px';
-                particle.top = e.clientY + 'px';
-                
-                particle.style.setProperty('--tx', `${tx}px`);
-                particle.style.setProperty('--ty', `${ty}px`);
-                particle.style.setProperty('--rot', `${rot}deg`);
-                
                 document.body.appendChild(particle);
-                
-                setTimeout(() => {
-                    particle.remove();
-                }, 1000);
+
+                // Starting position (at click point)
+                const startX = e.clientX;
+                const startY = e.clientY;
+                particle.style.left = startX + 'px';
+                particle.style.top = startY + 'px';
+                particle.style.opacity = '0';
+                particle.style.transform = 'translate(-50%, -50%) scale(0.5)';
+
+                // Random gentle drift direction (mostly upward, slight sideways)
+                const driftX = (Math.random() - 0.5) * 80;   // -40 to 40 px sideways
+                const driftY = -(60 + Math.random() * 80);   // -60 to -140 px (upward)
+                const finalRotation = (Math.random() - 0.5) * 120; // gentle rotation
+                const duration = 2200 + Math.random() * 1200; // 2.2s to 3.4s — slow!
+                const delay = i * 60; // slight stagger between particles
+                const maxScale = 0.9 + Math.random() * 0.6;
+
+                // Animate using requestAnimationFrame for smoothness
+                const startTime = performance.now() + delay;
+
+                function animateParticle(now) {
+                    const elapsed = now - startTime;
+                    if (elapsed < 0) {
+                        requestAnimationFrame(animateParticle);
+                        return;
+                    }
+                    const progress = Math.min(elapsed / duration, 1);
+
+                    // Easing: ease-out cubic for smooth deceleration
+                    const eased = 1 - Math.pow(1 - progress, 3);
+
+                    // Opacity: fade in quickly, then fade out slowly
+                    let opacity;
+                    if (progress < 0.15) {
+                        opacity = progress / 0.15;
+                    } else {
+                        opacity = 1 - ((progress - 0.15) / 0.85);
+                    }
+
+                    // Scale: grow in, then shrink slightly
+                    const scale = progress < 0.3 
+                        ? 0.5 + (maxScale - 0.5) * (progress / 0.3)
+                        : maxScale - (maxScale - 0.3) * ((progress - 0.3) / 0.7);
+
+                    // Add a gentle sine-wave wobble for a floating feel
+                    const wobble = Math.sin(progress * Math.PI * 2) * 6;
+
+                    const currentX = startX + (driftX * eased) + wobble;
+                    const currentY = startY + (driftY * eased);
+                    const currentRotation = finalRotation * eased;
+
+                    particle.style.left = currentX + 'px';
+                    particle.style.top = currentY + 'px';
+                    particle.style.opacity = opacity;
+                    particle.style.transform = `translate(-50%, -50%) scale(${scale}) rotate(${currentRotation}deg)`;
+
+                    if (progress < 1) {
+                        requestAnimationFrame(animateParticle);
+                    } else {
+                        particle.remove();
+                    }
+                }
+
+                requestAnimationFrame(animateParticle);
             }
         }
 
@@ -919,10 +874,10 @@
             const centerX = rect.left + rect.width / 2;
             const centerY = rect.top + rect.height / 2;
             
-            for(let i=0; i<8; i++) {
+            for(let i=0; i<5; i++) {
                 setTimeout(() => {
-                    createParticles({ clientX: centerX, clientY: centerY });
-                }, i * 150);
+                    createParticles({ clientX: centerX + (Math.random()-0.5)*40, clientY: centerY + (Math.random()-0.5)*40 });
+                }, i * 250);
             }
         }
 
