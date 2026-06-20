@@ -3,427 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Date Night! 🏈💙</title>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Righteous&display=swap" rel="stylesheet">
+    <title>Our Web-Tastic Date Night!</title>
     
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['"Fredoka One"', 'cursive'],
+                        sans: ['"Nunito"', 'sans-serif'],
+                    },
+                    colors: {
+                        spidey: {
+                            red: '#E02424',
+                            blue: '#1C64F2',
+                            light: '#FDE8E8',
+                            dark: '#111928'
+                        },
+                        noir: {
+                            100: '#E5E7EB',
+                            800: '#1F2937',
+                            900: '#111827'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
         body {
-            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* Update 1: Football field background */
-            background: 
-                repeating-linear-gradient(
-                    90deg,
-                    #2e7d32,
-                    #2e7d32 50px,
-                    #388e3c 50px,
-                    #388e3c 100px
-                );
-            color: #00338D;
-            text-align: center;
-            padding: 20px;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            cursor: pointer;
+            background-color: #ffe4e6;
+            background-image: radial-gradient(#fbcfe8 2.5px, transparent 2.5px), radial-gradient(#fbcfe8 2.5px, transparent 2.5px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
             overflow-x: hidden;
-            position: relative;
         }
 
-        /* Update 1 continued: Football field yard lines */
-        body::before {
-            content: '';
+        .web-corner { position: absolute; width: 150px; height: 150px; opacity: 0.2; pointer-events: none; z-index: 0; }
+        .web-top-left { top: 0; left: 0; transform: rotate(0deg); }
+        .web-top-right { top: 0; right: 0; transform: rotate(90deg); }
+
+        @keyframes swing { 0% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } 100% { transform: rotate(-10deg); } }
+        .swing-animation { transform-origin: top center; animation: swing 4s ease-in-out infinite; }
+
+        /* Party Splash Effect with Gravity */
+        .party-particle {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                linear-gradient(to right, rgba(255, 255, 255, 0.8) 2px, transparent 2px);
-            background-size: 10vw 100%;
             pointer-events: none;
-            z-index: -2;
-        }
-
-        /* Update 2: Twinkling non-emoji stars replacing the dots */
-        .stars-container {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-        
-        .star {
-            position: absolute;
-            background-color: white;
-            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-            animation: twinkle var(--duration) ease-in-out infinite alternate;
-            opacity: var(--base-opacity);
-        }
-
-        @keyframes twinkle {
-            0% { opacity: var(--base-opacity); transform: scale(0.8); box-shadow: 0 0 5px rgba(255,255,255,0.2); }
-            100% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 15px rgba(255,255,255,0.8); }
-        }
-
-        #particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none; /* Let clicks pass through */
             z-index: 9999;
+            font-size: 1.5rem;
+            will-change: transform;
         }
 
-        .particle {
-            position: absolute;
-            pointer-events: none;
-            animation: burst 1.2s ease-out forwards;
-            font-size: 28px;
-        }
-
-        @keyframes burst {
-            0% { transform: translateY(0) scale(0.5) rotate(0deg); opacity: 1; }
-            50% { opacity: 1; }
-            100% { transform: translateY(150px) scale(1.5) rotate(180deg); opacity: 0; }
-        }
-
-        .container {
-            width: 100%;
-            max-width: 650px;
-            background: radial-gradient(circle at top left, #f0f4ff, #d9e6ff); /* Light blue tint to avoid plain white */
-            border: 5px solid #00338D;
-            border-radius: 30px;
-            padding: 40px 30px;
-            box-shadow: 12px 12px 0px #00338D, 24px 24px 0px #C60C30; /* Bold retro stacked shadow */
-            position: relative;
-            box-sizing: border-box;
-            z-index: 10;
-            cursor: default;
-            overflow: hidden;
-        }
-
-        /* Restore sweeping glossy shine */
-        .container::after {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0) 100%);
-            transform: skewX(-20deg);
-            animation: shine 6s infinite;
-            pointer-events: none;
-            z-index: 10;
-        }
-
-        @keyframes shine {
-            0% { left: -100%; }
-            20% { left: 200%; }
-            100% { left: 200%; }
-        }
-
-        /* Cute inner dashed border */
-        .container::before {
-            content: '';
-            position: absolute;
-            top: 15px; left: 15px; right: 15px; bottom: 15px;
-            border: 3px dashed rgba(198, 12, 48, 0.4); /* Red dashed border */
-            border-radius: 20px;
-            pointer-events: none;
-        }
-
-        .retro-text {
-            font-family: 'Pacifico', cursive;
-            font-size: 4em;
-            color: #C60C30;
-            text-shadow: 4px 4px 0px #00338D, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff, 2px 2px 0 #fff;
-            transform: rotate(-5deg);
-            margin-bottom: 15px;
-            animation: float 3s ease-in-out infinite;
-            display: inline-block;
-            line-height: 1;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(-5deg); }
-            50% { transform: translateY(-15px) rotate(-5deg); }
-        }
-
-        h1 {
-            color: #00338D;
-            font-size: clamp(2.5em, 6vw, 3.5em);
-            margin-top: 10px;
-            margin-bottom: 5px;
-            text-shadow: 2px 2px 0px rgba(198, 12, 48, 0.2), -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff; /* White outline to stand out */
-            letter-spacing: 1px;
-            font-family: 'Righteous', 'Comic Sans MS', cursive, sans-serif;
-            text-transform: uppercase;
-        }
-
-        .subtitle {
-            font-size: 1.2em;
-            color: #C60C30;
-            margin-bottom: 25px;
-            font-weight: 800;
-            text-shadow: 1px 1px 0px #fff;
-        }
-
-        .countdown {
-            font-size: clamp(1.5em, 4vw, 2.2em);
-            font-weight: 800;
-            background: linear-gradient(135deg, #00338D, #001f5c);
-            color: white;
-            padding: 20px;
-            border-radius: 20px;
-            margin: 30px 0;
-            border: 3px solid #C60C30;
-            box-shadow: 6px 6px 0px rgba(198, 12, 48, 0.4);
-            letter-spacing: 1px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-            font-family: monospace;
-        }
-
-        .schedule {
-            text-align: left;
-            margin-top: 40px;
-        }
-
-        .schedule h2 {
-            text-align: center;
-            color: #00338D;
-            font-size: 1.8em;
-            border-bottom: 3px dotted #C60C30;
-            padding-bottom: 15px;
-            margin-bottom: 25px;
-            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
-            text-shadow: 1px 1px 0px #fff;
-        }
-
-        .event {
-            background: linear-gradient(135deg, #ffffff, #f0f4ff);
-            border: 3px solid #00338D;
-            border-left: 10px solid #C60C30;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 12px;
-            box-shadow: 6px 6px 0px #C60C30;
-            transition: all 0.2s ease-in-out;
-            position: relative;
-            overflow: hidden;
-            z-index: 2; 
-        }
-
-        .event::after {
-            content: '🏈';
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 2em;
-            opacity: 0.1;
-            transition: all 0.3s;
-        }
-
-        .event:hover {
-            transform: translate(-4px, -4px);
-            background: linear-gradient(135deg, #f0f4ff, #e6eeff);
-            box-shadow: 10px 10px 0px #C60C30;
-            border-left-color: #00338D;
-        }
-
-        .event:hover::after {
-            opacity: 0.4;
-            transform: translateY(-50%) rotate(15deg) scale(1.2);
-            content: '💙';
-        }
-
-        .event h3 {
-            margin: 0 0 10px 0;
-            color: #C60C30; /* Changed to red for better contrast on blue */
-            font-size: 1.3em;
-            text-shadow: 1px 1px 0px #fff;
-        }
-
-        .event p {
-            margin: 0;
-            color: #222;
-
-        .btn {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 12px 24px;
-            background-color: #C60C30;
-            color: white;
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: bold;
-            font-size: 0.95em;
-            transition: all 0.2s;
-            box-shadow: 0 4px 10px rgba(198, 12, 48, 0.3);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .btn:hover {
-            background-color: #a00a26;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(198, 12, 48, 0.4);
-        }
-
-        .btn-blue {
-            background-color: #00338D;
-            box-shadow: 0 4px 10px rgba(0, 51, 141, 0.3);
-        }
-
-        .btn-blue:hover {
-            background-color: #001f5c;
-            box-shadow: 0 6px 15px rgba(0, 51, 141, 0.4);
-        }
-
-        @media (max-width: 480px) {
-            .container { padding: 30px 20px; }
-            .event { padding: 15px; }
-            .btn { width: 100%; box-sizing: border-box; text-align: center; }
-        }
+        .thread { width: 2px; height: 80px; background-color: #4B5563; margin: 0 auto; }
+        .countdown-box { background: white; border: 4px solid #E02424; box-shadow: 6px 6px 0px #1C64F2; transition: transform 0.2s; }
+        .countdown-box:hover { transform: translateY(-5px); }
+        .activity-card { box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; border: 3px solid transparent; }
+        .activity-card:hover { transform: translateY(-8px); }
+        .card-noir:hover { border-color: #1F2937; box-shadow: 8px 8px 0px #1F2937; }
+        .card-puzzle:hover { border-color: #1C64F2; box-shadow: 8px 8px 0px #1C64F2; }
     </style>
 </head>
-<body>
+<body class="text-gray-800 font-sans min-h-screen relative flex flex-col items-center pb-16">
 
-    <div class="stars-container" id="starsContainer"></div>
-    <div id="particles"></div>
+    <!-- Background Elements -->
+    <div class="fixed top-0 left-0 w-full h-full pointer-events-none z-0 overflow-hidden">
+        <div class="absolute top-10 left-10 w-48 h-48 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-pulse"></div>
+        <div class="absolute top-1/3 right-10 w-64 h-64 bg-rose-300 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-pulse" style="animation-delay: 2s"></div>
+    </div>
 
-    <div class="container" id="mainContainer">
-        
-        <div class="retro-text">Go Bills!!</div>
-
-        <h1>date night</h1>
-        <div class="subtitle"> A Romantic buffalo bills themed evening ever ✨</div>
-        
-        <div class="countdown" id="timer" style="position: relative; z-index: 2;">Calculating time to kickoff...</div>
-
-        <div class="schedule" style="position: relative; z-index: 2;">
-            <h2>Game Plan (Schedule) 📋</h2>
-            
-            <div class="event">
-                <h3>8:00 PM - The Pre-Game 🥂</h3>
-                <p>We'll kick things off with a cozy chat session to catch up on everything before the games begin!</p>
-            </div>
-
-            <div class="event">
-                <h3>8:30 PM - Puzzle Play 🧩</h3>
-                <p>Grab a cup of wine and let's tackle a jigsaw puzzle together! <em>(1 Hour)</em></p>
-                <a href="https://tanggle.io/play/a94c36c9-ca59-4c39-b494-fe4e3f57b6cc" class="btn btn-blue" target="_blank">Open Jigsaw Puzzle</a>
-            </div>
-
-            <div class="event">
-                <h3>9:30 PM - Escape Room Challenge 🗝️</h3>
-                <p>Teamwork time! Let's see if we can escape the room together. <em>(2 Hours)</em></p>
-                <a href="https://www.enchambered.com/puzzles/alone-together/" class="btn" target="_blank">Start Escape Room</a>
-            </div>
-
-            <div class="event">
-                <h3>11:30 PM - Spider Noir 🕸️</h3>
-                <p>Snuggle up and watch an episode of Spider Noir to wind down the night. <em>(1 Hour)</em></p>
-            </div>
-
-            <div class="event">
-                <h3>12:30 AM - Post-Game Cool Down 📖</h3>
-                <p>Sweet chats and reading before bed. The perfect end to our night.</p>
-            </div>
+    <!-- Hanging Spiders -->
+    <div class="absolute top-0 left-10 md:left-24 swing-animation z-10">
+        <div class="thread" style="height: 100px;"></div>
+        <div class="w-12 h-12 bg-pink-600 rounded-full flex items-center justify-center relative shadow-lg">
+            <div class="flex gap-1 z-10"><div class="spider-eye w-3 h-3 bg-white rounded-full"><div class="spider-pupil w-1.5 h-1.5 bg-black rounded-full"></div></div><div class="spider-eye w-3 h-3 bg-white rounded-full"><div class="spider-pupil w-1.5 h-1.5 bg-black rounded-full"></div></div></div>
+        </div>
+    </div>
+    <div class="absolute top-0 right-10 md:right-32 swing-animation z-10">
+        <div class="thread"></div>
+        <div class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center relative shadow-lg">
+            <div class="flex gap-1 z-10"><div class="spider-eye w-3 h-3 bg-white rounded-full"><div class="spider-pupil w-1.5 h-1.5 bg-black rounded-full"></div></div><div class="spider-eye w-3 h-3 bg-white rounded-full"><div class="spider-pupil w-1.5 h-1.5 bg-black rounded-full"></div></div></div>
         </div>
     </div>
 
+    <main class="w-full max-w-4xl px-4 mt-24 flex flex-col items-center relative z-10">
+        <h1 class="font-display text-5xl text-spidey-red mb-4">Our Web-Tastic Date Night! 🕸️❤️</h1>
+        
+        <!-- Countdown -->
+        <div class="flex gap-6 mb-16">
+            <div class="countdown-box w-28 h-32 rounded-2xl flex flex-col items-center justify-center bg-white">
+                <span id="hours" class="font-display text-5xl text-spidey-red">00</span><span class="text-sm font-bold text-gray-500 uppercase">Hours</span>
+            </div>
+            <div class="countdown-box w-28 h-32 rounded-2xl flex flex-col items-center justify-center bg-white">
+                <span id="minutes" class="font-display text-5xl text-spidey-blue">00</span><span class="text-sm font-bold text-gray-500 uppercase">Mins</span>
+            </div>
+            <div class="countdown-box w-28 h-32 rounded-2xl flex flex-col items-center justify-center bg-white">
+                <span id="seconds" class="font-display text-5xl text-gray-800">00</span><span class="text-sm font-bold text-gray-500 uppercase">Secs</span>
+            </div>
+        </div>
+    </main>
+
     <script>
-        // --- Star Generation Logic ---
-        function createStars() {
-            const container = document.getElementById('starsContainer');
-            const numStars = 40; // Number of stars
-            
-            for (let i = 0; i < numStars; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                
-                // Random position
-                star.style.left = Math.random() * 100 + 'vw';
-                star.style.top = Math.random() * 100 + 'vh';
-                
-                // Random size between 10px and 30px
-                const size = 10 + Math.random() * 20;
-                star.style.width = size + 'px';
-                star.style.height = size + 'px';
-                
-                // Random animation duration and base opacity
-                star.style.setProperty('--duration', (1.5 + Math.random() * 3) + 's');
-                star.style.setProperty('--base-opacity', 0.2 + Math.random() * 0.4);
-                
-                // Slight random rotation for variety
-                star.style.transform = `rotate(${Math.random() * 360}deg)`;
-                
-                container.appendChild(star);
-            }
-        }
-        createStars();
-
-        // --- Countdown Timer Logic ---
-        const countDownDate = new Date("June 7, 2026 20:00:00 GMT-0300").getTime();
-        const timerElement = document.getElementById("timer");
-
-        const updateTimer = () => {
-            const now = new Date().getTime();
-            const distance = countDownDate - now;
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            const formattedHours = hours.toString().padStart(2, '0');
-            const formattedMins = minutes.toString().padStart(2, '0');
-            const formattedSecs = seconds.toString().padStart(2, '0');
-
-            if (distance < 0) {
-                clearInterval(timerInterval);
-                timerElement.innerHTML = "IT'S KICKOFF TIME! ❤️🏈💙";
-                timerElement.style.background = "linear-gradient(135deg, #C60C30, #a00a26)"; 
-            } else {
-                timerElement.innerHTML = `${days}d ${formattedHours}h ${formattedMins}m ${formattedSecs}s`;
-            }
-        };
-
-        updateTimer();
-        const timerInterval = setInterval(updateTimer, 1000);
-
-        // --- Update: Click Effect Logic (Hearts, Bees, Footballs) ---
-        document.body.addEventListener('click', function(e) {
-            // Don't trigger if clicking inside the main container
-            if(document.getElementById('mainContainer').contains(e.target)) return;
-            createParticles(e.clientX, e.clientY);
+        // Eye tracking
+        document.addEventListener('mousemove', (e) => {
+            document.querySelectorAll('.spider-pupil').forEach(pupil => {
+                const eye = pupil.parentElement;
+                const rect = eye.getBoundingClientRect();
+                const angle = Math.atan2(e.clientY - (rect.top + rect.height/2), e.clientX - (rect.left + rect.width/2));
+                pupil.style.transform = `translate(${Math.cos(angle)*1.5}px, ${Math.sin(angle)*1.5}px)`;
+            });
         });
 
-        function createParticles(x, y) {
-            const particlesContainer = document.getElementById('particles');
-            // Updated items list per user request: Red Heart, Blue Heart, Bee, Football
-            const items = ['❤️', '💙', '🐝', '🏈'];
-            
-            // Create a burst of particles
-            for (let i = 0; i < 20; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.innerText = items[Math.floor(Math.random() * items.length)];
-                
-                const offsetX = (Math.random() - 0.5) * 180;
-                const offsetY = (Math.random() - 0.5) * 180;
-                
-                particle.style.left = (x + offsetX) + 'px';
-                particle.style.top = (y + offsetY) + 'px';
-                
-                particle.style.animationDuration = (0.8 + Math.random() * 0.8) + 's';
-                
-                particlesContainer.appendChild(particle);
-                
-                setTimeout(() => {
-                    particle.remove();
-                }, 1600);
+        // Click with Gravity Effect
+        document.addEventListener('click', (e) => {
+            document.querySelectorAll('.spider-eye').forEach(eye => {
+                eye.style.transform = 'scaleY(0.1)';
+                setTimeout(() => eye.style.transform = 'scaleY(1)', 150);
+            });
+
+            const emojis = ['❤️', '🖤', '🐝', '🎉', '✨', '💖', '🕸️', '💫'];
+            for(let i=0; i<15; i++) {
+                const p = document.createElement('div');
+                p.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+                p.className = 'party-particle';
+                p.style.left = e.clientX + 'px';
+                p.style.top = e.clientY + 'px';
+                document.body.appendChild(p);
+
+                let vx = (Math.random() - 0.5) * 8;
+                let vy = (Math.random() - 0.5) * 10 - 5;
+                let x = 0, y = 0, gravity = 0.5;
+
+                const animate = () => {
+                    vy += gravity;
+                    x += vx;
+                    y += vy;
+                    p.style.transform = `translate(${x}px, ${y}px) rotate(${x*2}deg)`;
+                    if (y < window.innerHeight) requestAnimationFrame(animate);
+                    else p.remove();
+                };
+                requestAnimationFrame(animate);
             }
+        });
+
+        function updateCountdown() {
+            const now = new Date();
+            const tz = now.toLocaleString("en-US", { timeZone: "America/Halifax" });
+            const halifaxNow = new Date(tz);
+            let target = new Date(halifaxNow);
+            target.setHours(20, 0, 0, 0);
+            if (halifaxNow > target) target.setDate(target.getDate() + 1);
+            
+            const diff = target - halifaxNow;
+            document.getElementById("hours").innerText = Math.floor(diff / 3600000).toString().padStart(2, '0');
+            document.getElementById("minutes").innerText = Math.floor((diff % 3600000) / 60000).toString().padStart(2, '0');
+            document.getElementById("seconds").innerText = Math.floor((diff % 60000) / 1000).toString().padStart(2, '0');
         }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
     </script>
 </body>
 </html>
