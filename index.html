@@ -36,135 +36,627 @@
 
     <style>
         body {
-            background-color: #ffe4e6;
-            background-image: radial-gradient(#fbcfe8 2.5px, transparent 2.5px), radial-gradient(#fbcfe8 2.5px, transparent 2.5px);
+            background-color: #ffe4e6; /* Cute light rose */
+            background-image: 
+                radial-gradient(#fbcfe8 2.5px, transparent 2.5px),
+                radial-gradient(#fbcfe8 2.5px, transparent 2.5px);
             background-size: 40px 40px;
             background-position: 0 0, 20px 20px;
             overflow-x: hidden;
         }
 
-        .web-corner { position: absolute; width: 150px; height: 150px; opacity: 0.2; pointer-events: none; z-index: 0; }
+        /* Web Corner Decorations */
+        .web-corner {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            opacity: 0.2;
+            pointer-events: none;
+            z-index: 0;
+        }
         .web-top-left { top: 0; left: 0; transform: rotate(0deg); }
         .web-top-right { top: 0; right: 0; transform: rotate(90deg); }
 
-        @keyframes swing { 0% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } 100% { transform: rotate(-10deg); } }
-        .swing-animation { transform-origin: top center; animation: swing 4s ease-in-out infinite; }
+        /* Animations */
+        @keyframes swing {
+            0% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
+            100% { transform: rotate(-10deg); }
+        }
 
-        /* Party Splash Effect with Gravity */
+        .swing-animation {
+            transform-origin: top center;
+            animation: swing 4s ease-in-out infinite;
+        }
+
+        @keyframes floatHeart {
+            0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100px) scale(1.5) rotate(20deg); opacity: 0; }
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 1.5rem;
+            animation: floatHeart 3s ease-in forwards;
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        /* Party Splash Effect */
         .party-particle {
             position: fixed;
             pointer-events: none;
             z-index: 9999;
             font-size: 1.5rem;
-            will-change: transform;
+            animation: explode 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
 
-        .thread { width: 2px; height: 80px; background-color: #4B5563; margin: 0 auto; }
-        .countdown-box { background: white; border: 4px solid #E02424; box-shadow: 6px 6px 0px #1C64F2; transition: transform 0.2s; }
-        .countdown-box:hover { transform: translateY(-5px); }
-        .activity-card { box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; border: 3px solid transparent; }
-        .activity-card:hover { transform: translateY(-8px); }
+        @keyframes explode {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) rotate(var(--rot)); opacity: 0; }
+        }
+
+        @keyframes pulse-soft {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .pulse-soft {
+            animation: pulse-soft 2s infinite;
+        }
+
+        /* Hanging Spider thread */
+        .thread {
+            width: 2px;
+            height: 80px;
+            background-color: #4B5563;
+            margin: 0 auto;
+        }
+
+        .countdown-box {
+            background: white;
+            border: 4px solid #E02424;
+            box-shadow: 6px 6px 0px #1C64F2;
+            transition: transform 0.2s;
+        }
+        
+        .countdown-box:hover {
+            transform: translateY(-5px);
+        }
+
+        .activity-card {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .activity-card:hover {
+            transform: translateY(-8px);
+        }
+        
         .card-noir:hover { border-color: #1F2937; box-shadow: 8px 8px 0px #1F2937; }
         .card-puzzle:hover { border-color: #1C64F2; box-shadow: 8px 8px 0px #1C64F2; }
+
     </style>
 </head>
 <body class="text-gray-800 font-sans min-h-screen relative flex flex-col items-center pb-16">
 
-    <!-- Background Elements -->
+    <!-- Cute Background Blobs & Floating Elements -->
     <div class="fixed top-0 left-0 w-full h-full pointer-events-none z-0 overflow-hidden">
         <div class="absolute top-10 left-10 w-48 h-48 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-pulse"></div>
         <div class="absolute top-1/3 right-10 w-64 h-64 bg-rose-300 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-pulse" style="animation-delay: 2s"></div>
+        <div class="absolute bottom-20 left-1/4 w-56 h-56 bg-red-200 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-pulse" style="animation-delay: 1s"></div>
+        
+        <!-- Floating Icons -->
+        <div class="absolute top-[15%] left-[15%] text-2xl opacity-60 animate-bounce" style="animation-duration: 3s;">❤️</div>
+        <div class="absolute top-[25%] right-[20%] text-3xl opacity-60 animate-bounce" style="animation-duration: 4s; animation-delay: 1s;">💖</div>
+        <div class="absolute top-[65%] left-[8%] text-2xl opacity-50 animate-bounce" style="animation-duration: 3.5s; animation-delay: 0.5s;">🕸️</div>
+        <div class="absolute top-[75%] right-[15%] text-3xl opacity-60 animate-bounce" style="animation-duration: 4.5s; animation-delay: 2s;">💕</div>
     </div>
 
-    <!-- Hanging Spiders -->
-    <div class="absolute top-0 left-10 md:left-24 swing-animation z-10">
+    <!-- Corner Webs -->
+    <svg class="web-corner web-top-left" viewBox="0 0 100 100" fill="none" stroke="#111928" stroke-width="2">
+        <path d="M0 0 L100 0 M0 0 L0 100 M0 0 L70 70 M0 0 L30 90 M0 0 L90 30" />
+        <path d="M0 20 Q 15 20 20 0 M0 40 Q 25 40 40 0 M0 60 Q 40 60 60 0 M0 80 Q 60 80 80 0 M0 100 Q 80 100 100 0" />
+    </svg>
+    <svg class="web-corner web-top-right" viewBox="0 0 100 100" fill="none" stroke="#111928" stroke-width="2">
+        <path d="M0 0 L100 0 M0 0 L0 100 M0 0 L70 70 M0 0 L30 90 M0 0 L90 30" />
+        <path d="M0 20 Q 15 20 20 0 M0 40 Q 25 40 40 0 M0 60 Q 40 60 60 0 M0 80 Q 60 80 80 0 M0 100 Q 80 100 100 0" />
+    </svg>
+
+    <!-- Hanging Cute Spider Left (New Friend!) -->
+    <div class="absolute top-0 left-10 md:left-24 swing-animation z-10 cursor-pointer" style="animation-delay: -2s;">
         <div class="thread" style="height: 100px;"></div>
         <div class="w-12 h-12 bg-pink-600 rounded-full flex items-center justify-center relative shadow-lg">
-            <div class="flex gap-1 z-10"><div class="spider-eye w-3 h-3 bg-white rounded-full"><div class="spider-pupil w-1.5 h-1.5 bg-black rounded-full"></div></div><div class="spider-eye w-3 h-3 bg-white rounded-full"><div class="spider-pupil w-1.5 h-1.5 bg-black rounded-full"></div></div></div>
-        </div>
-    </div>
-    <div class="absolute top-0 right-10 md:right-32 swing-animation z-10">
-        <div class="thread"></div>
-        <div class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center relative shadow-lg">
-            <div class="flex gap-1 z-10"><div class="spider-eye w-3 h-3 bg-white rounded-full"><div class="spider-pupil w-1.5 h-1.5 bg-black rounded-full"></div></div><div class="spider-eye w-3 h-3 bg-white rounded-full"><div class="spider-pupil w-1.5 h-1.5 bg-black rounded-full"></div></div></div>
+            <!-- Spider Legs -->
+            <div class="absolute w-16 h-1 bg-pink-600 rotate-45 -z-10 rounded-full"></div>
+            <div class="absolute w-16 h-1 bg-pink-600 -rotate-45 -z-10 rounded-full"></div>
+            <div class="absolute w-16 h-1 bg-pink-600 rotate-[20deg] -z-10 rounded-full"></div>
+            <div class="absolute w-16 h-1 bg-pink-600 -rotate-[20deg] -z-10 rounded-full"></div>
+            <!-- Spider Eyes -->
+            <div class="flex gap-1 mb-2 z-10">
+                <div class="spider-eye w-3 h-3 bg-white rounded-full flex items-center justify-center transition-transform duration-100">
+                    <div class="spider-pupil w-1.5 h-1.5 bg-black rounded-full"></div>
+                </div>
+                <div class="spider-eye w-3 h-3 bg-white rounded-full flex items-center justify-center transition-transform duration-100">
+                    <div class="spider-pupil w-1.5 h-1.5 bg-black rounded-full"></div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <main class="w-full max-w-4xl px-4 mt-24 flex flex-col items-center relative z-10">
-        <h1 class="font-display text-5xl text-spidey-red mb-4">Our Web-Tastic Date Night! 🕸️❤️</h1>
-        
-        <!-- Countdown -->
-        <div class="flex gap-6 mb-16">
-            <div class="countdown-box w-28 h-32 rounded-2xl flex flex-col items-center justify-center bg-white">
-                <span id="hours" class="font-display text-5xl text-spidey-red">00</span><span class="text-sm font-bold text-gray-500 uppercase">Hours</span>
-            </div>
-            <div class="countdown-box w-28 h-32 rounded-2xl flex flex-col items-center justify-center bg-white">
-                <span id="minutes" class="font-display text-5xl text-spidey-blue">00</span><span class="text-sm font-bold text-gray-500 uppercase">Mins</span>
-            </div>
-            <div class="countdown-box w-28 h-32 rounded-2xl flex flex-col items-center justify-center bg-white">
-                <span id="seconds" class="font-display text-5xl text-gray-800">00</span><span class="text-sm font-bold text-gray-500 uppercase">Secs</span>
+    <!-- Hanging Cute Spider Right -->
+    <div class="absolute top-0 right-10 md:right-32 swing-animation z-10 cursor-pointer">
+        <div class="thread"></div>
+        <div class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center relative shadow-lg">
+            <!-- Spider Legs -->
+            <div class="absolute w-16 h-1 bg-gray-800 rotate-45 -z-10 rounded-full"></div>
+            <div class="absolute w-16 h-1 bg-gray-800 -rotate-45 -z-10 rounded-full"></div>
+            <div class="absolute w-16 h-1 bg-gray-800 rotate-[20deg] -z-10 rounded-full"></div>
+            <div class="absolute w-16 h-1 bg-gray-800 -rotate-[20deg] -z-10 rounded-full"></div>
+            <!-- Spider Eyes -->
+            <div class="flex gap-1 mb-2 z-10">
+                <div class="spider-eye w-3 h-3 bg-white rounded-full flex items-center justify-center transition-transform duration-100">
+                    <div class="spider-pupil w-1.5 h-1.5 bg-black rounded-full"></div>
+                </div>
+                <div class="spider-eye w-3 h-3 bg-white rounded-full flex items-center justify-center transition-transform duration-100">
+                    <div class="spider-pupil w-1.5 h-1.5 bg-black rounded-full"></div>
+                </div>
             </div>
         </div>
+    </div>
+
+    <main class="w-full max-w-4xl px-4 mt-16 md:mt-24 flex flex-col items-center relative z-10">
+        
+        <div class="text-center mb-10">
+            <h1 class="font-display text-4xl md:text-6xl text-spidey-red mb-4 drop-shadow-md">
+                Our Web-Tastic Date Night! <span class="text-3xl">🕸️❤️</span>
+            </h1>
+            <p class="text-lg md:text-xl font-bold text-gray-700 bg-white/70 inline-block px-6 py-2 rounded-full border-2 border-spidey-blue shadow-sm">
+                Get ready for a night of puzzles, Noir, and you!
+            </p>
+        </div>
+
+        <!-- Countdown Section -->
+        <div class="w-full flex flex-col items-center mb-16">
+            <h2 class="font-display text-2xl md:text-3xl text-gray-800 mb-6 flex items-center gap-2">
+                <svg class="w-8 h-8 text-spidey-red" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8zm1-13h-2v6l5.25 3.15.75-1.23-4-2.37V7z"/></svg>
+                Date Starts At 8:00 PM!
+            </h2>
+            
+            <div class="flex gap-3 md:gap-6 text-center">
+                <div class="countdown-box w-20 h-24 md:w-28 md:h-32 rounded-2xl flex flex-col items-center justify-center bg-white">
+                    <span id="hours" class="font-display text-4xl md:text-5xl text-spidey-red">00</span>
+                    <span class="text-xs md:text-sm font-bold text-gray-500 uppercase tracking-wide mt-1">Hours</span>
+                </div>
+                <div class="font-display text-4xl md:text-5xl text-gray-800 self-center pb-4">:</div>
+                <div class="countdown-box w-20 h-24 md:w-28 md:h-32 rounded-2xl flex flex-col items-center justify-center bg-white">
+                    <span id="minutes" class="font-display text-4xl md:text-5xl text-spidey-blue">00</span>
+                    <span class="text-xs md:text-sm font-bold text-gray-500 uppercase tracking-wide mt-1">Mins</span>
+                </div>
+                <div class="font-display text-4xl md:text-5xl text-gray-800 self-center pb-4">:</div>
+                <div class="countdown-box w-20 h-24 md:w-28 md:h-32 rounded-2xl flex flex-col items-center justify-center bg-white">
+                    <span id="seconds" class="font-display text-4xl md:text-5xl text-gray-800">00</span>
+                    <span class="text-xs md:text-sm font-bold text-gray-500 uppercase tracking-wide mt-1">Secs</span>
+                </div>
+            </div>
+            <div id="date-message" class="hidden mt-6 text-2xl font-display text-pink-600 bg-pink-100 px-6 py-3 rounded-full border-2 border-pink-300 pulse-soft">
+                It's Date Time! 🥰
+            </div>
+        </div>
+
+        <!-- Activities Section -->
+        <h2 class="font-display text-3xl text-gray-800 mb-8 text-center w-full border-b-4 border-spidey-red pb-2 max-w-sm mx-auto rounded-lg">
+            The Plan 📋
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
+            
+            <!-- Noir Card -->
+            <div class="activity-card card-noir bg-gradient-to-br from-gray-100 to-gray-300 rounded-3xl p-6 md:p-8 flex flex-col items-center text-center relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-gray-800 rounded-bl-full opacity-10 group-hover:scale-110 transition-transform"></div>
+                
+                <!-- Noir Icon (Hat & Mask) -->
+                <div class="w-24 h-24 bg-gray-800 rounded-full flex items-center justify-center mb-4 shadow-lg border-4 border-gray-400 relative">
+                    <!-- Hat Brim -->
+                    <div class="absolute top-4 w-28 h-4 bg-gray-900 rounded-full"></div>
+                    <!-- Hat Top -->
+                    <div class="absolute -top-6 w-16 h-12 bg-gray-900 rounded-t-xl"></div>
+                    <!-- Spidey Eyes Noir Style (Fixed to look cool/determined instead of sad) -->
+                    <div class="flex gap-2 mt-4 z-10">
+                        <div class="w-6 h-4 bg-white rounded-full flex items-center justify-center border-2 border-gray-500 rotate-[15deg]"></div>
+                        <div class="w-6 h-4 bg-white rounded-full flex items-center justify-center border-2 border-gray-500 rotate-[-15deg]"></div>
+                    </div>
+                </div>
+                
+                <h3 class="font-display text-2xl text-gray-900 mb-2">Spider-Man Noir</h3>
+                <p class="text-gray-700 font-semibold mb-4">"Wherever I go, the wind follows..."</p>
+                <div class="bg-white/60 p-3 rounded-xl text-sm text-gray-800 w-full border border-gray-300">
+                    Get cozy! We're diving into the monochrome, mystery-filled world of Spider-Man Noir. Popcorn is mandatory! 🍿🕵️‍♂️
+                </div>
+            </div>
+
+            <!-- Puzzle Card -->
+            <div class="activity-card card-puzzle bg-gradient-to-br from-blue-50 to-blue-100 rounded-3xl p-6 md:p-8 flex flex-col items-center text-center relative overflow-hidden group">
+                <div class="absolute bottom-0 left-0 w-32 h-32 bg-spidey-blue rounded-tr-full opacity-10 group-hover:scale-110 transition-transform"></div>
+                
+                <!-- Puzzle Icon -->
+                <div class="w-24 h-24 bg-spidey-blue rounded-2xl flex items-center justify-center mb-4 shadow-lg border-4 border-blue-300 relative pulse-soft">
+                    <svg class="w-12 h-12 text-white" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20.5 11h-2V8c0-1.1-.9-2-2-2h-3V4.5c0-1.38-1.12-2.5-2.5-2.5S8.5 3.12 8.5 4.5V6H5.5c-1.1 0-2 .9-2 2v3H1.5c-1.38 0-2.5 1.12-2.5 2.5S.12 16 1.5 16H3.5v3c0 1.1.9 2 2 2h3v2.5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V21h3c1.1 0 2-.9 2-2v-3h2.5c1.38 0 2.5-1.12 2.5-2.5S21.88 11 20.5 11zM18.5 19h-5v1.5c0 .28-.22.5-.5.5s-.5-.22-.5-.5V19h-5v-5H6.5c-.28 0-.5-.22-.5-.5s.22-.5.5-.5H8v-5h5V6.5c0-.28.22-.5.5-.5s.5.22.5.5V8h5v5h-1.5c-.28 0-.5.22-.5.5s.22.5.5.5h1.5v5z"/>
+                    </svg>
+                </div>
+                
+                <h3 class="font-display text-2xl text-spidey-blue mb-2">Jigsaw Puzzles</h3>
+                <p class="text-blue-800 font-semibold mb-4">Piecing it together...</p>
+                <div class="bg-white/60 p-3 rounded-xl text-sm text-gray-800 w-full border border-blue-200">
+                    Time to show off our brain power! We'll work together to complete our jigsaw puzzle. Teamwork makes the dream work! 🧩✨
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Ask Noir Section (AI Powered) -->
+        <div class="mt-12 w-full bg-gray-900 border-4 border-gray-700 rounded-3xl p-6 md:p-8 shadow-[0_15px_30px_-10px_rgba(0,0,0,0.5)] relative overflow-hidden">
+            <!-- Decorative Noir elements -->
+            <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-gray-800 rounded-full opacity-50 blur-2xl pointer-events-none"></div>
+            <div class="absolute top-5 right-5 text-gray-700 opacity-30">
+                <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            </div>
+            
+            <h3 class="font-display text-2xl text-gray-100 mb-2 flex items-center gap-3">
+                <span class="text-3xl drop-shadow-md">🕵️‍♂️</span> Ask Spider-Noir
+            </h3>
+            <p class="text-gray-400 font-serif italic mb-6 max-w-lg relative z-10">
+                "Got a question about love, life, or puzzles? Ask the detective. He's connected to the multiverse's intelligence network."
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-3 relative z-10">
+                <input type="text" id="noir-input" placeholder="E.g., What's the secret to a good date?" class="flex-1 bg-gray-800 text-gray-200 border-2 border-gray-600 rounded-xl px-5 py-3 focus:outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-500 font-serif placeholder-gray-500 transition-all">
+                <button onclick="askNoir()" id="noir-btn" class="bg-gray-700 hover:bg-gray-600 text-white px-8 py-3 rounded-xl font-bold transition-colors border border-gray-500 shadow-md whitespace-nowrap active:scale-95 flex items-center justify-center gap-2">
+                    <span>Investigate</span>
+                </button>
+            </div>
+            
+            <!-- Noir Output -->
+            <div id="noir-output-container" class="hidden mt-6 bg-gray-200 p-5 rounded-xl border-l-4 border-gray-800 shadow-inner relative z-10">
+                <div class="absolute top-2 right-3 text-gray-400 opacity-50"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M14 17H4v2h10v-2zm6-8H4v2h16V9zM4 15h16v-2H4v2zM4 5v2h16V5H4z"/></svg></div>
+                <p id="noir-output" class="font-mono text-gray-800 leading-relaxed text-sm md:text-base pr-6"></p>
+            </div>
+        </div>
+
+        
+        <!-- Spider-Sense Predictor (AI Powered) -->
+        <div class="mt-8 w-full bg-red-50 border-4 border-spidey-red rounded-3xl p-6 md:p-8 shadow-sm relative overflow-hidden flex flex-col items-center text-center">
+            <h3 class="font-display text-2xl text-spidey-red mb-2 flex items-center gap-3">
+                <span class="text-3xl pulse-soft">✨</span> My Spider-Sense is Tingling!
+            </h3>
+            <p class="text-gray-700 font-semibold mb-6 max-w-xl">
+                What does the multiverse hold for our date night? Tap into the Spider-Sense to get a fun prediction for the evening!
+            </p>
+            <button onclick="tingleSpiderSense()" id="spider-sense-btn" class="bg-spidey-red hover:bg-red-600 text-white px-8 py-3 rounded-xl font-bold transition-all shadow-[0_4px_0_#991B1B] active:shadow-[0_0px_0_#991B1B] active:translate-y-[4px] flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                <span>Predict The Future</span>
+            </button>
+            <div id="spider-sense-output-container" class="hidden mt-6 bg-white p-4 rounded-xl border-2 border-red-200 w-full max-w-lg shadow-inner">
+                <p id="spider-sense-output" class="font-serif text-lg text-red-800 italic"></p>
+            </div>
+        </div>
+
+        <!-- Aunt May's Snack Generator (AI Powered) -->
+        <div class="mt-8 w-full bg-amber-50 border-4 border-amber-300 rounded-3xl p-6 md:p-8 shadow-sm relative overflow-hidden">
+            <h3 class="font-display text-2xl text-amber-700 mb-2 flex items-center gap-3">
+                <span class="text-3xl">🍪</span> Aunt May's Date Night Snacks
+            </h3>
+            <p class="text-amber-800 font-medium mb-4">
+                Not sure what to munch on while solving puzzles or watching Noir? Ask Aunt May for a quick Spider-themed snack idea!
+            </p>
+            <button onclick="generateSnack()" id="snack-btn" class="bg-amber-500 hover:bg-amber-600 text-white px-6 py-2 rounded-full font-bold transition-colors shadow-sm flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                <span>Generate Snack Idea</span>
+            </button>
+            <div id="snack-output" class="hidden mt-4 bg-white p-4 rounded-xl border-2 border-amber-200 text-amber-900 font-medium shadow-inner"></div>
+        </div>
+
+        <!-- Interactive Love Note -->
+        <div class="mt-16 text-center bg-white p-8 rounded-3xl shadow-xl border-2 border-pink-200 w-full max-w-lg relative">
+            <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-white px-4 py-1 rounded-full border-2 border-pink-200 shadow-sm">
+                <span class="text-2xl">💌</span>
+            </div>
+            <p class="font-display text-xl text-gray-800 mb-6">
+                I love you more than Peter Parker loves MJ!
+            </p>
+
+            <!-- AI Love Note Generator -->
+            <div class="mb-8 bg-pink-50/50 rounded-2xl p-4 border border-pink-100">
+                <button onclick="generateLoveNote()" id="love-note-btn" class="text-sm font-bold text-pink-600 bg-white px-5 py-2.5 rounded-full border border-pink-200 hover:bg-pink-100 hover:scale-105 transition-all mb-3 flex items-center justify-center gap-2 mx-auto shadow-sm">
+                    <svg class="w-4 h-4 text-pink-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                    <span>Ask Peter for a web-tastic compliment</span>
+                </button>
+                <div class="min-h-[3rem] flex items-center justify-center">
+                    <p id="generated-note" class="text-lg font-serif text-pink-700 italic px-2"></p>
+                </div>
+            </div>
+
+            <button onclick="acceptDate(this)" class="font-display text-xl bg-spidey-red text-white px-8 py-4 rounded-full shadow-[0_6px_0_#991B1B] active:shadow-[0_0px_0_#991B1B] active:translate-y-[6px] hover:bg-red-500 transition-all flex items-center gap-2 mx-auto">
+                <span>I'm Ready For The Date!</span>
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
+            </button>
+            <p id="rsvp-response" class="hidden mt-4 text-green-600 font-bold text-lg animate-bounce">
+                Yay! See you at 8 PM! 🥰
+            </p>
+        </div>
+
     </main>
 
     <script>
-        // Eye tracking
-        document.addEventListener('mousemove', (e) => {
-            document.querySelectorAll('.spider-pupil').forEach(pupil => {
-                const eye = pupil.parentElement;
-                const rect = eye.getBoundingClientRect();
-                const angle = Math.atan2(e.clientY - (rect.top + rect.height/2), e.clientX - (rect.left + rect.width/2));
-                pupil.style.transform = `translate(${Math.cos(angle)*1.5}px, ${Math.sin(angle)*1.5}px)`;
-            });
-        });
+        // --- AI/LLM Integration (Gemini API) ---
+        const apiKey = ""; // Left empty for automatic Canvas injection
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
 
-        // Click with Gravity Effect
-        document.addEventListener('click', (e) => {
-            document.querySelectorAll('.spider-eye').forEach(eye => {
-                eye.style.transform = 'scaleY(0.1)';
-                setTimeout(() => eye.style.transform = 'scaleY(1)', 150);
-            });
+        async function callGemini(prompt, systemInstruction) {
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                systemInstruction: { parts: [{ text: systemInstruction }] }
+            };
 
-            const emojis = ['❤️', '🖤', '🐝', '🎉', '✨', '💖', '🕸️', '💫'];
-            for(let i=0; i<15; i++) {
-                const p = document.createElement('div');
-                p.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
-                p.className = 'party-particle';
-                p.style.left = e.clientX + 'px';
-                p.style.top = e.clientY + 'px';
-                document.body.appendChild(p);
-
-                let vx = (Math.random() - 0.5) * 8;
-                let vy = (Math.random() - 0.5) * 10 - 5;
-                let x = 0, y = 0, gravity = 0.5;
-
-                const animate = () => {
-                    vy += gravity;
-                    x += vx;
-                    y += vy;
-                    p.style.transform = `translate(${x}px, ${y}px) rotate(${x*2}deg)`;
-                    if (y < window.innerHeight) requestAnimationFrame(animate);
-                    else p.remove();
-                };
-                requestAnimationFrame(animate);
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                const data = await response.json();
+                if (data.candidates && data.candidates.length > 0) {
+                    return data.candidates[0].content.parts[0].text;
+                } else {
+                    console.error("Unexpected API response:", data);
+                    return "Sorry, my spider-sense is tingling... something went wrong with the connection.";
+                }
+            } catch (error) {
+                console.error("Gemini API Error:", error);
+                return "The multiverse connection is unstable! Try again later.";
             }
-        });
+        }
 
+        async function askNoir() {
+            const inputEl = document.getElementById('noir-input');
+            const question = inputEl.value.trim();
+            if (!question) return;
+
+            const btnEl = document.getElementById('noir-btn');
+            const outputContainer = document.getElementById('noir-output-container');
+            const outputEl = document.getElementById('noir-output');
+
+            // Set loading state
+            btnEl.disabled = true;
+            btnEl.innerHTML = `
+                <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Pondering...
+            `;
+            outputContainer.classList.remove('hidden');
+            outputEl.innerText = "Lighting a match in the dark... investigating...";
+            outputEl.classList.add('animate-pulse', 'text-gray-500');
+            outputEl.classList.remove('text-gray-800');
+
+            const systemInstruction = "Act as Spider-Man Noir from the 1930s. Respond to the user's question with a short, hardboiled detective monologue (maximum 3 sentences). Use classic noir metaphors, rain references, or black-and-white imagery. Since this is for a cute date night, ensure there is an underlying tone of gruff romance or endearing protectiveness.";
+
+            const response = await callGemini(question, systemInstruction);
+
+            // Update UI with response
+            outputEl.classList.remove('animate-pulse', 'text-gray-500');
+            outputEl.classList.add('text-gray-800');
+            outputEl.innerText = `"${response}"`;
+            
+            // Reset button
+            btnEl.disabled = false;
+            btnEl.innerHTML = `<span>Investigate</span>`;
+            inputEl.value = "";
+        }
+
+        async function generateLoveNote() {
+            const btnEl = document.getElementById('love-note-btn');
+            const outputEl = document.getElementById('generated-note');
+            
+            btnEl.disabled = true;
+            btnEl.classList.add('opacity-50');
+            outputEl.innerText = "Webbing together some feelings...";
+            outputEl.classList.add('animate-pulse', 'text-pink-400');
+            outputEl.classList.remove('text-pink-700');
+
+            const systemInstruction = "You are Peter Parker. Write a very short, cute, one-sentence romantic compliment or love note for your date. Use mild spider/web puns if possible, but keep it genuinely sweet.";
+
+            const response = await callGemini("Generate a cute love note", systemInstruction);
+
+            outputEl.classList.remove('animate-pulse', 'text-pink-400');
+            outputEl.classList.add('text-pink-700');
+            outputEl.innerText = response;
+            
+            btnEl.disabled = false;
+            btnEl.classList.remove('opacity-50');
+        }
+
+
+        async function tingleSpiderSense() {
+            const btnEl = document.getElementById('spider-sense-btn');
+            const outputContainer = document.getElementById('spider-sense-output-container');
+            const outputEl = document.getElementById('spider-sense-output');
+
+            btnEl.disabled = true;
+            btnEl.classList.add('opacity-50');
+            outputContainer.classList.remove('hidden');
+            outputEl.innerText = "Sensing the multiverse vibrations...";
+            outputEl.classList.add('animate-pulse', 'text-red-400');
+            outputEl.classList.remove('text-red-800');
+
+            const systemInstruction = "You are a cute romantic fortune teller with a Spider-Sense. Give a one-sentence prediction about how fun, cozy, or romantic the user's date night will be tonight. Mention jigsaw puzzles, Spider-Man Noir, or snacks. Keep it wholesome and use a web or spider pun.";
+            
+            const response = await callGemini("Predict our date night!", systemInstruction);
+
+            outputEl.classList.remove('animate-pulse', 'text-red-400');
+            outputEl.classList.add('text-red-800');
+            outputEl.innerText = `"${response}"`;
+            
+            btnEl.disabled = false;
+            btnEl.classList.remove('opacity-50');
+        }
+
+        async function generateSnack() {
+            const btnEl = document.getElementById('snack-btn');
+            const outputEl = document.getElementById('snack-output');
+            
+            btnEl.disabled = true;
+            outputEl.classList.remove('hidden');
+            outputEl.innerHTML = '<span class="animate-pulse opacity-70">Checking the pantry...</span>';
+
+            const systemInstruction = "Act as Aunt May. Suggest one simple, cute, Spider-Man themed snack or drink for a couple's movie and puzzle date night. Keep it to two sentences. Format it with a fun emoji.";
+            
+            const response = await callGemini("Give me a snack idea!", systemInstruction);
+
+            outputEl.innerHTML = response;
+            btnEl.disabled = false;
+        }
+
+        // --- Countdown Logic ---
         function updateCountdown() {
             const now = new Date();
-            const tz = now.toLocaleString("en-US", { timeZone: "America/Halifax" });
-            const halifaxNow = new Date(tz);
-            let target = new Date(halifaxNow);
-            target.setHours(20, 0, 0, 0);
-            if (halifaxNow > target) target.setDate(target.getDate() + 1);
             
-            const diff = target - halifaxNow;
-            document.getElementById("hours").innerText = Math.floor(diff / 3600000).toString().padStart(2, '0');
-            document.getElementById("minutes").innerText = Math.floor((diff % 3600000) / 60000).toString().padStart(2, '0');
-            document.getElementById("seconds").innerText = Math.floor((diff % 60000) / 1000).toString().padStart(2, '0');
+            // Get current time in Nova Scotia (Halifax timezone)
+            const tzString = now.toLocaleString("en-US", { timeZone: "America/Halifax" });
+            const halifaxNow = new Date(tzString);
+            
+            // Target 8:00 PM
+            let halifaxTarget = new Date(halifaxNow);
+            halifaxTarget.setHours(20, 0, 0, 0);
+
+            // If it's already past 8:00 PM in Nova Scotia today, set it for 8:00 PM tomorrow
+            if (halifaxNow.getTime() > halifaxTarget.getTime()) {
+                halifaxTarget.setDate(halifaxTarget.getDate() + 1);
+            }
+            
+            // Calculate distance based on Halifax times
+            const distance = halifaxTarget.getTime() - halifaxNow.getTime();
+
+            // Time calculations for hours, minutes and seconds
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Output the result
+            document.getElementById("hours").innerHTML = hours.toString().padStart(2, '0');
+            document.getElementById("minutes").innerHTML = minutes.toString().padStart(2, '0');
+            document.getElementById("seconds").innerHTML = seconds.toString().padStart(2, '0');
+
+            // If the count down is exactly 0 (or very close), show a message
+            if (distance < 1000 && distance > 0) {
+                document.getElementById("date-message").classList.remove("hidden");
+                createParticles({ clientX: window.innerWidth/2, clientY: window.innerHeight/2 });
+                createParticles({ clientX: window.innerWidth/2 + 50, clientY: window.innerHeight/2 });
+                createParticles({ clientX: window.innerWidth/2 - 50, clientY: window.innerHeight/2 });
+            } else {
+                 document.getElementById("date-message").classList.add("hidden");
+            }
         }
+
+        // Update the count down every 1 second
         setInterval(updateCountdown, 1000);
-        updateCountdown();
+        updateCountdown(); // Initial call
+
+        // --- Interaction Logic ---
+        
+        // Eye tracking logic for spiders
+        document.addEventListener('mousemove', (e) => {
+            const pupils = document.querySelectorAll('.spider-pupil');
+            pupils.forEach(pupil => {
+                const eye = pupil.parentElement;
+                const rect = eye.getBoundingClientRect();
+                const eyeX = rect.left + rect.width / 2;
+                const eyeY = rect.top + rect.height / 2;
+                
+                const angle = Math.atan2(e.clientY - eyeY, e.clientX - eyeX);
+                // Calculate how far to move pupil based on distance to mouse
+                const distance = Math.min(1.5, Math.hypot(e.clientX - eyeX, e.clientY - eyeY) / 15);
+                
+                const moveX = Math.cos(angle) * distance;
+                const moveY = Math.sin(angle) * distance;
+                
+                pupil.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            });
+        });
+
+        // Global click listener for blinking and particles
+        document.addEventListener('click', (e) => {
+            // Blink effect for spiders
+            const eyes = document.querySelectorAll('.spider-eye');
+            eyes.forEach(eye => {
+                eye.style.transform = 'scaleY(0.1)';
+                setTimeout(() => {
+                    eye.style.transform = 'scaleY(1)';
+                }, 150);
+            });
+            
+            // Spawn particles
+            createParticles(e);
+        });
+
+        function createParticles(e) {
+            const emojis = ['❤️', '🖤', '🐝', '🎉', '✨', '💖', '🕸️', '💫', '🌟', '💎', '💫'];
+            const count = 30; 
+
+            for(let i=0; i < count; i++) {
+                const particle = document.createElement('div');
+                particle.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+                particle.className = 'party-particle';
+                
+                // Random explosion direction and reduced distance for a more gentle effect
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 40 + Math.random() * 60; 
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+                const rot = (Math.random() - 0.5) * 360; 
+                
+                particle.style.left = e.clientX + 'px';
+                particle.style.top = e.clientY + 'px';
+                
+                // Apply dynamic animation variables
+                particle.style.setProperty('--tx', `${tx}px`);
+                particle.style.setProperty('--ty', `${ty}px`);
+                particle.style.setProperty('--rot', `${rot}deg`);
+                
+                document.body.appendChild(particle);
+                
+                // Remove element after animation ends
+                setTimeout(() => {
+                    particle.remove();
+                }, 1000);
+            }
+        }
+
+        function acceptDate(btn) {
+            // Change button text
+            btn.innerHTML = `<span>It's a Date! 🕸️</span>`;
+            btn.classList.add('bg-green-500');
+            btn.classList.remove('bg-spidey-red', 'hover:bg-red-500');
+            btn.style.boxShadow = "0 6px 0 #166534";
+            
+            // Show response message
+            document.getElementById('rsvp-response').classList.remove('hidden');
+            
+            // Trigger heart explosion in center of screen
+            const rect = btn.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            for(let i=0; i<8; i++) {
+                setTimeout(() => {
+                    createParticles({ clientX: centerX, clientY: centerY });
+                }, i * 150);
+            }
+        }
     </script>
 </body>
 </html>
