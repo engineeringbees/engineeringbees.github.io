@@ -36,7 +36,7 @@
 
     <style>
         body {
-            background-color: #ffe4e6; /* Cute light rose */
+            background-color: #ffe4e6;
             background-image: 
                 radial-gradient(#fbcfe8 2.5px, transparent 2.5px),
                 radial-gradient(#fbcfe8 2.5px, transparent 2.5px);
@@ -45,7 +45,6 @@
             overflow-x: hidden;
         }
 
-        /* Web Corner Decorations */
         .web-corner {
             position: absolute;
             width: 150px;
@@ -57,7 +56,6 @@
         .web-top-left { top: 0; left: 0; transform: rotate(0deg); }
         .web-top-right { top: 0; right: 0; transform: rotate(90deg); }
 
-        /* Animations */
         @keyframes swing {
             0% { transform: rotate(-10deg); }
             50% { transform: rotate(10deg); }
@@ -82,7 +80,6 @@
             z-index: 50;
         }
 
-        /* Party Splash Effect */
         .party-particle {
             position: fixed;
             pointer-events: none;
@@ -105,7 +102,6 @@
             animation: pulse-soft 2s infinite;
         }
 
-        /* Hanging Spider thread */
         .thread {
             width: 2px;
             height: 80px;
@@ -136,7 +132,97 @@
         
         .card-noir:hover { border-color: #1F2937; box-shadow: 8px 8px 0px #1F2937; }
         .card-puzzle:hover { border-color: #1C64F2; box-shadow: 8px 8px 0px #1C64F2; }
+        .card-trivia:hover { border-color: #7C3AED; box-shadow: 8px 8px 0px #7C3AED; }
+        .card-plato:hover { border-color: #059669; box-shadow: 8px 8px 0px #059669; }
+        .card-drink:hover { border-color: #D97706; box-shadow: 8px 8px 0px #D97706; }
 
+        /* Trivia styles */
+        .trivia-option {
+            background: #F5F3FF;
+            border: 3px solid #DDD6FE;
+            border-radius: 16px;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 700;
+            text-align: left;
+        }
+        .trivia-option:hover {
+            background: #EDE9FE;
+            transform: scale(1.02);
+        }
+        .trivia-option.correct {
+            background: #D1FAE5 !important;
+            border-color: #10B981 !important;
+        }
+        .trivia-option.incorrect {
+            background: #FEE2E2 !important;
+            border-color: #EF4444 !important;
+        }
+        .trivia-option.disabled {
+            pointer-events: none;
+        }
+
+        /* Plato game tile */
+        .plato-tile {
+            background: white;
+            border: 3px solid #D1FAE5;
+            border-radius: 20px;
+            padding: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+        .plato-tile:hover {
+            transform: translateY(-6px) rotate(-2deg);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+            border-color: #059669;
+        }
+        .plato-tile.selected {
+            border-color: #059669;
+            background: #ECFDF5;
+            box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.2);
+        }
+
+        /* Drink break divider */
+        .drink-divider {
+            position: relative;
+            padding: 24px 0;
+            text-align: center;
+        }
+        .drink-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: repeating-linear-gradient(90deg, #FDE68A 0px, #FDE68A 10px, transparent 10px, transparent 20px);
+            z-index: 0;
+        }
+        .drink-divider-inner {
+            position: relative;
+            z-index: 1;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #FFFBEB;
+            border: 3px solid #F59E0B;
+            border-radius: 999px;
+            padding: 8px 20px;
+            font-family: "Fredoka One", cursive;
+            color: #92400E;
+            box-shadow: 4px 4px 0px #F59E0B;
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+        }
+        .wiggle {
+            animation: wiggle 2s ease-in-out infinite;
+        }
     </style>
 </head>
 <body class="text-gray-800 font-sans min-h-screen relative flex flex-col items-center pb-16">
@@ -147,7 +233,6 @@
         <div class="absolute top-1/3 right-10 w-64 h-64 bg-rose-300 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-pulse" style="animation-delay: 2s"></div>
         <div class="absolute bottom-20 left-1/4 w-56 h-56 bg-red-200 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-pulse" style="animation-delay: 1s"></div>
         
-        <!-- Floating Icons -->
         <div class="absolute top-[15%] left-[15%] text-2xl opacity-60 animate-bounce" style="animation-duration: 3s;">❤️</div>
         <div class="absolute top-[25%] right-[20%] text-3xl opacity-60 animate-bounce" style="animation-duration: 4s; animation-delay: 1s;">💖</div>
         <div class="absolute top-[65%] left-[8%] text-2xl opacity-50 animate-bounce" style="animation-duration: 3.5s; animation-delay: 0.5s;">🕸️</div>
@@ -164,16 +249,14 @@
         <path d="M0 20 Q 15 20 20 0 M0 40 Q 25 40 40 0 M0 60 Q 40 60 60 0 M0 80 Q 60 80 80 0 M0 100 Q 80 100 100 0" />
     </svg>
 
-    <!-- Hanging Cute Spider Left (New Friend!) -->
+    <!-- Hanging Cute Spider Left -->
     <div class="absolute top-0 left-10 md:left-24 swing-animation z-10 cursor-pointer" style="animation-delay: -2s;">
         <div class="thread" style="height: 100px;"></div>
         <div class="w-12 h-12 bg-pink-600 rounded-full flex items-center justify-center relative shadow-lg">
-            <!-- Spider Legs -->
             <div class="absolute w-16 h-1 bg-pink-600 rotate-45 -z-10 rounded-full"></div>
             <div class="absolute w-16 h-1 bg-pink-600 -rotate-45 -z-10 rounded-full"></div>
             <div class="absolute w-16 h-1 bg-pink-600 rotate-[20deg] -z-10 rounded-full"></div>
             <div class="absolute w-16 h-1 bg-pink-600 -rotate-[20deg] -z-10 rounded-full"></div>
-            <!-- Spider Eyes -->
             <div class="flex gap-1 mb-2 z-10">
                 <div class="spider-eye w-3 h-3 bg-white rounded-full flex items-center justify-center transition-transform duration-100">
                     <div class="spider-pupil w-1.5 h-1.5 bg-black rounded-full"></div>
@@ -189,12 +272,10 @@
     <div class="absolute top-0 right-10 md:right-32 swing-animation z-10 cursor-pointer">
         <div class="thread"></div>
         <div class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center relative shadow-lg">
-            <!-- Spider Legs -->
             <div class="absolute w-16 h-1 bg-gray-800 rotate-45 -z-10 rounded-full"></div>
             <div class="absolute w-16 h-1 bg-gray-800 -rotate-45 -z-10 rounded-full"></div>
             <div class="absolute w-16 h-1 bg-gray-800 rotate-[20deg] -z-10 rounded-full"></div>
             <div class="absolute w-16 h-1 bg-gray-800 -rotate-[20deg] -z-10 rounded-full"></div>
-            <!-- Spider Eyes -->
             <div class="flex gap-1 mb-2 z-10">
                 <div class="spider-eye w-3 h-3 bg-white rounded-full flex items-center justify-center transition-transform duration-100">
                     <div class="spider-pupil w-1.5 h-1.5 bg-black rounded-full"></div>
@@ -249,20 +330,36 @@
         <h2 class="font-display text-3xl text-gray-800 mb-8 text-center w-full border-b-4 border-spidey-red pb-2 max-w-sm mx-auto rounded-lg">
             The Plan 📋
         </h2>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
+
+        <!-- 🍹 PRE-MOVIE DRINK BREAK -->
+        <div class="drink-divider w-full mt-10">
+            <div class="drink-divider-inner">
+                <span class="text-2xl wiggle">🍸</span>
+                <span>Pre-Movie Drinks — 8:15 PM</span>
+                <span class="text-2xl wiggle" style="animation-delay:0.5s">🥂</span>
+            </div>
+        </div>
+        <div class="w-full activity-card card-drink bg-gradient-to-br from-purple-50 to-pink-100 rounded-3xl p-6 md:p-8 flex flex-col items-center text-center relative overflow-hidden group">
+            <div class="absolute top-0 left-0 w-32 h-32 bg-purple-300 rounded-br-full opacity-10 group-hover:scale-110 transition-transform"></div>
+            <div class="text-5xl mb-3">🍸</div>
+            <h3 class="font-display text-2xl text-purple-800 mb-2">Pre-Show Cocktails!</h3>
+            <p class="text-purple-700 font-semibold mb-3">Let's set the mood before the movie 🎬</p>
+            <div class="bg-white/70 p-4 rounded-xl text-sm text-gray-800 w-full border border-purple-200 space-y-2">
+                <p><strong>🕷️ "The Web-Slinger"</strong> — Cranberry vodka with a lime twist (red & green like Spidey!)</p>
+                <p><strong>🌙 "Midnight Noir"</strong> — Blackberry gin fizz with a splash of soda</p>
+                <p class="text-xs text-purple-600 italic pt-1">Non-alcoholic option: Sparkling cranberry limeade 🍹</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full mt-8">
             
             <!-- Noir Card -->
             <div class="activity-card card-noir bg-gradient-to-br from-gray-100 to-gray-300 rounded-3xl p-6 md:p-8 flex flex-col items-center text-center relative overflow-hidden group">
                 <div class="absolute top-0 right-0 w-32 h-32 bg-gray-800 rounded-bl-full opacity-10 group-hover:scale-110 transition-transform"></div>
                 
-                <!-- Noir Icon (Hat & Mask) -->
                 <div class="w-24 h-24 bg-gray-800 rounded-full flex items-center justify-center mb-4 shadow-lg border-4 border-gray-400 relative">
-                    <!-- Hat Brim -->
                     <div class="absolute top-4 w-28 h-4 bg-gray-900 rounded-full"></div>
-                    <!-- Hat Top -->
                     <div class="absolute -top-6 w-16 h-12 bg-gray-900 rounded-t-xl"></div>
-                    <!-- Spidey Eyes Noir Style (Fixed to look cool/determined instead of sad) -->
                     <div class="flex gap-2 mt-4 z-10">
                         <div class="w-6 h-4 bg-white rounded-full flex items-center justify-center border-2 border-gray-500 rotate-[15deg]"></div>
                         <div class="w-6 h-4 bg-white rounded-full flex items-center justify-center border-2 border-gray-500 rotate-[-15deg]"></div>
@@ -280,7 +377,6 @@
             <div class="activity-card card-puzzle bg-gradient-to-br from-blue-50 to-blue-100 rounded-3xl p-6 md:p-8 flex flex-col items-center text-center relative overflow-hidden group">
                 <div class="absolute bottom-0 left-0 w-32 h-32 bg-spidey-blue rounded-tr-full opacity-10 group-hover:scale-110 transition-transform"></div>
                 
-                <!-- Puzzle Icon -->
                 <div class="w-24 h-24 bg-spidey-blue rounded-2xl flex items-center justify-center mb-4 shadow-lg border-4 border-blue-300 relative pulse-soft">
                     <svg class="w-12 h-12 text-white" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M20.5 11h-2V8c0-1.1-.9-2-2-2h-3V4.5c0-1.38-1.12-2.5-2.5-2.5S8.5 3.12 8.5 4.5V6H5.5c-1.1 0-2 .9-2 2v3H1.5c-1.38 0-2.5 1.12-2.5 2.5S.12 16 1.5 16H3.5v3c0 1.1.9 2 2 2h3v2.5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V21h3c1.1 0 2-.9 2-2v-3h2.5c1.38 0 2.5-1.12 2.5-2.5S21.88 11 20.5 11zM18.5 19h-5v1.5c0 .28-.22.5-.5.5s-.5-.22-.5-.5V19h-5v-5H6.5c-.28 0-.5-.22-.5-.5s.22-.5.5-.5H8v-5h5V6.5c0-.28.22-.5.5-.5s.5.22.5.5V8h5v5h-1.5c-.28 0-.5.22-.5.5s.22.5.5.5h1.5v5z"/>
@@ -296,9 +392,207 @@
 
         </div>
 
+        <!-- 🍹 POST-MOVIE DRINK BREAK -->
+        <div class="drink-divider w-full mt-10">
+            <div class="drink-divider-inner" style="background:#F3F4F6; border-color:#4B5563; box-shadow:4px 4px 0px #4B5563; color:#1F2937;">
+                <span class="text-2xl wiggle">🥃</span>
+                <span>Post-Movie Nightcap — 10:30 PM</span>
+                <span class="text-2xl wiggle" style="animation-delay:0.5s">🌙</span>
+            </div>
+        </div>
+        <div class="w-full activity-card card-drink bg-gradient-to-br from-gray-100 to-slate-200 rounded-3xl p-6 md:p-8 flex flex-col items-center text-center relative overflow-hidden group">
+            <div class="absolute bottom-0 right-0 w-32 h-32 bg-gray-400 rounded-tl-full opacity-10 group-hover:scale-110 transition-transform"></div>
+            <div class="text-5xl mb-3">🥃</div>
+            <h3 class="font-display text-2xl text-gray-800 mb-2">Post-Noir Nightcap!</h3>
+            <p class="text-gray-700 font-semibold mb-3">That was intense! Time to unwind 🌃</p>
+            <div class="bg-white/70 p-4 rounded-xl text-sm text-gray-800 w-full border border-gray-300 space-y-2">
+                <p><strong>🕵️ "The Detective's Dram"</strong> — Whiskey neat with a single ice cube (very noir!)</p>
+                <p><strong>🖤 "Black & White Russian"</strong> — Vodka, coffee liqueur, topped with cream</p>
+                <p><strong>☕ "Spider's Espresso"</strong> — Hot coffee with a shot of Kahlúa</p>
+                <p class="text-xs text-gray-600 italic pt-1">Non-alcoholic option: Hot chocolate with a dash of cinnamon 🍫</p>
+            </div>
+        </div>
+
+        <!-- 🍹 DRINK BREAK #1 -->
+        <div class="drink-divider w-full mt-10">
+            <div class="drink-divider-inner">
+                <span class="text-2xl wiggle">🍹</span>
+                <span>Drink Break #1 — 11:00 PM</span>
+                <span class="text-2xl wiggle" style="animation-delay:0.5s">🥤</span>
+            </div>
+        </div>
+        <div class="w-full activity-card card-drink bg-gradient-to-br from-amber-50 to-yellow-100 rounded-3xl p-6 md:p-8 flex flex-col items-center text-center relative overflow-hidden group">
+            <div class="absolute top-0 left-0 w-32 h-32 bg-amber-300 rounded-br-full opacity-10 group-hover:scale-110 transition-transform"></div>
+            <div class="text-5xl mb-3">🍸</div>
+            <h3 class="font-display text-2xl text-amber-800 mb-2">Welcome Cocktails!</h3>
+            <p class="text-amber-700 font-semibold mb-3">Let's toast to us! 🥂</p>
+            <div class="bg-white/70 p-4 rounded-xl text-sm text-gray-800 w-full border border-amber-200 space-y-2">
+                <p><strong>🕷️ "The Web-Slinger"</strong> — Cranberry vodka with a lime twist (red & green like Spidey!)</p>
+                <p><strong>🌙 "Midnight Noir"</strong> — Blackberry gin fizz with a splash of soda</p>
+                <p class="text-xs text-amber-600 italic pt-1">Non-alcoholic option: Sparkling cranberry limeade 🍹</p>
+            </div>
+        </div>
+
+        <!-- 🧠 TRIVIA SECTION -->
+        <div class="drink-divider w-full mt-10">
+            <div class="drink-divider-inner" style="background:#F5F3FF; border-color:#7C3AED; box-shadow:4px 4px 0px #7C3AED; color:#5B21B6;">
+                <span class="text-2xl wiggle">🧠</span>
+                <span>Trivia Time! — 11:30 PM</span>
+                <span class="text-2xl wiggle" style="animation-delay:0.5s">💡</span>
+            </div>
+        </div>
+        <div class="w-full activity-card card-trivia bg-gradient-to-br from-purple-50 to-violet-100 rounded-3xl p-6 md:p-8 flex flex-col items-center text-center relative overflow-hidden group">
+            <div class="absolute bottom-0 right-0 w-40 h-40 bg-purple-300 rounded-tl-full opacity-10 group-hover:scale-110 transition-transform"></div>
+            
+            <div class="text-5xl mb-3">🧠</div>
+            <h3 class="font-display text-2xl text-purple-800 mb-2">Couple's Trivia!</h3>
+            <p class="text-purple-700 font-semibold mb-4">How well do we know each other (and Spider-Man)?</p>
+            
+            <div id="trivia-container" class="w-full bg-white/70 p-5 rounded-xl border border-purple-200 text-left">
+                <div class="flex justify-between items-center mb-3">
+                    <span class="text-xs font-bold text-purple-600 bg-purple-100 px-3 py-1 rounded-full">Question <span id="q-current">1</span> / <span id="q-total">5</span></span>
+                    <span class="text-xs font-bold text-green-700 bg-green-100 px-3 py-1 rounded-full">Score: <span id="trivia-score">0</span></span>
+                </div>
+                <p id="trivia-question" class="font-display text-lg text-gray-800 mb-4">Loading question...</p>
+                <div id="trivia-options" class="space-y-2">
+                    <!-- Options injected by JS -->
+                </div>
+                <p id="trivia-feedback" class="mt-3 font-bold text-sm hidden"></p>
+                <button id="trivia-next-btn" onclick="nextTriviaQuestion()" class="hidden mt-4 w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2.5 rounded-xl transition-colors shadow-sm">
+                    Next Question →
+                </button>
+            </div>
+
+            <div id="trivia-final" class="hidden w-full bg-white/70 p-6 rounded-xl border border-purple-200 text-center">
+                <div class="text-5xl mb-3" id="trivia-final-emoji">🏆</div>
+                <h4 class="font-display text-xl text-purple-800 mb-2" id="trivia-final-title">Trivia Complete!</h4>
+                <p class="text-gray-700 font-semibold" id="trivia-final-score">You scored X / 5</p>
+                <button onclick="restartTrivia()" class="mt-4 bg-purple-600 hover:bg-purple-700 text-white font-bold px-6 py-2 rounded-full transition-colors">
+                    Play Again 🔄
+                </button>
+            </div>
+        </div>
+
+        <!-- 🍹 DRINK BREAK #2 -->
+        <div class="drink-divider w-full mt-10">
+            <div class="drink-divider-inner">
+                <span class="text-2xl wiggle">🧃</span>
+                <span>Drink Break #2 — 12:15 AM</span>
+                <span class="text-2xl wiggle" style="animation-delay:0.5s">🍵</span>
+            </div>
+        </div>
+        <div class="w-full activity-card card-drink bg-gradient-to-br from-orange-50 to-amber-100 rounded-3xl p-6 md:p-8 flex flex-col items-center text-center relative overflow-hidden group">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-orange-300 rounded-bl-full opacity-10 group-hover:scale-110 transition-transform"></div>
+            <div class="text-5xl mb-3">☕</div>
+            <h3 class="font-display text-2xl text-orange-800 mb-2">Cozy Drink Refill!</h3>
+            <p class="text-orange-700 font-semibold mb-3">Warm up before the puzzles! 🔥</p>
+            <div class="bg-white/70 p-4 rounded-xl text-sm text-gray-800 w-full border border-orange-200 space-y-2">
+                <p><strong>🍫 "Parker's Hot Chocolate"</strong> — Rich cocoa with marshmallows & a drizzle of caramel</p>
+                <p><strong>🫖 "Aunt May's Chamomile"</strong> — Soothing tea with honey & a slice of lemon</p>
+                <p><strong>🧋 "Web-Shooter Chai"</strong> — Spiced latte with frothy top</p>
+            </div>
+        </div>
+
+        <!-- 🎮 PLATO BOARD GAMES SECTION -->
+        <div class="drink-divider w-full mt-10">
+            <div class="drink-divider-inner" style="background:#ECFDF5; border-color:#059669; box-shadow:4px 4px 0px #059669; color:#065F46;">
+                <span class="text-2xl wiggle">🎮</span>
+                <span>Plato Board Games — 1:00 AM</span>
+                <span class="text-2xl wiggle" style="animation-delay:0.5s">🏆</span>
+            </div>
+        </div>
+        <div class="w-full activity-card card-plato bg-gradient-to-br from-emerald-50 to-green-100 rounded-3xl p-6 md:p-8 flex flex-col items-center text-center relative overflow-hidden group">
+            <div class="absolute top-0 left-0 w-40 h-40 bg-emerald-300 rounded-br-full opacity-10 group-hover:scale-110 transition-transform"></div>
+            
+            <div class="text-5xl mb-3">🎮</div>
+            <h3 class="font-display text-2xl text-emerald-800 mb-2">Plato Game Night!</h3>
+            <p class="text-emerald-700 font-semibold mb-4">Pick your game — loser does the dishes! 😜</p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 w-full mb-4">
+                <div class="plato-tile" onclick="selectPlatoGame(this, 'Ludo')">
+                    <div class="text-3xl mb-1">🎲</div>
+                    <p class="font-display text-sm text-gray-800">Ludo</p>
+                </div>
+                <div class="plato-tile" onclick="selectPlatoGame(this, 'Uno')">
+                    <div class="text-3xl mb-1">🃏</div>
+                    <p class="font-display text-sm text-gray-800">Uno</p>
+                </div>
+                <div class="plato-tile" onclick="selectPlatoGame(this, 'Pool')">
+                    <div class="text-3xl mb-1">🎱</div>
+                    <p class="font-display text-sm text-gray-800">Pool</p>
+                </div>
+                <div class="plato-tile" onclick="selectPlatoGame(this, 'Carrom')">
+                    <div class="text-3xl mb-1">🪙</div>
+                    <p class="font-display text-sm text-gray-800">Carrom</p>
+                </div>
+                <div class="plato-tile" onclick="selectPlatoGame(this, 'Bowling')">
+                    <div class="text-3xl mb-1">🎳</div>
+                    <p class="font-display text-sm text-gray-800">Bowling</p>
+                </div>
+                <div class="plato-tile" onclick="selectPlatoGame(this, 'Werewolf')">
+                    <div class="text-3xl mb-1">🐺</div>
+                    <p class="font-display text-sm text-gray-800">Werewolf</p>
+                </div>
+                <div class="plato-tile" onclick="selectPlatoGame(this, 'Connect 4')">
+                    <div class="text-3xl mb-1">🔴</div>
+                    <p class="font-display text-sm text-gray-800">Connect 4</p>
+                </div>
+                <div class="plato-tile" onclick="selectPlatoGame(this, 'Ocho')">
+                    <div class="text-3xl mb-1">🎯</div>
+                    <p class="font-display text-sm text-gray-800">Ocho</p>
+                </div>
+            </div>
+
+            <div id="plato-selected" class="hidden w-full bg-white/70 p-4 rounded-xl border-2 border-emerald-400">
+                <p class="font-display text-emerald-800">
+                    <span id="plato-game-name">Game</span> it is! 🎉 <br>
+                    <span class="text-sm font-sans font-semibold text-gray-600">May the best spider win 🕷️</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- 🍹 DRINK BREAK #3 -->
+        <div class="drink-divider w-full mt-10">
+            <div class="drink-divider-inner">
+                <span class="text-2xl wiggle">🍷</span>
+                <span>Drink Break #3 — 2:00 AM</span>
+                <span class="text-2xl wiggle" style="animation-delay:0.5s">🥃</span>
+            </div>
+        </div>
+        <div class="w-full activity-card card-drink bg-gradient-to-br from-rose-50 to-pink-100 rounded-3xl p-6 md:p-8 flex flex-col items-center text-center relative overflow-hidden group">
+            <div class="absolute bottom-0 left-0 w-32 h-32 bg-rose-300 rounded-tr-full opacity-10 group-hover:scale-110 transition-transform"></div>
+            <div class="text-5xl mb-3">🍷</div>
+            <h3 class="font-display text-2xl text-rose-800 mb-2">Midnight Toast!</h3>
+            <p class="text-rose-700 font-semibold mb-3">Halfway through the night — let's celebrate! 🌙</p>
+            <div class="bg-white/70 p-4 rounded-xl text-sm text-gray-800 w-full border border-rose-200 space-y-2">
+                <p><strong>🌹 "MJ's Favourite"</strong> — Rosé wine with fresh strawberries</p>
+                <p><strong>🕸️ "Web of Love"</strong> — Raspberry mojito with mint leaves</p>
+                <p><strong>💤 "Sleepy Spider"</strong> — Warm milk with honey & cinnamon (for later!)</p>
+            </div>
+        </div>
+
+        <!-- 🍹 DRINK BREAK #4 -->
+        <div class="drink-divider w-full mt-10">
+            <div class="drink-divider-inner" style="background:#EFF6FF; border-color:#3B82F6; box-shadow:4px 4px 0px #3B82F6; color:#1E40AF;">
+                <span class="text-2xl wiggle">🧊</span>
+                <span>Drink Break #4 — 3:00 AM</span>
+                <span class="text-2xl wiggle" style="animation-delay:0.5s">💧</span>
+            </div>
+        </div>
+        <div class="w-full activity-card card-drink bg-gradient-to-br from-blue-50 to-cyan-100 rounded-3xl p-6 md:p-8 flex flex-col items-center text-center relative overflow-hidden group">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-blue-300 rounded-bl-full opacity-10 group-hover:scale-110 transition-transform"></div>
+            <div class="text-5xl mb-3">💧</div>
+            <h3 class="font-display text-2xl text-blue-800 mb-2">Hydration Station!</h3>
+            <p class="text-blue-700 font-semibold mb-3">Water break, bestie! Stay hydrated 💦</p>
+            <div class="bg-white/70 p-4 rounded-xl text-sm text-gray-800 w-full border border-blue-200 space-y-2">
+                <p><strong>💧 Water!</strong> — Because even Spider-Man drinks water 😂</p>
+                <p><strong>🍋 Lemon & Mint Infusion</strong> — Refreshing and pretty</p>
+                <p><strong>🥥 Coconut Water</strong> — Recharge those puzzle-solving brains!</p>
+            </div>
+        </div>
+
         <!-- Ask Noir Section (AI Powered) -->
         <div class="mt-12 w-full bg-gray-900 border-4 border-gray-700 rounded-3xl p-6 md:p-8 shadow-[0_15px_30px_-10px_rgba(0,0,0,0.5)] relative overflow-hidden">
-            <!-- Decorative Noir elements -->
             <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-gray-800 rounded-full opacity-50 blur-2xl pointer-events-none"></div>
             <div class="absolute top-5 right-5 text-gray-700 opacity-30">
                 <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
@@ -318,7 +612,6 @@
                 </button>
             </div>
             
-            <!-- Noir Output -->
             <div id="noir-output-container" class="hidden mt-6 bg-gray-200 p-5 rounded-xl border-l-4 border-gray-800 shadow-inner relative z-10">
                 <div class="absolute top-2 right-3 text-gray-400 opacity-50"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M14 17H4v2h10v-2zm6-8H4v2h16V9zM4 15h16v-2H4v2zM4 5v2h16V5H4z"/></svg></div>
                 <p id="noir-output" class="font-mono text-gray-800 leading-relaxed text-sm md:text-base pr-6"></p>
@@ -391,7 +684,7 @@
 
     <script>
         // --- AI/LLM Integration (Gemini API) ---
-        const apiKey = ""; // Left empty for automatic Canvas injection
+        const apiKey = "";
         const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
 
         async function callGemini(prompt, systemInstruction) {
@@ -429,7 +722,6 @@
             const outputContainer = document.getElementById('noir-output-container');
             const outputEl = document.getElementById('noir-output');
 
-            // Set loading state
             btnEl.disabled = true;
             btnEl.innerHTML = `
                 <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -447,12 +739,10 @@
 
             const response = await callGemini(question, systemInstruction);
 
-            // Update UI with response
             outputEl.classList.remove('animate-pulse', 'text-gray-500');
             outputEl.classList.add('text-gray-800');
             outputEl.innerText = `"${response}"`;
             
-            // Reset button
             btnEl.disabled = false;
             btnEl.innerHTML = `<span>Investigate</span>`;
             inputEl.value = "";
@@ -479,7 +769,6 @@
             btnEl.disabled = false;
             btnEl.classList.remove('opacity-50');
         }
-
 
         async function tingleSpiderSense() {
             const btnEl = document.getElementById('spider-sense-btn');
@@ -524,34 +813,26 @@
         // --- Countdown Logic ---
         function updateCountdown() {
             const now = new Date();
-            
-            // Get current time in Nova Scotia (Halifax timezone)
             const tzString = now.toLocaleString("en-US", { timeZone: "America/Halifax" });
             const halifaxNow = new Date(tzString);
             
-            // Target 8:00 PM
             let halifaxTarget = new Date(halifaxNow);
             halifaxTarget.setHours(20, 0, 0, 0);
 
-            // If it's already past 8:00 PM in Nova Scotia today, set it for 8:00 PM tomorrow
             if (halifaxNow.getTime() > halifaxTarget.getTime()) {
                 halifaxTarget.setDate(halifaxTarget.getDate() + 1);
             }
             
-            // Calculate distance based on Halifax times
             const distance = halifaxTarget.getTime() - halifaxNow.getTime();
 
-            // Time calculations for hours, minutes and seconds
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            // Output the result
             document.getElementById("hours").innerHTML = hours.toString().padStart(2, '0');
             document.getElementById("minutes").innerHTML = minutes.toString().padStart(2, '0');
             document.getElementById("seconds").innerHTML = seconds.toString().padStart(2, '0');
 
-            // If the count down is exactly 0 (or very close), show a message
             if (distance < 1000 && distance > 0) {
                 document.getElementById("date-message").classList.remove("hidden");
                 createParticles({ clientX: window.innerWidth/2, clientY: window.innerHeight/2 });
@@ -562,13 +843,10 @@
             }
         }
 
-        // Update the count down every 1 second
         setInterval(updateCountdown, 1000);
-        updateCountdown(); // Initial call
+        updateCountdown();
 
-        // --- Interaction Logic ---
-        
-        // Eye tracking logic for spiders
+        // --- Eye tracking logic for spiders ---
         document.addEventListener('mousemove', (e) => {
             const pupils = document.querySelectorAll('.spider-pupil');
             pupils.forEach(pupil => {
@@ -578,7 +856,6 @@
                 const eyeY = rect.top + rect.height / 2;
                 
                 const angle = Math.atan2(e.clientY - eyeY, e.clientX - eyeX);
-                // Calculate how far to move pupil based on distance to mouse
                 const distance = Math.min(1.5, Math.hypot(e.clientX - eyeX, e.clientY - eyeY) / 15);
                 
                 const moveX = Math.cos(angle) * distance;
@@ -588,9 +865,7 @@
             });
         });
 
-        // Global click listener for blinking and particles
         document.addEventListener('click', (e) => {
-            // Blink effect for spiders
             const eyes = document.querySelectorAll('.spider-eye');
             eyes.forEach(eye => {
                 eye.style.transform = 'scaleY(0.1)';
@@ -599,7 +874,6 @@
                 }, 150);
             });
             
-            // Spawn particles
             createParticles(e);
         });
 
@@ -612,7 +886,6 @@
                 particle.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
                 particle.className = 'party-particle';
                 
-                // Random explosion direction and reduced distance for a more gentle effect
                 const angle = Math.random() * Math.PI * 2;
                 const distance = 40 + Math.random() * 60; 
                 const tx = Math.cos(angle) * distance;
@@ -620,16 +893,14 @@
                 const rot = (Math.random() - 0.5) * 360; 
                 
                 particle.style.left = e.clientX + 'px';
-                particle.style.top = e.clientY + 'px';
+                particle.top = e.clientY + 'px';
                 
-                // Apply dynamic animation variables
                 particle.style.setProperty('--tx', `${tx}px`);
                 particle.style.setProperty('--ty', `${ty}px`);
                 particle.style.setProperty('--rot', `${rot}deg`);
                 
                 document.body.appendChild(particle);
                 
-                // Remove element after animation ends
                 setTimeout(() => {
                     particle.remove();
                 }, 1000);
@@ -637,16 +908,13 @@
         }
 
         function acceptDate(btn) {
-            // Change button text
             btn.innerHTML = `<span>It's a Date! 🕸️</span>`;
             btn.classList.add('bg-green-500');
             btn.classList.remove('bg-spidey-red', 'hover:bg-red-500');
             btn.style.boxShadow = "0 6px 0 #166534";
             
-            // Show response message
             document.getElementById('rsvp-response').classList.remove('hidden');
             
-            // Trigger heart explosion in center of screen
             const rect = btn.getBoundingClientRect();
             const centerX = rect.left + rect.width / 2;
             const centerY = rect.top + rect.height / 2;
@@ -657,6 +925,142 @@
                 }, i * 150);
             }
         }
+
+        // --- TRIVIA GAME LOGIC ---
+        const triviaQuestions = [
+            {
+                q: "What is Spider-Man's real name?",
+                options: ["Bruce Wayne", "Peter Parker", "Tony Stark", "Matt Murdock"],
+                correct: 1
+            },
+            {
+                q: "Which Spider-Man movie is set in a noir 1930s style?",
+                options: ["Into the Spider-Verse", "Spider-Man Noir", "Homecoming", "No Way Home"],
+                correct: 1
+            },
+            {
+                q: "What's our go-to comfort food together?",
+                options: ["Pizza 🍕", "Sushi 🍣", "Pasta 🍝", "I don't know, you pick! 🤷"],
+                correct: 0
+            },
+            {
+                q: "How many legs does a spider have? 🕷️",
+                options: ["6", "8", "10", "12"],
+                correct: 1
+            },
+            {
+                q: "Finish the quote: 'With great power comes...'",
+                options: ["great pizza", "great responsibility", "great web-slinging", "great Netflix binges"],
+                correct: 1
+            }
+        ];
+
+        let currentTrivia = 0;
+        let triviaScore = 0;
+        let triviaAnswered = false;
+
+        function loadTriviaQuestion() {
+            const q = triviaQuestions[currentTrivia];
+            document.getElementById('q-current').textContent = currentTrivia + 1;
+            document.getElementById('q-total').textContent = triviaQuestions.length;
+            document.getElementById('trivia-question').textContent = q.q;
+            document.getElementById('trivia-score').textContent = triviaScore;
+            document.getElementById('trivia-feedback').classList.add('hidden');
+            document.getElementById('trivia-next-btn').classList.add('hidden');
+            triviaAnswered = false;
+
+            const optionsContainer = document.getElementById('trivia-options');
+            optionsContainer.innerHTML = '';
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'trivia-option w-full';
+                btn.textContent = opt;
+                btn.onclick = () => answerTrivia(idx, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function answerTrivia(idx, btn) {
+            if (triviaAnswered) return;
+            triviaAnswered = true;
+
+            const q = triviaQuestions[currentTrivia];
+            const allOptions = document.querySelectorAll('.trivia-option');
+            allOptions.forEach(o => o.classList.add('disabled'));
+
+            const feedback = document.getElementById('trivia-feedback');
+            feedback.classList.remove('hidden');
+
+            if (idx === q.correct) {
+                btn.classList.add('correct');
+                triviaScore++;
+                document.getElementById('trivia-score').textContent = triviaScore;
+                feedback.textContent = '✅ Correct! You\'re a genius!';
+                feedback.className = 'mt-3 font-bold text-sm text-green-700';
+            } else {
+                btn.classList.add('incorrect');
+                allOptions[q.correct].classList.add('correct');
+                feedback.textContent = '❌ Oops! The correct answer is highlighted.';
+                feedback.className = 'mt-3 font-bold text-sm text-red-700';
+            }
+
+            const nextBtn = document.getElementById('trivia-next-btn');
+            nextBtn.classList.remove('hidden');
+            if (currentTrivia === triviaQuestions.length - 1) {
+                nextBtn.textContent = 'See Results 🏆';
+            }
+        }
+
+        function nextTriviaQuestion() {
+            currentTrivia++;
+            if (currentTrivia < triviaQuestions.length) {
+                loadTriviaQuestion();
+            } else {
+                showTriviaResults();
+            }
+        }
+
+        function showTriviaResults() {
+            document.getElementById('trivia-container').classList.add('hidden');
+            const final = document.getElementById('trivia-final');
+            final.classList.remove('hidden');
+            document.getElementById('trivia-final-score').textContent = `You scored ${triviaScore} / ${triviaQuestions.length}!`;
+            
+            let emoji = '🏆';
+            let title = 'Trivia Champion!';
+            if (triviaScore === triviaQuestions.length) {
+                emoji = '🕷️👑';
+                title = 'Perfect Score! You ARE Spider-Man!';
+            } else if (triviaScore >= 3) {
+                emoji = '🎉';
+                title = 'Great job, web-slinger!';
+            } else {
+                emoji = '🤗';
+                title = 'Aww, we\'ll get \'em next time!';
+            }
+            document.getElementById('trivia-final-emoji').textContent = emoji;
+            document.getElementById('trivia-final-title').textContent = title;
+        }
+
+        function restartTrivia() {
+            currentTrivia = 0;
+            triviaScore = 0;
+            document.getElementById('trivia-container').classList.remove('hidden');
+            document.getElementById('trivia-final').classList.add('hidden');
+            document.getElementById('trivia-next-btn').textContent = 'Next Question →';
+            loadTriviaQuestion();
+        }
+
+        loadTriviaQuestion();
+
+        // --- PLATO GAME SELECTION ---
+        function selectPlatoGame(el, gameName) {
+            document.querySelectorAll('.plato-tile').forEach(t => t.classList.remove('selected'));
+            el.classList.add('selected');
+            document.getElementById('plato-game-name').textContent = gameName;
+            document.getElementById('plato-selected').classList.remove('hidden');
+        }
     </script>
 </body>
 </html>
+
